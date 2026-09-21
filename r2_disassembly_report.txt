@@ -253,3 +253,33 @@ pd 40 @ 0x142c33f51
     │       │   ; CODE XREFS from method.cTkHmdOpenVR.virtual_184 @ 0x142c33e44(x), 0x142c33fef(x)
     │       └─> 0x142c3400d      400fb6c7       movzx eax, dil
     │           0x142c34011      4881c42802..   add rsp, 0x228
+
+axt @ 0x1470f45e8
+    fcn.142c330d0 0x142c330f5 [DATA:r--] cmp qword [0x1470f45e8], 0
+    fcn.142c330d0 0x142c33110 [DATA:-w-] mov qword [0x1470f45e8], rax
+    fcn.142c330d0 0x142c3313c [DATA:r--] mov rax, qword [0x1470f45e8]
+    fcn.142c330d0 0x142c33159 [DATA:-w-] mov qword [0x1470f45e8], rax
+    fcn.142c330d0 0x142c331b3 [DATA:r--] mov rax, qword [0x1470f45e8]
+    fcn.142c330d0 0x142c331d0 [DATA:-w-] mov qword [0x1470f45e8], rax
+    fcn.142c334b0 0x142c334d8 [DATA:r--] cmp qword [0x1470f45e8], 0
+    fcn.142c334b0 0x142c334f3 [DATA:-w-] mov qword [0x1470f45e8], rax
+    fcn.142c334b0 0x142c33514 [DATA:r--] mov rax, qword [0x1470f45e8]
+    fcn.142c334b0 0x142c33531 [DATA:-w-] mov qword [0x1470f45e8], rax
+    method.cTkHmdOpenVR.virtual_184 0x142c33eb0 [DATA:-w-] mov qword [0x1470f45e8], rbp
+    method.cTkHmdOpenVR.virtual_184 0x142c33fe7 [DATA:r--] cmp qword [0x1470f45e8], 0
+    method.cTkHmdOpenVR.virtual_184 0x142c34006 [DATA:-w-] mov qword [0x1470f45e8], rax
+    fcn.142c34150 0x142c341c3 [DATA:-w-] mov qword [0x1470f45e8], rsi
+    fcn.142c34150 0x142c342e0 [DATA:r--] cmp qword [0x1470f45e8], rsi
+    fcn.142c34150 0x142c34301 [DATA:-w-] mov qword [0x1470f45e8], rax
+    fcn.142c35270 0x142c35611 [DATA:r--] mov rax, qword [0x1470f45e8]
+    fcn.142c35270 0x142c35638 [DATA:-w-] mov qword [0x1470f45e8], rax
+    fcn.142c397f0 0x142c39800 [DATA:r--] mov rax, qword [0x1470f45e8]
+    fcn.142c397f0 0x142c3981e [DATA:-w-] mov qword [0x1470f45e8], rax
+    fcn.142c3a4a0 0x142c3a4b0 [DATA:r--] mov rax, qword [0x1470f45e8]
+    fcn.142c3a4a0 0x142c3a4ce [DATA:-w-] mov qword [0x1470f45e8], rax
+    fcn.142c3a520 0x142c3a535 [DATA:r--] mov rax, qword [0x1470f45e8]
+    fcn.142c3a520 0x142c3a553 [DATA:-w-] mov qword [0x1470f45e8], rax
+
+0x140000000
+    Default image base for 64-bit Windows exe.
+    0x1470f45e8 = 0x140000000 + 0x70f45e8

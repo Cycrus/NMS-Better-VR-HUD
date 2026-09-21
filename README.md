@@ -6,6 +6,9 @@ The mod utilizes a DLL side loading technique using `Ultimate ASI Loader`.
 
 It works in Windows and Linux. In Linux under proton you need the following Steam launch options for the game: `WINEDLLOVERRIDES="winmm=n,b" %command%`.
 
+    r2 -A NMS.exe --> Static analysis of program
+    r2 -d <pid> --> debug analysis of process
+
 ## TODO
 - [x] Make DLL sideloading work with Ultimate ASI Loader
 - [ ] Hook into anything from No Man's Sky using MinHook
