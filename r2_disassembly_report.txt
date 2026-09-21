@@ -1,0 +1,255 @@
+ii~openvr
+    1   0x143408a70 NONE FUNC openvr_api.dll                        VR_InitInternal2
+    2   0x143408a78 NONE FUNC openvr_api.dll                        VR_IsInterfaceVersionValid
+    3   0x143408a80 NONE FUNC openvr_api.dll                        VR_GetInitToken
+    4   0x143408a88 NONE FUNC openvr_api.dll                        VR_GetGenericInterface
+    5   0x143408a90 NONE FUNC openvr_api.dll                        VR_ShutdownInternal
+
+f~VR_GetGenericInterface
+    0x04dba1c4 8 reloc.openvr_api.dll_VR_GetGenericInterface
+    0x143408a88 0 sym.imp.openvr_api.dll_VR_GetGenericInterface
+
+axt @ sym.imp.openvr_api.dll_VR_GetGenericInterface
+    (nofunc) 0x1402d7b2d [CALL:--x] call qword [sym.imp.openvr_api.dll_VR_GetGenericInterface]
+    (nofunc) 0x1402d7bc8 [CALL:--x] call qword [sym.imp.openvr_api.dll_VR_GetGenericInterface]
+    fcn.1402d7bf0 0x1402d7c54 [CALL:--x] call qword [sym.imp.openvr_api.dll_VR_GetGenericInterface]
+    fcn.1402d7bf0 0x1402d7ffb [CALL:--x] call qword [sym.imp.openvr_api.dll_VR_GetGenericInterface]
+    fcn.1403162e0 0x140316308 [CALL:--x] call qword [sym.imp.openvr_api.dll_VR_GetGenericInterface]
+    fcn.1406d9960 0x1406d9a8b [CALL:--x] call qword [sym.imp.openvr_api.dll_VR_GetGenericInterface]
+    fcn.1406da080 0x1406da81d [CALL:--x] call qword [sym.imp.openvr_api.dll_VR_GetGenericInterface]
+    fcn.142c30920 0x142c30996 [CALL:--x] call qword [sym.imp.openvr_api.dll_VR_GetGenericInterface]
+    fcn.142c32250 0x142c32278 [CALL:--x] call qword [sym.imp.openvr_api.dll_VR_GetGenericInterface]
+    fcn.142c32310 0x142c32344 [CALL:--x] call qword [sym.imp.openvr_api.dll_VR_GetGenericInterface]
+    fcn.142c323f0 0x142c32434 [CALL:--x] call qword [sym.imp.openvr_api.dll_VR_GetGenericInterface]
+    fcn.142c330d0 0x142c3310a [CALL:--x] call qword [sym.imp.openvr_api.dll_VR_GetGenericInterface]
+    fcn.142c330d0 0x142c33153 [CALL:--x] call qword [sym.imp.openvr_api.dll_VR_GetGenericInterface]
+    fcn.142c330d0 0x142c331ca [CALL:--x] call qword [sym.imp.openvr_api.dll_VR_GetGenericInterface]
+    fcn.142c334b0 0x142c334ed [CALL:--x] call qword [sym.imp.openvr_api.dll_VR_GetGenericInterface]
+    fcn.142c334b0 0x142c3352b [CALL:--x] call qword [sym.imp.openvr_api.dll_VR_GetGenericInterface]
+    method.cTkInputManagerOpenVR.virtual_88 0x142c33862 [CALL:--x] call qword [sym.imp.openvr_api.dll_VR_GetGenericInterface]
+    method.cTkInputManagerOpenVR.virtual_80 0x142c339e0 [CALL:--x] call qword [sym.imp.openvr_api.dll_VR_GetGenericInterface]
+    fcn.142c33a50 0x142c33a78 [CALL:--x] call qword [sym.imp.openvr_api.dll_VR_GetGenericInterface]
+    fcn.142c33aa0 0x142c33ae2 [CALL:--x] call qword [sym.imp.openvr_api.dll_VR_GetGenericInterface]
+    fcn.142c33aa0 0x142c33b47 [CALL:--x] call qword [sym.imp.openvr_api.dll_VR_GetGenericInterface]
+    method.cTkHmdOpenVR.virtual_184 0x142c33f51 [CALL:--x] call qword [sym.imp.openvr_api.dll_VR_GetGenericInterface]
+    method.cTkHmdOpenVR.virtual_184 0x142c34000 [CALL:--x] call qword [sym.imp.openvr_api.dll_VR_GetGenericInterface]
+    fcn.142c34150 0x142c34264 [CALL:--x] call qword [sym.imp.openvr_api.dll_VR_GetGenericInterface]
+    fcn.142c34150 0x142c342f8 [CALL:--x] call qword [sym.imp.openvr_api.dll_VR_GetGenericInterface]
+    fcn.142c34550 0x142c346ab [CALL:--x] call qword [sym.imp.openvr_api.dll_VR_GetGenericInterface]
+    fcn.142c34550 0x142c346fc [CALL:--x] call qword [sym.imp.openvr_api.dll_VR_GetGenericInterface]
+    fcn.142c34550 0x142c34885 [CALL:--x] call qword [sym.imp.openvr_api.dll_VR_GetGenericInterface]
+    fcn.142c34550 0x142c348db [CALL:--x] call qword [sym.imp.openvr_api.dll_VR_GetGenericInterface]
+    fcn.142c349a0 0x142c349fe [CALL:--x] call qword [sym.imp.openvr_api.dll_VR_GetGenericInterface]
+    fcn.142c349a0 0x142c34a5e [CALL:--x] call qword [sym.imp.openvr_api.dll_VR_GetGenericInterface]
+    fcn.142c34cb0 0x142c34d15 [CALL:--x] call qword [sym.imp.openvr_api.dll_VR_GetGenericInterface]
+    fcn.142c35270 0x142c35632 [CALL:--x] call qword [sym.imp.openvr_api.dll_VR_GetGenericInterface]
+    fcn.142c35270 0x142c3567d [CALL:--x] call qword [sym.imp.openvr_api.dll_VR_GetGenericInterface]
+    method.cTkHmdOpenVR.virtual_168 0x142c368d3 [CALL:--x] call qword [sym.imp.openvr_api.dll_VR_GetGenericInterface]
+    fcn.142c36920 0x142c36c74 [CALL:--x] call qword [sym.imp.openvr_api.dll_VR_GetGenericInterface]
+    fcn.142c36ce0 0x142c36f5d [CALL:--x] call qword [sym.imp.openvr_api.dll_VR_GetGenericInterface]
+    fcn.142c36ce0 0x142c3703b [CALL:--x] call qword [sym.imp.openvr_api.dll_VR_GetGenericInterface]
+    fcn.142c36ce0 0x142c371cf [CALL:--x] call qword [sym.imp.openvr_api.dll_VR_GetGenericInterface]
+    fcn.142c36ce0 0x142c3756b [CALL:--x] call qword [sym.imp.openvr_api.dll_VR_GetGenericInterface]
+    fcn.142c36ce0 0x142c375e0 [CALL:--x] call qword [sym.imp.openvr_api.dll_VR_GetGenericInterface]
+    fcn.142c36ce0 0x142c376be [CALL:--x] call qword [sym.imp.openvr_api.dll_VR_GetGenericInterface]
+    fcn.142c36ce0 0x142c37730 [CALL:--x] call qword [sym.imp.openvr_api.dll_VR_GetGenericInterface]
+    fcn.142c37a50 0x142c37b80 [CALL:--x] call qword [sym.imp.openvr_api.dll_VR_GetGenericInterface]
+    fcn.142c39060 0x142c3932a [CALL:--x] call qword [sym.imp.openvr_api.dll_VR_GetGenericInterface]
+    method.cTkInputManagerOpenVR.virtual_168 0x142c3966c [CALL:--x] call qword [sym.imp.openvr_api.dll_VR_GetGenericInterface]
+    fcn.142c397f0 0x142c39818 [CALL:--x] call qword [sym.imp.openvr_api.dll_VR_GetGenericInterface]
+    fcn.142c39cb0 0x142c39d20 [CALL:--x] call qword [sym.imp.openvr_api.dll_VR_GetGenericInterface]
+    fcn.142c3a1c0 0x142c3a45a [CALL:--x] call qword [sym.imp.openvr_api.dll_VR_GetGenericInterface]
+    fcn.142c3a4a0 0x142c3a4c8 [CALL:--x] call qword [sym.imp.openvr_api.dll_VR_GetGenericInterface]
+    fcn.142c3a4e0 0x142c3a508 [CALL:--x] call qword [sym.imp.openvr_api.dll_VR_GetGenericInterface]
+    fcn.142c3a520 0x142c3a54d [CALL:--x] call qword [sym.imp.openvr_api.dll_VR_GetGenericInterface]
+
+izz~IVRCompositor
+    965688  0x04a2ff18 0x144a31918 17   18   .rdata  ascii   IVRCompositor_029
+
+izz~IVRSystem
+    965686  0x04a2fef0 0x144a318f0 13   14   .rdata  ascii   IVRSystem_026
+
+pd 40 @ 0x142c33f30
+    │           0x142c33f30      04e8           add al, 0xe8               ; 232
+    │           0x142c33f32      ea             invalid
+    │           0x142c33f33      236efd         and ebp, dword [rsi - 3]
+    │           0x142c33f36      488b1d9306..   mov rbx, qword [0x1470f45d0] ; [0x1470f45d0:8]=0
+    │           0x142c33f3d      4885db         test rbx, rbx
+    │       ┌─< 0x142c33f40      751f           jne 0x142c33f61
+    │       │   0x142c33f42      488d942450..   lea rdx, [var_250h]
+    │       │   0x142c33f4a      488d0d9fd9..   lea rcx, [0x144a318f0]     ; "IVRSystem_026"
+    │       │   0x142c33f51      ff15314b7d00   call qword [sym.imp.openvr_api.dll_VR_GetGenericInterface] ; [0x143408a88:8]=0x4dba1c4 reloc.openvr_api.dll_VR_GetGenericInterface
+    │       │   0x142c33f57      488bd8         mov rbx, rax
+    │       │   0x142c33f5a      4889056f06..   mov qword [0x1470f45d0], rax ; [0x1470f45d0:8]=0
+    │       │   ; CODE XREF from method.cTkHmdOpenVR.virtual_184 @ 0x142c33f40(x)
+    │       └─> 0x142c33f61      488b0b         mov rcx, qword [rbx]
+    │           0x142c33f64      ba02000000     mov edx, 2
+    │           0x142c33f69      41b906000000   mov r9d, 6
+    │           0x142c33f6f      41b80f000000   mov r8d, reloc.WS2_32.dll_ntohs ; 0xf
+    │           0x142c33f75      4c8b919001..   mov r10, qword [rcx + 0x190]
+    │           0x142c33f7c      488bcb         mov rcx, rbx
+    │           0x142c33f7f      41ffd2         call r10
+    │           0x142c33f82      8984244802..   mov dword [var_248h], eax
+    │           0x142c33f89      85c0           test eax, eax
+    │       ┌─< 0x142c33f8b      7410           je 0x142c33f9d
+    │       │   ; CODE XREFS from method.cTkHmdOpenVR.virtual_184 @ 0x142c33efd(x), 0x142c33f1f(x), 0x142c33f28(x)
+    │       │   0x142c33f8d      488bdd         mov rbx, rbp
+    │       │   0x142c33f90      ff15fa4a7d00   call qword [sym.imp.openvr_api.dll_VR_ShutdownInternal] ; [0x143408a90:8]=0x4dba222 reloc.openvr_api.dll_VR_ShutdownInternal ; "\"\xa2\xdb\x04"
+    │       │   0x142c33f96      8b84244802..   mov eax, dword [var_248h]
+    │       │   ; CODE XREF from method.cTkHmdOpenVR.virtual_184 @ 0x142c33f8b(x)
+    │       └─> 0x142c33f9d      488bac2420..   mov rbp, qword [var_220h]
+    │           0x142c33fa5      4885db         test rbx, rbx
+    │           0x142c33fa8      48899e8816..   mov qword [rsi + 0x1688], rbx ; [0x1688:8]=-1
+    │           0x142c33faf      488b9c2440..   mov rbx, qword [var_240h]
+    │       ┌─< 0x142c33fb7      7522           jne 0x142c33fdb
+    │       │   0x142c33fb9      448bc0         mov r8d, eax               ; int64_t arg3
+    │       │   0x142c33fbc      488d156d22..   lea rdx, [0x143516230]     ; "[OpenVR] Failed to init HMD! (%d)\n" ; int64_t arg2
+    │       │   0x142c33fc3      488d4c2420     lea rcx, [var_20h]         ; int64_t arg1
+    │       │   0x142c33fc8      e8e31d64fe     call fcn.141275db0
+    │       │   0x142c33fcd      400fb6c7       movzx eax, dil
+    │       │   0x142c33fd1      4881c42802..   add rsp, 0x228
+    │       │   0x142c33fd8      5f             pop rdi
+    │       │   0x142c33fd9      5e             pop rsi
+    │       │   0x142c33fda      c3             ret
+    │       │   ; CODE XREF from method.cTkHmdOpenVR.virtual_184 @ 0x142c33fb7(x)
+    │       └─> 0x142c33fdb      488d0dee05..   lea rcx, [0x1470f45d0]     ; int64_t arg1
+    │           0x142c33fe2      e839236efd     call fcn.140316320
+
+pd 40 @ 0x142c34000
+    │           0x142c34000      ff15824a7d00   call qword [sym.imp.openvr_api.dll_VR_GetGenericInterface] ; [0x143408a88:8]=0x4dba1c4 reloc.openvr_api.dll_VR_GetGenericInterface
+    │           0x142c34006      488905db05..   mov qword [0x1470f45e8], rax ; [0x1470f45e8:8]=0
+    │           ; CODE XREFS from method.cTkHmdOpenVR.virtual_184 @ 0x142c33e44(x), 0x142c33fef(x)
+    │           0x142c3400d      400fb6c7       movzx eax, dil
+    │           0x142c34011      4881c42802..   add rsp, 0x228
+    │           0x142c34018      5f             pop rdi
+    │           0x142c34019      5e             pop rsi
+    └           0x142c3401a      c3             ret
+                0x142c3401b      cc             int3
+                0x142c3401c      cc             int3
+                0x142c3401d      cc             int3
+                0x142c3401e      cc             int3
+                0x142c3401f      cc             int3
+                ;-- method.cTkHmdOpenVR.1.virtual_192:
+    ┌ 66: method.cTkHmdOpenVR.virtual_192 (uint32_t arg1);
+    │ `- args(rcx)
+    │           0x142c34020      4053           push rbx
+    │           0x142c34022      4883ec20       sub rsp, 0x20
+    │           0x142c34026      83791005       cmp dword [rcx + 0x10], 5  ; arg1
+    │           0x142c3402a      488bd9         mov rbx, rcx               ; arg1
+    │       ┌─< 0x142c3402d      7523           jne 0x142c34052
+    │       │   0x142c3402f      4883b98816..   cmp qword [rcx + 0x1688], 0 ; arg1
+    │      ┌──< 0x142c34037      7411           je 0x142c3404a
+    │      ││   0x142c34039      ff15514a7d00   call qword [sym.imp.openvr_api.dll_VR_ShutdownInternal] ; [0x143408a90:8]=0x4dba222 reloc.openvr_api.dll_VR_ShutdownInternal ; "\"\xa2\xdb\x04"
+    │      ││   0x142c3403f      48c7838816..   mov qword [rbx + 0x1688], 0 ; [0x1688:8]=-1
+    │      ││   ; CODE XREF from method.cTkHmdOpenVR.virtual_192 @ 0x142c34037(x)
+    │      └──> 0x142c3404a      c6437100       mov byte [rbx + 0x71], 0
+    │       │   0x142c3404e      c6431400       mov byte [rbx + 0x14], 0
+    │       │   ; CODE XREF from method.cTkHmdOpenVR.virtual_192 @ 0x142c3402d(x)
+    │       └─> 0x142c34052      488bcb         mov rcx, rbx               ; int64_t arg1
+    │           0x142c34055      e8e68f07ff     call fcn.141cad040
+    │           0x142c3405a      b001           mov al, 1
+    │           0x142c3405c      4883c420       add rsp, 0x20
+    │           0x142c34060      5b             pop rbx
+    └           0x142c34061      c3             ret
+                0x142c34062      cc             int3
+                0x142c34063      cc             int3
+                0x142c34064      cc             int3
+                0x142c34065      cc             int3
+                0x142c34066      cc             int3
+                0x142c34067      cc             int3
+                0x142c34068      cc             int3
+                0x142c34069      cc             int3
+                0x142c3406a      cc             int3
+                0x142c3406b      cc             int3
+                0x142c3406c      cc             int3
+
+pd 40 @ 0x142c368b0
+    │           0x142c368b0      8d0d1add4b04   lea ecx, [0x1470f45d0]
+    │           0x142c368b6      e865fa6dfd     call fcn.140316320
+    │           0x142c368bb      488b0516dd..   mov rax, qword [0x1470f45d8] ; [0x1470f45d8:8]=0
+    │           0x142c368c2      4885c0         test rax, rax
+    │       ┌─< 0x142c368c5      7519           jne 0x142c368e0
+    │       │   0x142c368c7      488d542430     lea rdx, [var_30h]
+    │       │   0x142c368cc      488d0d2db0..   lea rcx, [0x144a31900]     ; "IVRChaperone_004"
+    │       │   0x142c368d3      ff15af217d00   call qword [sym.imp.openvr_api.dll_VR_GetGenericInterface] ; [0x143408a88:8]=0x4dba1c4 reloc.openvr_api.dll_VR_GetGenericInterface
+    │       │   0x142c368d9      488905f8dc..   mov qword [0x1470f45d8], rax ; [0x1470f45d8:8]=0
+    │       │   ; CODE XREF from method.cTkHmdOpenVR.virtual_168 @ 0x142c368c5(x)
+    │       └─> 0x142c368e0      488b08         mov rcx, qword [rax]
+    │           0x142c368e3      33d2           xor edx, edx
+    │           0x142c368e5      4c8b4140       mov r8, qword [rcx + 0x40]
+    │           0x142c368e9      488bc8         mov rcx, rax
+    │           0x142c368ec      41ffd0         call r8
+    │           0x142c368ef      488b8b6002..   mov rcx, qword [rbx + 0x260]
+    │           0x142c368f6      c6437000       mov byte [rbx + 0x70], 0
+    │           0x142c368fa      4885c9         test rcx, rcx
+    │       ┌─< 0x142c368fd      740c           je 0x142c3690b
+    │       │   0x142c368ff      488b01         mov rax, qword [rcx]
+    │       │   0x142c36902      4883c420       add rsp, 0x20
+    │       │   0x142c36906      5b             pop rbx
+    │       │   0x142c36907      48ff6010       jmp qword [rax + reloc.WS2_32.dll_recv] ; 0x10
+    │       │   ; CODE XREFS from method.cTkHmdOpenVR.virtual_168 @ 0x142c368ad(x), 0x142c368fd(x)
+    │       └─> 0x142c3690b      4883c420       add rsp, 0x20
+    │           0x142c3690f      5b             pop rbx
+    └           0x142c36910      c3             ret
+                0x142c36911      cc             int3
+                0x142c36912      cc             int3
+                0x142c36913      cc             int3
+                0x142c36914      cc             int3
+                0x142c36915      cc             int3
+                0x142c36916      cc             int3
+                0x142c36917      cc             int3
+                0x142c36918      cc             int3
+                0x142c36919      cc             int3
+                0x142c3691a      cc             int3
+                0x142c3691b      cc             int3
+                0x142c3691c      cc             int3
+                0x142c3691d      cc             int3
+                0x142c3691e      cc             int3
+                0x142c3691f      cc             int3
+
+pd 40 @ 0x142c33f51
+    │           0x142c33f51      ff15314b7d00   call qword [sym.imp.openvr_api.dll_VR_GetGenericInterface] ; [0x143408a88:8]=0x4dba1c4 reloc.openvr_api.dll_VR_GetGenericInterface
+    │           0x142c33f57      488bd8         mov rbx, rax
+    │           0x142c33f5a      4889056f06..   mov qword [0x1470f45d0], rax ; [0x1470f45d0:8]=0
+    │           ; CODE XREF from method.cTkHmdOpenVR.virtual_184 @ 0x142c33f40(x)
+    │           0x142c33f61      488b0b         mov rcx, qword [rbx]
+    │           0x142c33f64      ba02000000     mov edx, 2
+    │           0x142c33f69      41b906000000   mov r9d, 6
+    │           0x142c33f6f      41b80f000000   mov r8d, reloc.WS2_32.dll_ntohs ; 0xf
+    │           0x142c33f75      4c8b919001..   mov r10, qword [rcx + 0x190]
+    │           0x142c33f7c      488bcb         mov rcx, rbx
+    │           0x142c33f7f      41ffd2         call r10
+    │           0x142c33f82      8984244802..   mov dword [var_248h], eax
+    │           0x142c33f89      85c0           test eax, eax
+    │       ┌─< 0x142c33f8b      7410           je 0x142c33f9d
+    │       │   ; CODE XREFS from method.cTkHmdOpenVR.virtual_184 @ 0x142c33efd(x), 0x142c33f1f(x), 0x142c33f28(x)
+    │       │   0x142c33f8d      488bdd         mov rbx, rbp
+    │       │   0x142c33f90      ff15fa4a7d00   call qword [sym.imp.openvr_api.dll_VR_ShutdownInternal] ; [0x143408a90:8]=0x4dba222 reloc.openvr_api.dll_VR_ShutdownInternal ; "\"\xa2\xdb\x04"
+    │       │   0x142c33f96      8b84244802..   mov eax, dword [var_248h]
+    │       │   ; CODE XREF from method.cTkHmdOpenVR.virtual_184 @ 0x142c33f8b(x)
+    │       └─> 0x142c33f9d      488bac2420..   mov rbp, qword [var_220h]
+    │           0x142c33fa5      4885db         test rbx, rbx
+    │           0x142c33fa8      48899e8816..   mov qword [rsi + 0x1688], rbx ; [0x1688:8]=-1
+    │           0x142c33faf      488b9c2440..   mov rbx, qword [var_240h]
+    │       ┌─< 0x142c33fb7      7522           jne 0x142c33fdb
+    │       │   0x142c33fb9      448bc0         mov r8d, eax               ; int64_t arg3
+    │       │   0x142c33fbc      488d156d22..   lea rdx, [0x143516230]     ; "[OpenVR] Failed to init HMD! (%d)\n" ; int64_t arg2
+    │       │   0x142c33fc3      488d4c2420     lea rcx, [var_20h]         ; int64_t arg1
+    │       │   0x142c33fc8      e8e31d64fe     call fcn.141275db0
+    │       │   0x142c33fcd      400fb6c7       movzx eax, dil
+    │       │   0x142c33fd1      4881c42802..   add rsp, 0x228
+    │       │   0x142c33fd8      5f             pop rdi
+    │       │   0x142c33fd9      5e             pop rsi
+    │       │   0x142c33fda      c3             ret
+    │       │   ; CODE XREF from method.cTkHmdOpenVR.virtual_184 @ 0x142c33fb7(x)
+    │       └─> 0x142c33fdb      488d0dee05..   lea rcx, [0x1470f45d0]     ; int64_t arg1
+    │           0x142c33fe2      e839236efd     call fcn.140316320
+    │           0x142c33fe7      48833df905..   cmp qword [0x1470f45e8], 0 ; [0x1470f45e8:8]=0
+    │       ┌─< 0x142c33fef      751c           jne 0x142c3400d
+    │       │   0x142c33ff1      488d942448..   lea rdx, [var_248h]
+    │       │   0x142c33ff9      488d0d18d9..   lea rcx, [0x144a31918]     ; "IVRCompositor_029"
+    │       │   0x142c34000      ff15824a7d00   call qword [sym.imp.openvr_api.dll_VR_GetGenericInterface] ; [0x143408a88:8]=0x4dba1c4 reloc.openvr_api.dll_VR_GetGenericInterface
+    │       │   0x142c34006      488905db05..   mov qword [0x1470f45e8], rax ; [0x1470f45e8:8]=0
+    │       │   ; CODE XREFS from method.cTkHmdOpenVR.virtual_184 @ 0x142c33e44(x), 0x142c33fef(x)
+    │       └─> 0x142c3400d      400fb6c7       movzx eax, dil
+    │           0x142c34011      4881c42802..   add rsp, 0x228
