@@ -3,5 +3,5 @@ dm~exe
     0x0000000140000000 - 0x0000000140001000 - usr     4K s r-- /home/cyril/.local/share/Steam/steamapps/common/No Man's Sky/Binaries/NMS.exe /home/cyril/.local/share/Steam/steamapps/common/No Man's Sky/Binaries/NMS.exe ; map._home_cyril_.local_share_Steam_steamapps_common_No_Mans_Sky_Binaries_NMS.exe.r__
 
 # Both addresses store the global IVRCompositor from openVR framework.
-db 0x142c34006
-db 0x142c35638
+    db 0x142c34006
+    db 0x142c35638

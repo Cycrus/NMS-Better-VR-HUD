@@ -1,0 +1,8 @@
+HMD yaw (z axis):
+    NMS.exe+6DFECE0
+
+HMD roll (x axis):
+    NMS.exe+6DFECD0
+
+HMD pitch (z axis):
+    NMS.exe+6DFECD8

@@ -7,6 +7,12 @@
 #include "openvr.h"
 
 using VR_GetGenericInterfaceFn = void* (*)(const char* interfaceName, int* error);
+using VR_InitInternal2Fn = uint32_t (*)(
+    vr::EVRInitError* error,
+    vr::EVRApplicationType applicationType,
+    const char* startupInfo
+);
+using VR_ShutdownInternalFn = void (*)();
 
 using WaitGetPosesFn = vr::EVRCompositorError(__fastcall*)(
     void* self,
@@ -17,6 +23,8 @@ using WaitGetPosesFn = vr::EVRCompositorError(__fastcall*)(
 );
 
 static VR_GetGenericInterfaceFn g_originalVR_GetGenericInterface = nullptr;
+static VR_InitInternal2Fn g_originalVR_InitInternal2 = nullptr;
+static VR_ShutdownInternalFn g_originalVR_ShutdownInternal = nullptr;
 static WaitGetPosesFn g_originalWaitGetPoses = nullptr;
 static void** g_waitGetPosesSlot = nullptr;
 static volatile LONG g_waitGetPosesHooked = 0;
@@ -24,6 +32,8 @@ static volatile LONG g_poseLogCount = 0;
 
 static CRITICAL_SECTION g_logLock;
 static bool g_logLockReady = false;
+
+static void QueryKnownOpenVrInterfaces();
 
 static void LogLine(const char* text)
 {
@@ -238,6 +248,41 @@ static void* HookVR_GetGenericInterface(const char* interfaceName, int* error)
     return result;
 }
 
+static uint32_t HookVR_InitInternal2(
+    vr::EVRInitError* error,
+    vr::EVRApplicationType applicationType,
+    const char* startupInfo
+)
+{
+    LogFormat(
+        "VR_InitInternal2 begin applicationType=%d startupInfo=%s\n",
+        static_cast<int>(applicationType),
+        startupInfo ? startupInfo : "<null>"
+    );
+
+    uint32_t token = g_originalVR_InitInternal2(error, applicationType, startupInfo);
+    int errorValue = error ? static_cast<int>(*error) : -1;
+
+    LogFormat(
+        "VR_InitInternal2 end token=%u error=%d\n",
+        token,
+        errorValue
+    );
+
+    if (errorValue == static_cast<int>(vr::VRInitError_None))
+        QueryKnownOpenVrInterfaces();
+
+    return token;
+}
+
+static void HookVR_ShutdownInternal()
+{
+    LogLine("VR_ShutdownInternal called.\n");
+
+    if (g_originalVR_ShutdownInternal)
+        g_originalVR_ShutdownInternal();
+}
+
 static bool PatchImport(
     HMODULE module,
     const char* importedModuleName,
@@ -318,6 +363,36 @@ static bool PatchImport(
     return false;
 }
 
+static void QueryKnownOpenVrInterfaces()
+{
+    if (!g_originalVR_GetGenericInterface)
+        return;
+
+    const char* names[] = {
+        "IVRSystem_022",
+        "IVRCompositor_029",
+        "IVRChaperone_004",
+        "IVROverlay_027",
+        "IVRInput_007"
+    };
+
+    for (const char* name : names)
+    {
+        int error = -1;
+        void* result = g_originalVR_GetGenericInterface(name, &error);
+
+        LogFormat(
+            "Direct VR_GetGenericInterface name=%s result=%p error=%d\n",
+            name,
+            result,
+            error
+        );
+
+        if (result && std::strcmp(name, "IVRCompositor_029") == 0)
+            TryHookWaitGetPoses(result);
+    }
+}
+
 static DWORD WINAPI WorkerThread(LPVOID)
 {
     LogLine("OpenVrLogger loaded.\n");
@@ -326,16 +401,58 @@ static DWORD WINAPI WorkerThread(LPVOID)
 
     LogFormat("Main module base=%p\n", nms);
 
+    bool patchedGenericInterface = false;
+    bool patchedInit = false;
+    bool patchedShutdown = false;
+
     for (int attempt = 0; attempt < 300; ++attempt)
     {
-        if (PatchImport(
-            nms,
-            "openvr_api.dll",
-            "VR_GetGenericInterface",
-            reinterpret_cast<void*>(&HookVR_GetGenericInterface),
-            reinterpret_cast<void**>(&g_originalVR_GetGenericInterface)
-        ))
+        if (!patchedGenericInterface)
         {
+            patchedGenericInterface = PatchImport(
+                nms,
+                "openvr_api.dll",
+                "VR_GetGenericInterface",
+                reinterpret_cast<void*>(&HookVR_GetGenericInterface),
+                reinterpret_cast<void**>(&g_originalVR_GetGenericInterface)
+            );
+        }
+
+        if (!patchedInit)
+        {
+            patchedInit = PatchImport(
+                nms,
+                "openvr_api.dll",
+                "VR_InitInternal2",
+                reinterpret_cast<void*>(&HookVR_InitInternal2),
+                reinterpret_cast<void**>(&g_originalVR_InitInternal2)
+            );
+        }
+
+        if (!patchedShutdown)
+        {
+            patchedShutdown = PatchImport(
+                nms,
+                "openvr_api.dll",
+                "VR_ShutdownInternal",
+                reinterpret_cast<void*>(&HookVR_ShutdownInternal),
+                reinterpret_cast<void**>(&g_originalVR_ShutdownInternal)
+            );
+        }
+
+        if (patchedGenericInterface && patchedInit && patchedShutdown)
+        {
+            for (int queryAttempt = 0; queryAttempt < 300; ++queryAttempt)
+            {
+                QueryKnownOpenVrInterfaces();
+
+                if (g_waitGetPosesHooked)
+                    return 0;
+
+                Sleep(1000);
+            }
+
+            LogLine("Patched import, but never found a usable IVRCompositor.\n");
             return 0;
         }
 
