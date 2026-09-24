@@ -1,285 +1,403 @@
-ii~openvr
-    1   0x143408a70 NONE FUNC openvr_api.dll                        VR_InitInternal2
-    2   0x143408a78 NONE FUNC openvr_api.dll                        VR_IsInterfaceVersionValid
-    3   0x143408a80 NONE FUNC openvr_api.dll                        VR_GetInitToken
-    4   0x143408a88 NONE FUNC openvr_api.dll                        VR_GetGenericInterface
-    5   0x143408a90 NONE FUNC openvr_api.dll                        VR_ShutdownInternal
+# Prototype Concept
 
-f~VR_GetGenericInterface
-    0x04dba1c4 8 reloc.openvr_api.dll_VR_GetGenericInterface
-    0x143408a88 0 sym.imp.openvr_api.dll_VR_GetGenericInterface
+0x140ab1c98  lea rdx, [rsp+20]      ; rdx = pointer to HUD matrix
+0x140ab1c9d  call fcn.141838500     ; apply matrix by handle
 
-axt @ sym.imp.openvr_api.dll_VR_GetGenericInterface
-    (nofunc) 0x1402d7b2d [CALL:--x] call qword [sym.imp.openvr_api.dll_VR_GetGenericInterface]
-    (nofunc) 0x1402d7bc8 [CALL:--x] call qword [sym.imp.openvr_api.dll_VR_GetGenericInterface]
-    fcn.1402d7bf0 0x1402d7c54 [CALL:--x] call qword [sym.imp.openvr_api.dll_VR_GetGenericInterface]
-    fcn.1402d7bf0 0x1402d7ffb [CALL:--x] call qword [sym.imp.openvr_api.dll_VR_GetGenericInterface]
-    fcn.1403162e0 0x140316308 [CALL:--x] call qword [sym.imp.openvr_api.dll_VR_GetGenericInterface]
-    fcn.1406d9960 0x1406d9a8b [CALL:--x] call qword [sym.imp.openvr_api.dll_VR_GetGenericInterface]
-    fcn.1406da080 0x1406da81d [CALL:--x] call qword [sym.imp.openvr_api.dll_VR_GetGenericInterface]
-    fcn.142c30920 0x142c30996 [CALL:--x] call qword [sym.imp.openvr_api.dll_VR_GetGenericInterface]
-    fcn.142c32250 0x142c32278 [CALL:--x] call qword [sym.imp.openvr_api.dll_VR_GetGenericInterface]
-    fcn.142c32310 0x142c32344 [CALL:--x] call qword [sym.imp.openvr_api.dll_VR_GetGenericInterface]
-    fcn.142c323f0 0x142c32434 [CALL:--x] call qword [sym.imp.openvr_api.dll_VR_GetGenericInterface]
-    fcn.142c330d0 0x142c3310a [CALL:--x] call qword [sym.imp.openvr_api.dll_VR_GetGenericInterface]
-    fcn.142c330d0 0x142c33153 [CALL:--x] call qword [sym.imp.openvr_api.dll_VR_GetGenericInterface]
-    fcn.142c330d0 0x142c331ca [CALL:--x] call qword [sym.imp.openvr_api.dll_VR_GetGenericInterface]
-    fcn.142c334b0 0x142c334ed [CALL:--x] call qword [sym.imp.openvr_api.dll_VR_GetGenericInterface]
-    fcn.142c334b0 0x142c3352b [CALL:--x] call qword [sym.imp.openvr_api.dll_VR_GetGenericInterface]
-    method.cTkInputManagerOpenVR.virtual_88 0x142c33862 [CALL:--x] call qword [sym.imp.openvr_api.dll_VR_GetGenericInterface]
-    method.cTkInputManagerOpenVR.virtual_80 0x142c339e0 [CALL:--x] call qword [sym.imp.openvr_api.dll_VR_GetGenericInterface]
-    fcn.142c33a50 0x142c33a78 [CALL:--x] call qword [sym.imp.openvr_api.dll_VR_GetGenericInterface]
-    fcn.142c33aa0 0x142c33ae2 [CALL:--x] call qword [sym.imp.openvr_api.dll_VR_GetGenericInterface]
-    fcn.142c33aa0 0x142c33b47 [CALL:--x] call qword [sym.imp.openvr_api.dll_VR_GetGenericInterface]
-    method.cTkHmdOpenVR.virtual_184 0x142c33f51 [CALL:--x] call qword [sym.imp.openvr_api.dll_VR_GetGenericInterface]
-    method.cTkHmdOpenVR.virtual_184 0x142c34000 [CALL:--x] call qword [sym.imp.openvr_api.dll_VR_GetGenericInterface]
-    fcn.142c34150 0x142c34264 [CALL:--x] call qword [sym.imp.openvr_api.dll_VR_GetGenericInterface]
-    fcn.142c34150 0x142c342f8 [CALL:--x] call qword [sym.imp.openvr_api.dll_VR_GetGenericInterface]
-    fcn.142c34550 0x142c346ab [CALL:--x] call qword [sym.imp.openvr_api.dll_VR_GetGenericInterface]
-    fcn.142c34550 0x142c346fc [CALL:--x] call qword [sym.imp.openvr_api.dll_VR_GetGenericInterface]
-    fcn.142c34550 0x142c34885 [CALL:--x] call qword [sym.imp.openvr_api.dll_VR_GetGenericInterface]
-    fcn.142c34550 0x142c348db [CALL:--x] call qword [sym.imp.openvr_api.dll_VR_GetGenericInterface]
-    fcn.142c349a0 0x142c349fe [CALL:--x] call qword [sym.imp.openvr_api.dll_VR_GetGenericInterface]
-    fcn.142c349a0 0x142c34a5e [CALL:--x] call qword [sym.imp.openvr_api.dll_VR_GetGenericInterface]
-    fcn.142c34cb0 0x142c34d15 [CALL:--x] call qword [sym.imp.openvr_api.dll_VR_GetGenericInterface]
-    fcn.142c35270 0x142c35632 [CALL:--x] call qword [sym.imp.openvr_api.dll_VR_GetGenericInterface]
-    fcn.142c35270 0x142c3567d [CALL:--x] call qword [sym.imp.openvr_api.dll_VR_GetGenericInterface]
-    method.cTkHmdOpenVR.virtual_168 0x142c368d3 [CALL:--x] call qword [sym.imp.openvr_api.dll_VR_GetGenericInterface]
-    fcn.142c36920 0x142c36c74 [CALL:--x] call qword [sym.imp.openvr_api.dll_VR_GetGenericInterface]
-    fcn.142c36ce0 0x142c36f5d [CALL:--x] call qword [sym.imp.openvr_api.dll_VR_GetGenericInterface]
-    fcn.142c36ce0 0x142c3703b [CALL:--x] call qword [sym.imp.openvr_api.dll_VR_GetGenericInterface]
-    fcn.142c36ce0 0x142c371cf [CALL:--x] call qword [sym.imp.openvr_api.dll_VR_GetGenericInterface]
-    fcn.142c36ce0 0x142c3756b [CALL:--x] call qword [sym.imp.openvr_api.dll_VR_GetGenericInterface]
-    fcn.142c36ce0 0x142c375e0 [CALL:--x] call qword [sym.imp.openvr_api.dll_VR_GetGenericInterface]
-    fcn.142c36ce0 0x142c376be [CALL:--x] call qword [sym.imp.openvr_api.dll_VR_GetGenericInterface]
-    fcn.142c36ce0 0x142c37730 [CALL:--x] call qword [sym.imp.openvr_api.dll_VR_GetGenericInterface]
-    fcn.142c37a50 0x142c37b80 [CALL:--x] call qword [sym.imp.openvr_api.dll_VR_GetGenericInterface]
-    fcn.142c39060 0x142c3932a [CALL:--x] call qword [sym.imp.openvr_api.dll_VR_GetGenericInterface]
-    method.cTkInputManagerOpenVR.virtual_168 0x142c3966c [CALL:--x] call qword [sym.imp.openvr_api.dll_VR_GetGenericInterface]
-    fcn.142c397f0 0x142c39818 [CALL:--x] call qword [sym.imp.openvr_api.dll_VR_GetGenericInterface]
-    fcn.142c39cb0 0x142c39d20 [CALL:--x] call qword [sym.imp.openvr_api.dll_VR_GetGenericInterface]
-    fcn.142c3a1c0 0x142c3a45a [CALL:--x] call qword [sym.imp.openvr_api.dll_VR_GetGenericInterface]
-    fcn.142c3a4a0 0x142c3a4c8 [CALL:--x] call qword [sym.imp.openvr_api.dll_VR_GetGenericInterface]
-    fcn.142c3a4e0 0x142c3a508 [CALL:--x] call qword [sym.imp.openvr_api.dll_VR_GetGenericInterface]
-    fcn.142c3a520 0x142c3a54d [CALL:--x] call qword [sym.imp.openvr_api.dll_VR_GetGenericInterface]
+using ApplyMatrixFn = void (*)(uint32_t handle, float* matrix);
 
-izz~IVRCompositor
-    965688  0x04a2ff18 0x144a31918 17   18   .rdata  ascii   IVRCompositor_029
+static ApplyMatrixFn OriginalApplyMatrix = nullptr;
 
-izz~IVRSystem
-    965686  0x04a2fef0 0x144a318f0 13   14   .rdata  ascii   IVRSystem_026
+static void HookHudMatrix(uint32_t handle, float* matrix)
+{
+    if (matrix)
+    {
+        matrix[12] += 0.25f; // try row-3 translation
+        // try matrix[13] or matrix[14] if this axis is not obvious
+    }
 
-pd 40 @ 0x142c33f30
-    │           0x142c33f30      04e8           add al, 0xe8               ; 232
-    │           0x142c33f32      ea             invalid
-    │           0x142c33f33      236efd         and ebp, dword [rsi - 3]
-    │           0x142c33f36      488b1d9306..   mov rbx, qword [0x1470f45d0] ; [0x1470f45d0:8]=0
-    │           0x142c33f3d      4885db         test rbx, rbx
-    │       ┌─< 0x142c33f40      751f           jne 0x142c33f61
-    │       │   0x142c33f42      488d942450..   lea rdx, [var_250h]
-    │       │   0x142c33f4a      488d0d9fd9..   lea rcx, [0x144a318f0]     ; "IVRSystem_026"
-    │       │   0x142c33f51      ff15314b7d00   call qword [sym.imp.openvr_api.dll_VR_GetGenericInterface] ; [0x143408a88:8]=0x4dba1c4 reloc.openvr_api.dll_VR_GetGenericInterface
-    │       │   0x142c33f57      488bd8         mov rbx, rax
-    │       │   0x142c33f5a      4889056f06..   mov qword [0x1470f45d0], rax ; [0x1470f45d0:8]=0
-    │       │   ; CODE XREF from method.cTkHmdOpenVR.virtual_184 @ 0x142c33f40(x)
-    │       └─> 0x142c33f61      488b0b         mov rcx, qword [rbx]
-    │           0x142c33f64      ba02000000     mov edx, 2
-    │           0x142c33f69      41b906000000   mov r9d, 6
-    │           0x142c33f6f      41b80f000000   mov r8d, reloc.WS2_32.dll_ntohs ; 0xf
-    │           0x142c33f75      4c8b919001..   mov r10, qword [rcx + 0x190]
-    │           0x142c33f7c      488bcb         mov rcx, rbx
-    │           0x142c33f7f      41ffd2         call r10
-    │           0x142c33f82      8984244802..   mov dword [var_248h], eax
-    │           0x142c33f89      85c0           test eax, eax
-    │       ┌─< 0x142c33f8b      7410           je 0x142c33f9d
-    │       │   ; CODE XREFS from method.cTkHmdOpenVR.virtual_184 @ 0x142c33efd(x), 0x142c33f1f(x), 0x142c33f28(x)
-    │       │   0x142c33f8d      488bdd         mov rbx, rbp
-    │       │   0x142c33f90      ff15fa4a7d00   call qword [sym.imp.openvr_api.dll_VR_ShutdownInternal] ; [0x143408a90:8]=0x4dba222 reloc.openvr_api.dll_VR_ShutdownInternal ; "\"\xa2\xdb\x04"
-    │       │   0x142c33f96      8b84244802..   mov eax, dword [var_248h]
-    │       │   ; CODE XREF from method.cTkHmdOpenVR.virtual_184 @ 0x142c33f8b(x)
-    │       └─> 0x142c33f9d      488bac2420..   mov rbp, qword [var_220h]
-    │           0x142c33fa5      4885db         test rbx, rbx
-    │           0x142c33fa8      48899e8816..   mov qword [rsi + 0x1688], rbx ; [0x1688:8]=-1
-    │           0x142c33faf      488b9c2440..   mov rbx, qword [var_240h]
-    │       ┌─< 0x142c33fb7      7522           jne 0x142c33fdb
-    │       │   0x142c33fb9      448bc0         mov r8d, eax               ; int64_t arg3
-    │       │   0x142c33fbc      488d156d22..   lea rdx, [0x143516230]     ; "[OpenVR] Failed to init HMD! (%d)\n" ; int64_t arg2
-    │       │   0x142c33fc3      488d4c2420     lea rcx, [var_20h]         ; int64_t arg1
-    │       │   0x142c33fc8      e8e31d64fe     call fcn.141275db0
-    │       │   0x142c33fcd      400fb6c7       movzx eax, dil
-    │       │   0x142c33fd1      4881c42802..   add rsp, 0x228
-    │       │   0x142c33fd8      5f             pop rdi
-    │       │   0x142c33fd9      5e             pop rsi
-    │       │   0x142c33fda      c3             ret
-    │       │   ; CODE XREF from method.cTkHmdOpenVR.virtual_184 @ 0x142c33fb7(x)
-    │       └─> 0x142c33fdb      488d0dee05..   lea rcx, [0x1470f45d0]     ; int64_t arg1
-    │           0x142c33fe2      e839236efd     call fcn.140316320
+    OriginalApplyMatrix(handle, matrix);
+}
 
-pd 40 @ 0x142c34000
-    │           0x142c34000      ff15824a7d00   call qword [sym.imp.openvr_api.dll_VR_GetGenericInterface] ; [0x143408a88:8]=0x4dba1c4 reloc.openvr_api.dll_VR_GetGenericInterface
-    │           0x142c34006      488905db05..   mov qword [0x1470f45e8], rax ; [0x1470f45e8:8]=0
-    │           ; CODE XREFS from method.cTkHmdOpenVR.virtual_184 @ 0x142c33e44(x), 0x142c33fef(x)
-    │           0x142c3400d      400fb6c7       movzx eax, dil
-    │           0x142c34011      4881c42802..   add rsp, 0x228
-    │           0x142c34018      5f             pop rdi
-    │           0x142c34019      5e             pop rsi
-    └           0x142c3401a      c3             ret
-                0x142c3401b      cc             int3
-                0x142c3401c      cc             int3
-                0x142c3401d      cc             int3
-                0x142c3401e      cc             int3
-                0x142c3401f      cc             int3
-                ;-- method.cTkHmdOpenVR.1.virtual_192:
-    ┌ 66: method.cTkHmdOpenVR.virtual_192 (uint32_t arg1);
-    │ `- args(rcx)
-    │           0x142c34020      4053           push rbx
-    │           0x142c34022      4883ec20       sub rsp, 0x20
-    │           0x142c34026      83791005       cmp dword [rcx + 0x10], 5  ; arg1
-    │           0x142c3402a      488bd9         mov rbx, rcx               ; arg1
-    │       ┌─< 0x142c3402d      7523           jne 0x142c34052
-    │       │   0x142c3402f      4883b98816..   cmp qword [rcx + 0x1688], 0 ; arg1
-    │      ┌──< 0x142c34037      7411           je 0x142c3404a
-    │      ││   0x142c34039      ff15514a7d00   call qword [sym.imp.openvr_api.dll_VR_ShutdownInternal] ; [0x143408a90:8]=0x4dba222 reloc.openvr_api.dll_VR_ShutdownInternal ; "\"\xa2\xdb\x04"
-    │      ││   0x142c3403f      48c7838816..   mov qword [rbx + 0x1688], 0 ; [0x1688:8]=-1
-    │      ││   ; CODE XREF from method.cTkHmdOpenVR.virtual_192 @ 0x142c34037(x)
-    │      └──> 0x142c3404a      c6437100       mov byte [rbx + 0x71], 0
-    │       │   0x142c3404e      c6431400       mov byte [rbx + 0x14], 0
-    │       │   ; CODE XREF from method.cTkHmdOpenVR.virtual_192 @ 0x142c3402d(x)
-    │       └─> 0x142c34052      488bcb         mov rcx, rbx               ; int64_t arg1
-    │           0x142c34055      e8e68f07ff     call fcn.141cad040
-    │           0x142c3405a      b001           mov al, 1
-    │           0x142c3405c      4883c420       add rsp, 0x20
-    │           0x142c34060      5b             pop rbx
-    └           0x142c34061      c3             ret
-                0x142c34062      cc             int3
-                0x142c34063      cc             int3
-                0x142c34064      cc             int3
-                0x142c34065      cc             int3
-                0x142c34066      cc             int3
-                0x142c34067      cc             int3
-                0x142c34068      cc             int3
-                0x142c34069      cc             int3
-                0x142c3406a      cc             int3
-                0x142c3406b      cc             int3
-                0x142c3406c      cc             int3
+uintptr_t base = reinterpret_cast<uintptr_t>(GetModuleHandleA(nullptr));
 
-pd 40 @ 0x142c368b0
-    │           0x142c368b0      8d0d1add4b04   lea ecx, [0x1470f45d0]
-    │           0x142c368b6      e865fa6dfd     call fcn.140316320
-    │           0x142c368bb      488b0516dd..   mov rax, qword [0x1470f45d8] ; [0x1470f45d8:8]=0
-    │           0x142c368c2      4885c0         test rax, rax
-    │       ┌─< 0x142c368c5      7519           jne 0x142c368e0
-    │       │   0x142c368c7      488d542430     lea rdx, [var_30h]
-    │       │   0x142c368cc      488d0d2db0..   lea rcx, [0x144a31900]     ; "IVRChaperone_004"
-    │       │   0x142c368d3      ff15af217d00   call qword [sym.imp.openvr_api.dll_VR_GetGenericInterface] ; [0x143408a88:8]=0x4dba1c4 reloc.openvr_api.dll_VR_GetGenericInterface
-    │       │   0x142c368d9      488905f8dc..   mov qword [0x1470f45d8], rax ; [0x1470f45d8:8]=0
-    │       │   ; CODE XREF from method.cTkHmdOpenVR.virtual_168 @ 0x142c368c5(x)
-    │       └─> 0x142c368e0      488b08         mov rcx, qword [rax]
-    │           0x142c368e3      33d2           xor edx, edx
-    │           0x142c368e5      4c8b4140       mov r8, qword [rcx + 0x40]
-    │           0x142c368e9      488bc8         mov rcx, rax
-    │           0x142c368ec      41ffd0         call r8
-    │           0x142c368ef      488b8b6002..   mov rcx, qword [rbx + 0x260]
-    │           0x142c368f6      c6437000       mov byte [rbx + 0x70], 0
-    │           0x142c368fa      4885c9         test rcx, rcx
-    │       ┌─< 0x142c368fd      740c           je 0x142c3690b
-    │       │   0x142c368ff      488b01         mov rax, qword [rcx]
-    │       │   0x142c36902      4883c420       add rsp, 0x20
-    │       │   0x142c36906      5b             pop rbx
-    │       │   0x142c36907      48ff6010       jmp qword [rax + reloc.WS2_32.dll_recv] ; 0x10
-    │       │   ; CODE XREFS from method.cTkHmdOpenVR.virtual_168 @ 0x142c368ad(x), 0x142c368fd(x)
-    │       └─> 0x142c3690b      4883c420       add rsp, 0x20
-    │           0x142c3690f      5b             pop rbx
-    └           0x142c36910      c3             ret
-                0x142c36911      cc             int3
-                0x142c36912      cc             int3
-                0x142c36913      cc             int3
-                0x142c36914      cc             int3
-                0x142c36915      cc             int3
-                0x142c36916      cc             int3
-                0x142c36917      cc             int3
-                0x142c36918      cc             int3
-                0x142c36919      cc             int3
-                0x142c3691a      cc             int3
-                0x142c3691b      cc             int3
-                0x142c3691c      cc             int3
-                0x142c3691d      cc             int3
-                0x142c3691e      cc             int3
-                0x142c3691f      cc             int3
+OriginalApplyMatrix =
+    reinterpret_cast<ApplyMatrixFn>(base + 0x1838500);
 
-pd 40 @ 0x142c33f51
-    │           0x142c33f51      ff15314b7d00   call qword [sym.imp.openvr_api.dll_VR_GetGenericInterface] ; [0x143408a88:8]=0x4dba1c4 reloc.openvr_api.dll_VR_GetGenericInterface
-    │           0x142c33f57      488bd8         mov rbx, rax
-    │           0x142c33f5a      4889056f06..   mov qword [0x1470f45d0], rax ; [0x1470f45d0:8]=0
-    │           ; CODE XREF from method.cTkHmdOpenVR.virtual_184 @ 0x142c33f40(x)
-    │           0x142c33f61      488b0b         mov rcx, qword [rbx]
-    │           0x142c33f64      ba02000000     mov edx, 2
-    │           0x142c33f69      41b906000000   mov r9d, 6
-    │           0x142c33f6f      41b80f000000   mov r8d, reloc.WS2_32.dll_ntohs ; 0xf
-    │           0x142c33f75      4c8b919001..   mov r10, qword [rcx + 0x190]
-    │           0x142c33f7c      488bcb         mov rcx, rbx
-    │           0x142c33f7f      41ffd2         call r10
-    │           0x142c33f82      8984244802..   mov dword [var_248h], eax
-    │           0x142c33f89      85c0           test eax, eax
-    │       ┌─< 0x142c33f8b      7410           je 0x142c33f9d
-    │       │   ; CODE XREFS from method.cTkHmdOpenVR.virtual_184 @ 0x142c33efd(x), 0x142c33f1f(x), 0x142c33f28(x)
-    │       │   0x142c33f8d      488bdd         mov rbx, rbp
-    │       │   0x142c33f90      ff15fa4a7d00   call qword [sym.imp.openvr_api.dll_VR_ShutdownInternal] ; [0x143408a90:8]=0x4dba222 reloc.openvr_api.dll_VR_ShutdownInternal ; "\"\xa2\xdb\x04"
-    │       │   0x142c33f96      8b84244802..   mov eax, dword [var_248h]
-    │       │   ; CODE XREF from method.cTkHmdOpenVR.virtual_184 @ 0x142c33f8b(x)
-    │       └─> 0x142c33f9d      488bac2420..   mov rbp, qword [var_220h]
-    │           0x142c33fa5      4885db         test rbx, rbx
-    │           0x142c33fa8      48899e8816..   mov qword [rsi + 0x1688], rbx ; [0x1688:8]=-1
-    │           0x142c33faf      488b9c2440..   mov rbx, qword [var_240h]
-    │       ┌─< 0x142c33fb7      7522           jne 0x142c33fdb
-    │       │   0x142c33fb9      448bc0         mov r8d, eax               ; int64_t arg3
-    │       │   0x142c33fbc      488d156d22..   lea rdx, [0x143516230]     ; "[OpenVR] Failed to init HMD! (%d)\n" ; int64_t arg2
-    │       │   0x142c33fc3      488d4c2420     lea rcx, [var_20h]         ; int64_t arg1
-    │       │   0x142c33fc8      e8e31d64fe     call fcn.141275db0
-    │       │   0x142c33fcd      400fb6c7       movzx eax, dil
-    │       │   0x142c33fd1      4881c42802..   add rsp, 0x228
-    │       │   0x142c33fd8      5f             pop rdi
-    │       │   0x142c33fd9      5e             pop rsi
-    │       │   0x142c33fda      c3             ret
-    │       │   ; CODE XREF from method.cTkHmdOpenVR.virtual_184 @ 0x142c33fb7(x)
-    │       └─> 0x142c33fdb      488d0dee05..   lea rcx, [0x1470f45d0]     ; int64_t arg1
-    │           0x142c33fe2      e839236efd     call fcn.140316320
-    │           0x142c33fe7      48833df905..   cmp qword [0x1470f45e8], 0 ; [0x1470f45e8:8]=0
-    │       ┌─< 0x142c33fef      751c           jne 0x142c3400d
-    │       │   0x142c33ff1      488d942448..   lea rdx, [var_248h]
-    │       │   0x142c33ff9      488d0d18d9..   lea rcx, [0x144a31918]     ; "IVRCompositor_029"
-    │       │   0x142c34000      ff15824a7d00   call qword [sym.imp.openvr_api.dll_VR_GetGenericInterface] ; [0x143408a88:8]=0x4dba1c4 reloc.openvr_api.dll_VR_GetGenericInterface
-    │       │   0x142c34006      488905db05..   mov qword [0x1470f45e8], rax ; [0x1470f45e8:8]=0
-    │       │   ; CODE XREFS from method.cTkHmdOpenVR.virtual_184 @ 0x142c33e44(x), 0x142c33fef(x)
-    │       └─> 0x142c3400d      400fb6c7       movzx eax, dil
-    │           0x142c34011      4881c42802..   add rsp, 0x228
+PatchRelativeCall(
+    base + 0xAB1C9D,
+    reinterpret_cast<uintptr_t>(&HookHudMatrix)
+);
 
-axt @ 0x1470f45e8
-    fcn.142c330d0 0x142c330f5 [DATA:r--] cmp qword [0x1470f45e8], 0
-    fcn.142c330d0 0x142c33110 [DATA:-w-] mov qword [0x1470f45e8], rax
-    fcn.142c330d0 0x142c3313c [DATA:r--] mov rax, qword [0x1470f45e8]
-    fcn.142c330d0 0x142c33159 [DATA:-w-] mov qword [0x1470f45e8], rax
-    fcn.142c330d0 0x142c331b3 [DATA:r--] mov rax, qword [0x1470f45e8]
-    fcn.142c330d0 0x142c331d0 [DATA:-w-] mov qword [0x1470f45e8], rax
-    fcn.142c334b0 0x142c334d8 [DATA:r--] cmp qword [0x1470f45e8], 0
-    fcn.142c334b0 0x142c334f3 [DATA:-w-] mov qword [0x1470f45e8], rax
-    fcn.142c334b0 0x142c33514 [DATA:r--] mov rax, qword [0x1470f45e8]
-    fcn.142c334b0 0x142c33531 [DATA:-w-] mov qword [0x1470f45e8], rax
-    method.cTkHmdOpenVR.virtual_184 0x142c33eb0 [DATA:-w-] mov qword [0x1470f45e8], rbp
-    method.cTkHmdOpenVR.virtual_184 0x142c33fe7 [DATA:r--] cmp qword [0x1470f45e8], 0
-    method.cTkHmdOpenVR.virtual_184 0x142c34006 [DATA:-w-] mov qword [0x1470f45e8], rax
-    fcn.142c34150 0x142c341c3 [DATA:-w-] mov qword [0x1470f45e8], rsi
-    fcn.142c34150 0x142c342e0 [DATA:r--] cmp qword [0x1470f45e8], rsi
-    fcn.142c34150 0x142c34301 [DATA:-w-] mov qword [0x1470f45e8], rax
-    fcn.142c35270 0x142c35611 [DATA:r--] mov rax, qword [0x1470f45e8]
-    fcn.142c35270 0x142c35638 [DATA:-w-] mov qword [0x1470f45e8], rax
-    fcn.142c397f0 0x142c39800 [DATA:r--] mov rax, qword [0x1470f45e8]
-    fcn.142c397f0 0x142c3981e [DATA:-w-] mov qword [0x1470f45e8], rax
-    fcn.142c3a4a0 0x142c3a4b0 [DATA:r--] mov rax, qword [0x1470f45e8]
-    fcn.142c3a4a0 0x142c3a4ce [DATA:-w-] mov qword [0x1470f45e8], rax
-    fcn.142c3a520 0x142c3a535 [DATA:r--] mov rax, qword [0x1470f45e8]
-    fcn.142c3a520 0x142c3a553 [DATA:-w-] mov qword [0x1470f45e8], rax
+static bool PatchRelativeCall(uintptr_t callAddress, uintptr_t hookAddress)
+{
+    intptr_t rel = static_cast<intptr_t>(hookAddress) -
+        static_cast<intptr_t>(callAddress + 5);
 
-0x140000000
-    Default image base for 64-bit Windows exe.
-    0x1470f45e8 = 0x140000000 + 0x70f45e8
+    if (rel < INT32_MIN || rel > INT32_MAX)
+        return false;
+
+    DWORD oldProtect = 0;
+    if (!VirtualProtect(reinterpret_cast<void*>(callAddress), 5, PAGE_EXECUTE_READWRITE, &oldProtect))
+        return false;
+
+    unsigned char* p = reinterpret_cast<unsigned char*>(callAddress);
+    p[0] = 0xE8; // call rel32
+    *reinterpret_cast<int32_t*>(p + 1) = static_cast<int32_t>(rel);
+
+    DWORD ignored = 0;
+    VirtualProtect(reinterpret_cast<void*>(callAddress), 5, oldProtect, &ignored);
+    FlushInstructionCache(GetCurrentProcess(), reinterpret_cast<void*>(callAddress), 5);
+    return true;
+}
+
+
+
+
+
+# HUD Specific Transforms
+
+[0x1475d0310]> s 0x140000000 + 0xAB1A20
+[0x140ab1a20]> pdf
+                ; CODE XREF from fcn.14092dae0 @ 0x14092db32(x)
+                ; CODE XREF from fcn.14092db40 @ 0x14092dbb1(x)
+                ; CALL XREF from fcn.14092f4a0 @ 0x14092f56f(x)
+                ; CALL XREF from fcn.140937650 @ 0x140937a3a(x)
+                ; CALL XREF from fcn.140937a60 @ 0x140937ee9(x)
+    ┌ 695: fcn.140ab1a20 (int64_t arg1);
+    │ `- args(rcx) vars(6:sp[0x28..0xf0])
+    │           0x140ab1a20      488bc4         mov rax, rsp
+    │           0x140ab1a23      4881ece800..   sub rsp, 0xe8
+    │           0x140ab1a2a      8b5114         mov edx, dword [rcx + 0x14] ; arg1
+    │           0x140ab1a2d      8b4910         mov ecx, dword [rcx + 0x10] ; arg1
+    │           0x140ab1a30      0f2970e8       movaps xmmword [rax - 0x18], xmm6
+    │           0x140ab1a34      0f2978d8       movaps xmmword [rax - 0x28], xmm7
+    │           0x140ab1a38      440f2940c8     movaps xmmword [rax - 0x38], xmm8
+    │           0x140ab1a3d      440f2948b8     movaps xmmword [rax - 0x48], xmm9
+    │           0x140ab1a42      440f2950a8     movaps xmmword [rax - 0x58], xmm10
+    │           0x140ab1a47      440f295898     movaps xmmword [rax - 0x68], xmm11
+    │           0x140ab1a4c      440f296088     movaps xmmword [rax - 0x78], xmm12
+    │           0x140ab1a51      440f296c2460   movaps xmmword [var_60h], xmm13
+    │           0x140ab1a57      440f28e9       movaps xmm13, xmm1
+    │           0x140ab1a5b      f7c20000f8ff   test edx, 0xfff80000
+    │       ┌─< 0x140ab1a61      764e           jbe 0x140ab1ab1
+    │       │   0x140ab1a63      8bc2           mov eax, edx
+    │       │   0x140ab1a65      25ffff0700     and eax, 0x7ffff
+    │       │   0x140ab1a6a      3dffff0700     cmp eax, 0x7ffff
+    │      ┌──< 0x140ab1a6f      7440           je 0x140ab1ab1
+    │      ││   0x140ab1a71      488b054890..   mov rax, qword [0x146e7aac0] ; [0x146e7aac0:8]=0
+    │      ││   0x140ab1a78      4885c0         test rax, rax
+    │     ┌───< 0x140ab1a7b      7518           jne 0x140ab1a95
+    │     │││   0x140ab1a7d      0f10058c85..   movups xmm0, xmmword [0x144a0a010] ; [0x144a0a010:16]=-1
+    │     │││   0x140ab1a84      66490f7ec0     movq r8, xmm0
+    │     │││   0x140ab1a89      660f73d808     psrldq xmm0, 8
+    │     │││   0x140ab1a8e      66480f7ec0     movq rax, xmm0
+    │    ┌────< 0x140ab1a93      eb08           jmp 0x140ab1a9d
+    │    ││││   ; CODE XREF from fcn.140ab1a20 @ 0x140ab1a7b(x)
+    │    │└───> 0x140ab1a95      4c8b4008       mov r8, qword [rax + 8]
+    │    │ ││   0x140ab1a99      488b4010       mov rax, qword [rax + 0x10]
+    │    │ ││   ; CODE XREF from fcn.140ab1a20 @ 0x140ab1a93(x)
+    │    └────> 0x140ab1a9d      483b058cd2..   cmp rax, qword [0x144a0ed30] ; [0x144a0ed30:8]=0
+    │     ┌───< 0x140ab1aa4      7509           jne 0x140ab1aaf
+    │     │││   0x140ab1aa6      4c3b057bd2..   cmp r8, qword [0x144a0ed28] ; [0x144a0ed28:8]=0x57454956505041 ; "APPVIEW"
+    │    ┌────< 0x140ab1aad      7402           je 0x140ab1ab1
+    │    ││││   ; CODE XREF from fcn.140ab1a20 @ 0x140ab1aa4(x)
+    │    │└───> 0x140ab1aaf      8bca           mov ecx, edx
+    │    │ ││   ; CODE XREFS from fcn.140ab1a20 @ 0x140ab1a61(x), 0x140ab1a6f(x), 0x140ab1aad(x)
+    │    └─└└─> 0x140ab1ab1      66440f6f15..   movdqa xmm10, xmmword [0x144b22520] ; [0x144b22520:16]=-1
+    │           0x140ab1aba      0f28cb         movaps xmm1, xmm3
+    │           0x140ab1abd      66440f6f0d..   movdqa xmm9, xmmword [0x144b22640] ; [0x144b22640:16]=-1
+    │           0x140ab1ac6      440f28e2       movaps xmm12, xmm2
+    │           0x140ab1aca      66440f6f1d..   movdqa xmm11, xmmword [0x144b22b80] ; [0x144b22b80:16]=-1
+    │           0x140ab1ad3      0f57f6         xorps xmm6, xmm6
+    │           0x140ab1ad6      f30f10059a..   movss xmm0, dword [0x144b19a78] ; [0x144b19a78:4]=0x3f800000
+    │           0x140ab1ade      0f57e4         xorps xmm4, xmm4
+    │           0x140ab1ae1      0f14c8         unpcklps xmm1, xmm0
+    │           0x140ab1ae4      450f28c2       movaps xmm8, xmm10
+    │           0x140ab1ae8      0f57c0         xorps xmm0, xmm0
+    │           0x140ab1aeb      0f14e1         unpcklps xmm4, xmm1
+    │           0x140ab1aee      0f14f3         unpcklps xmm6, xmm3
+    │           0x140ab1af1      410f28ca       movaps xmm1, xmm10
+    │           0x140ab1af5      0f143524b8..   unpcklps xmm6, xmmword [0x144b1d320]
+    │           0x140ab1afc      410f28f9       movaps xmm7, xmm9
+    │           0x140ab1b00      0f14d8         unpcklps xmm3, xmm0
+    │           0x140ab1b03      410f28eb       movaps xmm5, xmm11
+    │           0x140ab1b07      0f141d12b8..   unpcklps xmm3, xmmword [0x144b1d320]
+    │           0x140ab1b0e      410f28c2       movaps xmm0, xmm10
+    │           0x140ab1b12      410fc6c200     shufps xmm0, xmm10, 0
+    │           0x140ab1b17      0f59c3         mulps xmm0, xmm3
+    │           0x140ab1b1a      410fc6ca55     shufps xmm1, xmm10, 0x55
+    │           0x140ab1b1f      0f59cc         mulps xmm1, xmm4
+    │           0x140ab1b22      450fc6e400     shufps xmm12, xmm12, 0
+    │           0x140ab1b27      440f5925a1..   mulps xmm12, xmmword [0x1470f94d0]
+    │           0x140ab1b2f      0f58c8         addps xmm1, xmm0
+    │           0x140ab1b32      450fc6c2aa     shufps xmm8, xmm10, 0xaa
+    │           0x140ab1b37      410fc6f9aa     shufps xmm7, xmm9, 0xaa
+    │           0x140ab1b3c      410f28c1       movaps xmm0, xmm9
+    │           0x140ab1b40      410fc6c100     shufps xmm0, xmm9, 0
+    │           0x140ab1b45      0f59c3         mulps xmm0, xmm3
+    │           0x140ab1b48      440f59c6       mulps xmm8, xmm6
+    │           0x140ab1b4c      410fc6ebaa     shufps xmm5, xmm11, 0xaa
+    │           0x140ab1b51      0f59fe         mulps xmm7, xmm6
+    │           0x140ab1b54      440f58c1       addps xmm8, xmm1
+    │           0x140ab1b58      0f59ee         mulps xmm5, xmm6
+    │           0x140ab1b5b      410f28c9       movaps xmm1, xmm9
+    │           0x140ab1b5f      410fc6c955     shufps xmm1, xmm9, 0x55
+    │           0x140ab1b64      0f59cc         mulps xmm1, xmm4
+    │           0x140ab1b67      0f58c8         addps xmm1, xmm0
+    │           0x140ab1b6a      410f28c3       movaps xmm0, xmm11
+    │           0x140ab1b6e      410fc6c300     shufps xmm0, xmm11, 0
+    │           0x140ab1b73      0f59c3         mulps xmm0, xmm3
+    │           0x140ab1b76      0f58f9         addps xmm7, xmm1
+    │           0x140ab1b79      410f28cb       movaps xmm1, xmm11
+    │           0x140ab1b7d      410fc6cb55     shufps xmm1, xmm11, 0x55
+    │           0x140ab1b82      0f59cc         mulps xmm1, xmm4
+    │           0x140ab1b85      0f28d7         movaps xmm2, xmm7
+    │           0x140ab1b88      0fc6d755       shufps xmm2, xmm7, 0x55
+    │           0x140ab1b8c      0f58c8         addps xmm1, xmm0
+    │           0x140ab1b8f      410f59d1       mulps xmm2, xmm9
+    │           0x140ab1b93      410f28c4       movaps xmm0, xmm12
+    │           0x140ab1b97      410fc6c400     shufps xmm0, xmm12, 0
+    │           0x140ab1b9c      0f59c3         mulps xmm0, xmm3
+    │           0x140ab1b9f      410f28d8       movaps xmm3, xmm8
+    │           0x140ab1ba3      0f58e9         addps xmm5, xmm1
+    │           0x140ab1ba6      410fc6d855     shufps xmm3, xmm8, 0x55
+    │           0x140ab1bab      410f28cc       movaps xmm1, xmm12
+    │           0x140ab1baf      410f59d9       mulps xmm3, xmm9
+    │           0x140ab1bb3      410fc6cc55     shufps xmm1, xmm12, 0x55
+    │           0x140ab1bb8      0f59cc         mulps xmm1, xmm4
+    │           0x140ab1bbb      450fc6e4aa     shufps xmm12, xmm12, 0xaa
+    │           0x140ab1bc0      440f59e6       mulps xmm12, xmm6
+    │           0x140ab1bc4      0f58c8         addps xmm1, xmm0
+    │           0x140ab1bc7      410f28c0       movaps xmm0, xmm8
+    │           0x140ab1bcb      410fc6c000     shufps xmm0, xmm8, 0
+    │           0x140ab1bd0      410f59c2       mulps xmm0, xmm10
+    │           0x140ab1bd4      440f58e1       addps xmm12, xmm1
+    │           0x140ab1bd8      0f28cd         movaps xmm1, xmm5
+    │           0x140ab1bdb      0fc6cd55       shufps xmm1, xmm5, 0x55
+    │           0x140ab1bdf      0f58d8         addps xmm3, xmm0
+    │           0x140ab1be2      410f59c9       mulps xmm1, xmm9
+    │           0x140ab1be6      0f28c7         movaps xmm0, xmm7
+    │           0x140ab1be9      440f58259f..   addps xmm12, xmmword [0x1470f9090]
+    │           0x140ab1bf1      0fc6c700       shufps xmm0, xmm7, 0
+    │           0x140ab1bf5      410f59c2       mulps xmm0, xmm10
+    │           0x140ab1bf9      0f58d0         addps xmm2, xmm0
+    │           0x140ab1bfc      0f28c5         movaps xmm0, xmm5
+    │           0x140ab1bff      0fc6c500       shufps xmm0, xmm5, 0
+    │           0x140ab1c03      410f59c2       mulps xmm0, xmm10
+    │           0x140ab1c07      0f58c8         addps xmm1, xmm0
+    │           0x140ab1c0a      0fc6edaa       shufps xmm5, xmm5, 0xaa
+    │           0x140ab1c0e      410f28c4       movaps xmm0, xmm12
+    │           0x140ab1c12      450fc6c0aa     shufps xmm8, xmm8, 0xaa
+    │           0x140ab1c17      410fc6c400     shufps xmm0, xmm12, 0
+    │           0x140ab1c1c      8bc1           mov eax, ecx               ; arg1
+    │           0x140ab1c1e      410f59c2       mulps xmm0, xmm10
+    │           0x140ab1c22      25ffff0700     and eax, 0x7ffff
+    │           0x140ab1c27      0fc6ffaa       shufps xmm7, xmm7, 0xaa
+    │           0x140ab1c2b      410f59eb       mulps xmm5, xmm11
+    │           0x140ab1c2f      450f59c3       mulps xmm8, xmm11
+    │           0x140ab1c33      410f59fb       mulps xmm7, xmm11
+    │           0x140ab1c37      0f58e9         addps xmm5, xmm1
+    │           0x140ab1c3a      410f28cc       movaps xmm1, xmm12
+    │           0x140ab1c3e      410fc6cc55     shufps xmm1, xmm12, 0x55
+    │           0x140ab1c43      440f58c3       addps xmm8, xmm3
+    │           0x140ab1c47      410f59c9       mulps xmm1, xmm9
+    │           0x140ab1c4b      450fc6e4aa     shufps xmm12, xmm12, 0xaa
+    │           0x140ab1c50      0f58fa         addps xmm7, xmm2
+    │           0x140ab1c53      450f59e3       mulps xmm12, xmm11
+    │           0x140ab1c57      440f29442420   movaps xmmword [var_20h], xmm8
+    │           0x140ab1c5d      0f58c8         addps xmm1, xmm0
+    │           0x140ab1c60      0f296c2440     movaps xmmword [var_40h], xmm5
+    │           0x140ab1c65      410f28c5       movaps xmm0, xmm13
+    │           0x140ab1c69      0fc6c000       shufps xmm0, xmm0, 0
+    │           0x140ab1c6d      0f5905cc70..   mulps xmm0, xmmword [0x1470f8d40]
+    │           0x140ab1c74      0f297c2430     movaps xmmword [var_30h], xmm7
+    │           0x140ab1c79      410f58cc       addps xmm1, xmm12
+    │           0x140ab1c7d      0f58c8         addps xmm1, xmm0
+    │           0x140ab1c80      0f294c2450     movaps xmmword [var_50h], xmm1
+    │           0x140ab1c85      f7c10000f8ff   test ecx, 0xfff80000       ; arg1
+    │       ┌─< 0x140ab1c8b      7615           jbe 0x140ab1ca2
+    │       │   0x140ab1c8d      3dffff0700     cmp eax, 0x7ffff
+    │      ┌──< 0x140ab1c92      740e           je 0x140ab1ca2
+    │      ││   0x140ab1c94      85c0           test eax, eax
+    │     ┌───< 0x140ab1c96      740a           je 0x140ab1ca2
+    │     │││   0x140ab1c98      488d542420     lea rdx, [var_20h]         ; int64_t arg2
+    │     │││   0x140ab1c9d      e85e68d800     call fcn.141838500
+    │     │││   ; CODE XREFS from fcn.140ab1a20 @ 0x140ab1c8b(x), 0x140ab1c92(x), 0x140ab1c96(x)
+    │     └└└─> 0x140ab1ca2      440f286c2460   movaps xmm13, xmmword [var_60h]
+    │           0x140ab1ca8      4c8d9c24e8..   lea r11, [var_e8h]
+    │           0x140ab1cb0      410f2873e8     movaps xmm6, xmmword [r11 - 0x18]
+    │           0x140ab1cb5      410f287bd8     movaps xmm7, xmmword [r11 - 0x28]
+    │           0x140ab1cba      450f2843c8     movaps xmm8, xmmword [r11 - 0x38]
+    │           0x140ab1cbf      450f284bb8     movaps xmm9, xmmword [r11 - 0x48]
+    │           0x140ab1cc4      450f2853a8     movaps xmm10, xmmword [r11 - 0x58]
+    │           0x140ab1cc9      450f285b98     movaps xmm11, xmmword [r11 - 0x68]
+    │           0x140ab1cce      450f286388     movaps xmm12, xmmword [r11 - 0x78]
+    │           0x140ab1cd3      498be3         mov rsp, r11
+    └           0x140ab1cd6      c3             ret
+
+
+
+
+
+
+
+# General Transformations
+
+[0x140ab1a20]> s 0x140000000 + 0x1838500
+[0x141838500]> pdf
+                ; XREFS(127)
+    ┌ 106: fcn.141838500 (int64_t arg1, uint32_t *arg2);
+    │ `- args(rcx, rdx) vars(5:sp[0x10..0x234])
+    │           0x141838500      448bc9         mov r9d, ecx               ; arg1
+    │           0x141838503      4c8bd2         mov r10, rdx               ; arg2
+    │           0x141838506      41c1e913       shr r9d, 0x13
+    │           0x14183850a      4585c9         test r9d, r9d
+    │       ┌─< 0x14183850d      745a           je 0x141838569
+    │       │   0x14183850f      448bc1         mov r8d, ecx               ; arg1
+    │       │   0x141838512      4181e0ffff..   and r8d, 0x7ffff
+    │       │   0x141838519      4181f8ffff..   cmp r8d, 0x7ffff
+    │      ┌──< 0x141838520      7447           je 0x141838569
+    │      ││   0x141838522      488b156f4b..   mov rdx, qword [0x146e0d098] ; [0x146e0d098:8]=0
+    │      ││   0x141838529      81e1ffff0700   and ecx, 0x7ffff           ; arg1
+    │      ││   0x14183852f      488b82e800..   mov rax, qword [rdx + 0xe8]
+    │      ││   0x141838536      48630c88       movsxd rcx, dword [rax + rcx*4]
+    │      ││   0x14183853a      488b829000..   mov rax, qword [rdx + 0x90]
+    │      ││   0x141838541      488b0cc8       mov rcx, qword [rax + rcx*8]
+    │      ││   0x141838545      4885c9         test rcx, rcx
+    │     ┌───< 0x141838548      741f           je 0x141838569
+    │     │││   0x14183854a      8b5108         mov edx, dword [rcx + 8]
+    │     │││   0x14183854d      8bc2           mov eax, edx
+    │     │││   0x14183854f      25ffff0700     and eax, 0x7ffff
+    │     │││   0x141838554      413bc0         cmp eax, r8d
+    │    ┌────< 0x141838557      7510           jne 0x141838569
+    │    ││││   0x141838559      c1ea13         shr edx, 0x13
+    │    ││││   0x14183855c      413bd1         cmp edx, r9d
+    │   ┌─────< 0x14183855f      7508           jne 0x141838569
+    │   │││││   0x141838561      498bd2         mov rdx, r10
+    │  ┌──────< 0x141838564      e9678d0900     jmp fcn.1418d12d0
+    │  ││││││   ; CODE XREFS from fcn.141838500 @ 0x14183850d(x), 0x141838520(x), 0x141838548(x), 0x141838557(x), 0x14183855f(x)
+    └  │└└└└└─> 0x141838569      c3             ret
+
+[0x141838500]> s 0x1418d12d0
+[0x1418d12d0]> pdf
+                ; XREFS(65)
+    ┌ 223: fcn.1418d12d0 (int64_t arg1, int64_t arg2);
+    │ `- args(rcx, rdx) vars(5:sp[0x10..0x234])
+    │           0x1418d12d0      48895c2410     mov qword [var_10h], rbx
+    │           0x1418d12d5      48896c2418     mov qword [var_18h], rbp
+    │           0x1418d12da      57             push rdi
+    │           0x1418d12db      4883ec20       sub rsp, 0x20
+    │           0x1418d12df      448b4108       mov r8d, dword [rcx + 8]   ; arg1
+    │           0x1418d12e3      488bf9         mov rdi, rcx               ; arg1
+    │           0x1418d12e6      488b0dabbd..   mov rcx, qword [0x146e0d098] ; [0x146e0d098:8]=0
+    │           0x1418d12ed      4181e0ffff..   and r8d, 0x7ffff
+    │           0x1418d12f4      488bea         mov rbp, rdx               ; arg2
+    │           0x1418d12f7      488b81e800..   mov rax, qword [rcx + 0xe8]
+    │           0x1418d12fe      4e630480       movsxd r8, dword [rax + r8*4]
+    │           0x1418d1302      488b81a000..   mov rax, qword [rcx + 0xa0]
+    │           0x1418d1309      450fb60c00     movzx r9d, byte [r8 + rax]
+    │           0x1418d130e      4180f904       cmp r9b, 4                 ; reloc.WS2_32.dll_connect
+    │       ┌─< 0x1418d1312      7562           jne 0x1418d1376
+    │       │   0x1418d1314      488b4738       mov rax, qword [rdi + 0x38]
+    │       │   0x1418d1318      488d4f38       lea rcx, [rdi + 0x38]
+    │       │   0x1418d131c      4889742430     mov qword [var_30h], rsi
+    │       │   0x1418d1321      ff5050         call qword [rax + 0x50]    ; 80
+    │       │   0x1418d1324      488bd8         mov rbx, rax
+    │       │   0x1418d1327      4885c0         test rax, rax
+    │      ┌──< 0x1418d132a      7424           je 0x1418d1350
+    │      ││   0x1418d132c      80b8400200..   cmp byte [rax + 0x240], 0
+    │     ┌───< 0x1418d1333      740c           je 0x1418d1341
+    │     │││   0x1418d1335      488b10         mov rdx, qword [rax]
+    │     │││   0x1418d1338      488bc8         mov rcx, rax
+    │     │││   0x1418d133b      ff92d8000000   call qword [rdx + 0xd8]    ; 216
+    │     │││   ; CODE XREF from fcn.1418d12d0 @ 0x1418d1333(x)
+    │     └───> 0x1418d1341      48635740       movsxd rdx, dword [rdi + 0x40]
+    │      ││   0x1418d1345      488b837801..   mov rax, qword [rbx + 0x178]
+    │      ││   0x1418d134c      c6040201       mov byte [rdx + rax], 1
+    │      ││   ; CODE XREF from fcn.1418d12d0 @ 0x1418d132a(x)
+    │      └──> 0x1418d1350      488d4f38       lea rcx, [rdi + 0x38]      ; uint32_t arg1
+    │       │   0x1418d1354      e8176efcff     call fcn.141898170
+    │       │   0x1418d1359      488b979000..   mov rdx, qword [rdi + 0x90]
+    │       │   0x1418d1360      488b0d31bd..   mov rcx, qword [0x146e0d098] ; [0x146e0d098:8]=0 ; int64_t arg1
+    │       │   0x1418d1367      8b5208         mov edx, dword [rdx + 8]   ; int64_t arg2
+    │       │   0x1418d136a      e8b1b60000     call fcn.1418dca20
+    │       │   0x1418d136f      488b742430     mov rsi, qword [var_30h]
+    │      ┌──< 0x1418d1374      eb18           jmp 0x1418d138e
+    │      ││   ; CODE XREF from fcn.1418d12d0 @ 0x1418d1312(x)
+    │      │└─> 0x1418d1376      4180f903       cmp r9b, 3                 ; reloc.WS2_32.dll_closesocket
+    │      │┌─< 0x1418d137a      7519           jne 0x1418d1395
+    │      ││   0x1418d137c      488d4f50       lea rcx, [rdi + 0x50]      ; int64_t arg1
+    │      ││   0x1418d1380      e89b6dfcff     call fcn.141898120
+    │      ││   0x1418d1385      488d4f50       lea rcx, [rdi + 0x50]      ; uint32_t arg1
+    │      ││   0x1418d1389      e8e26dfcff     call fcn.141898170
+    │      ││   ; CODE XREF from fcn.1418d12d0 @ 0x1418d1374(x)
+    │      └──> 0x1418d138e      488b0d03bd..   mov rcx, qword [0x146e0d098] ; [0x146e0d098:8]=0
+    │       │   ; CODE XREF from fcn.1418d12d0 @ 0x1418d137a(x)
+    │       └─> 0x1418d1395      8b5708         mov edx, dword [rdi + 8]
+    │           0x1418d1398      4c8bc5         mov r8, rbp
+    │           0x1418d139b      488b5c2438     mov rbx, qword [var_10h]
+    │           0x1418d13a0      488b6c2440     mov rbp, qword [var_18h]
+    │           0x1418d13a5      4883c420       add rsp, 0x20
+    │           0x1418d13a9      5f             pop rdi
+    └       ┌─< 0x1418d13aa      e9a1a60000     jmp fcn.1418dba50
+
+[0x1418d12d0]> s 0x1418dba50
+[0x1418dba50]> pdf
+                ; XREFS: CALL 0x141851d6f  CALL 0x141851de6  CALL 0x141852b9d  CALL 0x141852c36  CALL 0x1418a502e  CALL 0x1418c39f6  
+                ; XREFS: CALL 0x1418d10e6  CODE 0x1418d13aa  
+    ┌ 220: fcn.1418dba50 (int64_t arg1, float arg2, int64_t arg3);
+    │ `- args(rcx, rdx, r8) vars(2:sp[0x230..0x234])
+    │           0x1418dba50      488b81e800..   mov rax, qword [rcx + 0xe8] ; arg1
+    │           0x1418dba57      81e2ffff0700   and edx, 0x7ffff           ; arg2
+    │           0x1418dba5d      4c8bc9         mov r9, rcx                ; arg1
+    │           0x1418dba60      4c631c90       movsxd r11, dword [rax + rdx*4]
+    │           0x1418dba64      488b81d000..   mov rax, qword [rcx + 0xd0] ; arg1
+    │           0x1418dba6b      498bd3         mov rdx, r11
+    │           0x1418dba6e      428b0c98       mov ecx, dword [rax + r11*4]
+    │           0x1418dba72      4e8d1498       lea r10, [rax + r11*4]
+    │           0x1418dba76      418b814002..   mov eax, dword [r9 + 0x240]
+    │           0x1418dba7d      85c9           test ecx, ecx
+    │       ┌─< 0x1418dba7f      7536           jne 0x1418dbab7
+    │       │   0x1418dba81      418902         mov dword [r10], eax
+    │       │   0x1418dba84      488bca         mov rcx, rdx
+    │       │   0x1418dba87      498b4150       mov rax, qword [r9 + 0x50]
+    │       │   0x1418dba8b      410f1000       movups xmm0, xmmword [r8]  ; arg3
+    │       │   0x1418dba8f      410f104810     movups xmm1, xmmword [r8 + 0x10] ; arg3
+    │       │   0x1418dba94      410f105020     movups xmm2, xmmword [r8 + 0x20] ; arg3
+    │       │   0x1418dba99      410f105830     movups xmm3, xmmword [r8 + 0x30] ; arg3
+    │       │   0x1418dba9e      48c1e106       shl rcx, 6
+    │       │   0x1418dbaa2      0f110401       movups xmmword [rcx + rax], xmm0
+    │       │   0x1418dbaa6      0f114c0110     movups xmmword [rcx + rax + 0x10], xmm1
+    │       │   0x1418dbaab      0f11540120     movups xmmword [rcx + rax + 0x20], xmm2
+    │       │   0x1418dbab0      0f115c0130     movups xmmword [rcx + rax + 0x30], xmm3
+    │      ┌──< 0x1418dbab5      eb3c           jmp 0x1418dbaf3
+    │      ││   ; CODE XREF from fcn.1418dba50 @ 0x1418dba7f(x)
+    │      │└─> 0x1418dbab7      3bc8           cmp ecx, eax
+    │      │┌─< 0x1418dbab9      7438           je 0x1418dbaf3
+    │      ││   0x1418dbabb      418902         mov dword [r10], eax
+    │      ││   0x1418dbabe      488bca         mov rcx, rdx
+    │      ││   0x1418dbac1      498b4148       mov rax, qword [r9 + 0x48]
+    │      ││   0x1418dbac5      48c1e106       shl rcx, 6
+    │      ││   0x1418dbac9      0f100408       movups xmm0, xmmword [rax + rcx]
+    │      ││   0x1418dbacd      0f104c0810     movups xmm1, xmmword [rax + rcx + 0x10]
+    │      ││   0x1418dbad2      0f10540820     movups xmm2, xmmword [rax + rcx + 0x20]
+    │      ││   0x1418dbad7      0f105c0830     movups xmm3, xmmword [rax + rcx + 0x30]
+    │      ││   0x1418dbadc      498b4150       mov rax, qword [r9 + 0x50]
+    │      ││   0x1418dbae0      0f110408       movups xmmword [rax + rcx], xmm0
+    │      ││   0x1418dbae4      0f114c0810     movups xmmword [rax + rcx + 0x10], xmm1
+    │      ││   0x1418dbae9      0f11540820     movups xmmword [rax + rcx + 0x20], xmm2
+    │      ││   0x1418dbaee      0f115c0830     movups xmmword [rax + rcx + 0x30], xmm3
+    │      ││   ; CODE XREFS from fcn.1418dba50 @ 0x1418dbab5(x), 0x1418dbab9(x)
+    │      └└─> 0x1418dbaf3      498b4148       mov rax, qword [r9 + 0x48]
+    │           0x1418dbaf7      498bc9         mov rcx, r9
+    │           0x1418dbafa      410f1000       movups xmm0, xmmword [r8]  ; arg3
+    │           0x1418dbafe      410f104810     movups xmm1, xmmword [r8 + 0x10] ; arg3
+    │           0x1418dbb03      410f105020     movups xmm2, xmmword [r8 + 0x20] ; arg3
+    │           0x1418dbb08      410f105830     movups xmm3, xmmword [r8 + 0x30] ; arg3
+    │           0x1418dbb0d      48c1e206       shl rdx, 6
+    │           0x1418dbb11      0f110402       movups xmmword [rdx + rax], xmm0
+    │           0x1418dbb15      0f114c0210     movups xmmword [rdx + rax + 0x10], xmm1
+    │           0x1418dbb1a      0f11540220     movups xmmword [rdx + rax + 0x20], xmm2
+    │           0x1418dbb1f      0f115c0230     movups xmmword [rdx + rax + 0x30], xmm3
+    │           0x1418dbb24      418bd3         mov edx, r11d
+    └       ┌─< 0x1418dbb27      e984150000     jmp fcn.1418dd0b0

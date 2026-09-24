@@ -1,8 +1,322 @@
-HMD yaw (z axis):
+HMD quaternion w axis:
+    NMS.exe+6DFECC8
+HMD quaternion x axis:
+    NMS.exe+6DFECD0
+HMD quaternion y axis:
+    NMS.exe+6DFECD8
+HMD quaternion z axis:
     NMS.exe+6DFECE0
 
-HMD roll (x axis):
-    NMS.exe+6DFECD0
+HMD access region:
+    NMS.exe+2C35943
+HMD HUD hook address:
+    NMS.exe+2C356C0
+    
+HUD transformation code (P1):
+    NMS.exe+AB1A20 - 48 8B C4              - mov rax,rsp
+    NMS.exe+AB1A23 - 48 81 EC E8000000     - sub rsp,000000E8 { 232 }
+    NMS.exe+AB1A2A - 8B 51 14              - mov edx,[rcx+14]
+    NMS.exe+AB1A2D - 8B 49 10              - mov ecx,[rcx+10]
+    NMS.exe+AB1A30 - 0F29 70 E8            - movaps [rax-18],xmm6
+    NMS.exe+AB1A34 - 0F29 78 D8            - movaps [rax-28],xmm7
+    NMS.exe+AB1A38 - 44 0F29 40 C8         - movaps [rax-38],xmm8
+    NMS.exe+AB1A3D - 44 0F29 48 B8         - movaps [rax-48],xmm9
+    NMS.exe+AB1A42 - 44 0F29 50 A8         - movaps [rax-58],xmm10
+    NMS.exe+AB1A47 - 44 0F29 58 98         - movaps [rax-68],xmm11
+    NMS.exe+AB1A4C - 44 0F29 60 88         - movaps [rax-78],xmm12
+    NMS.exe+AB1A51 - 44 0F29 6C 24 60      - movaps [rsp+60],xmm13
+    NMS.exe+AB1A57 - 44 0F28 E9            - movaps xmm13,xmm1
+    NMS.exe+AB1A5B - F7 C2 0000F8FF        - test edx,FFF80000
+    NMS.exe+AB1A61 - 76 4E                 - jna NMS.exe+AB1AB1
+    NMS.exe+AB1A63 - 8B C2                 - mov eax,edx
+    NMS.exe+AB1A65 - 25 FFFF0700           - and eax,0007FFFF { (0) }
+    NMS.exe+AB1A6A - 3D FFFF0700           - cmp eax,0007FFFF { (0) }
+    NMS.exe+AB1A6F - 74 40                 - je NMS.exe+AB1AB1
+    NMS.exe+AB1A71 - 48 8B 05 48903C06     - mov rax,[NMS.exe+6E7AAC0] { (146E7C520) }
+    NMS.exe+AB1A78 - 48 85 C0              - test rax,rax
+    NMS.exe+AB1A7B - 75 18                 - jne NMS.exe+AB1A95
+    NMS.exe+AB1A7D - 0F10 05 8C85F503      - movups xmm0,[NMS.exe+4A0A010] { (14795246166656155648.00) }
+    NMS.exe+AB1A84 - 66 49 0F7E C0         - movq r8,xmm0
+    NMS.exe+AB1A89 - 66 0F73 D8  08        - psrldq xmm0,08 { 8 }
+    NMS.exe+AB1A8E - 66 48 0F7E C0         - movq rax,xmm0
+    NMS.exe+AB1A93 - EB 08                 - jmp NMS.exe+AB1A9D
+    NMS.exe+AB1A95 - 4C 8B 40 08           - mov r8,[rax+08]
+    NMS.exe+AB1A99 - 48 8B 40 10           - mov rax,[rax+10]
+    NMS.exe+AB1A9D - 48 3B 05 8CD2F503     - cmp rax,[NMS.exe+4A0ED30] { (0) }
+    NMS.exe+AB1AA4 - 75 09                 - jne NMS.exe+AB1AAF
+    NMS.exe+AB1AA6 - 4C 3B 05 7BD2F503     - cmp r8,[NMS.exe+4A0ED28] { ("APPVIEW") }
+    NMS.exe+AB1AAD - 74 02                 - je NMS.exe+AB1AB1
+    NMS.exe+AB1AAF - 8B CA                 - mov ecx,edx
+    NMS.exe+AB1AB1 - 66 44 0F6F 15 660A0704  - movdqa xmm10,[NMS.exe+4B22520] { (1.00) }
+    NMS.exe+AB1ABA - 0F28 CB               - movaps xmm1,xmm3
+    NMS.exe+AB1ABD - 66 44 0F6F 0D 7A0B0704  - movdqa xmm9,[NMS.exe+4B22640] { (0.01) }
+    NMS.exe+AB1AC6 - 44 0F28 E2            - movaps xmm12,xmm2
+    NMS.exe+AB1ACA - 66 44 0F6F 1D AD100704  - movdqa xmm11,[NMS.exe+4B22B80] { (0) }
+    NMS.exe+AB1AD3 - 0F57 F6               - xorps xmm6,xmm6
+    NMS.exe+AB1AD6 - F3 0F10 05 9A7F0604   - movss xmm0,[NMS.exe+4B19A78] { (1.00) }
+    NMS.exe+AB1ADE - 0F57 E4               - xorps xmm4,xmm4
+    NMS.exe+AB1AE1 - 0F14 C8               - unpcklps xmm1,xmm0
+    NMS.exe+AB1AE4 - 45 0F28 C2            - movaps xmm8,xmm10
+    NMS.exe+AB1AE8 - 0F57 C0               - xorps xmm0,xmm0
+    NMS.exe+AB1AEB - 0F14 E1               - unpcklps xmm4,xmm1
+    NMS.exe+AB1AEE - 0F14 F3               - unpcklps xmm6,xmm3
+    NMS.exe+AB1AF1 - 41 0F28 CA            - movaps xmm1,xmm10
+    NMS.exe+AB1AF5 - 0F14 35 24B80604      - unpcklps xmm6,[NMS.exe+4B1D320] { (0.00) }
+    NMS.exe+AB1AFC - 41 0F28 F9            - movaps xmm7,xmm9
+    NMS.exe+AB1B00 - 0F14 D8               - unpcklps xmm3,xmm0
+    NMS.exe+AB1B03 - 41 0F28 EB            - movaps xmm5,xmm11
+    NMS.exe+AB1B07 - 0F14 1D 12B80604      - unpcklps xmm3,[NMS.exe+4B1D320] { (0.00) }
+    NMS.exe+AB1B0E - 41 0F28 C2            - movaps xmm0,xmm10
+    NMS.exe+AB1B12 - 41 0FC6 C2 00         - shufps xmm0,xmm10,00 { 0 }
+    NMS.exe+AB1B17 - 0F59 C3               - mulps xmm0,xmm3
+    NMS.exe+AB1B1A - 41 0FC6 CA 55         - shufps xmm1,xmm10,55 { 85 }
+    NMS.exe+AB1B1F - 0F59 CC               - mulps xmm1,xmm4
+    NMS.exe+AB1B22 - 45 0FC6 E4 00         - shufps xmm12,xmm12,00 { 0 }
+    NMS.exe+AB1B27 - 44 0F59 25 A1796406   - mulps xmm12,[NMS.exe+70F94D0] { (1.00) }
+    NMS.exe+AB1B2F - 0F58 C8               - addps xmm1,xmm0
+    NMS.exe+AB1B32 - 45 0FC6 C2 AA         - shufps xmm8,xmm10,-56 { 170 }
+    NMS.exe+AB1B37 - 41 0FC6 F9 AA         - shufps xmm7,xmm9,-56 { 170 }
+    NMS.exe+AB1B3C - 41 0F28 C1            - movaps xmm0,xmm9
+    NMS.exe+AB1B40 - 41 0FC6 C1 00         - shufps xmm0,xmm9,00 { 0 }
+    NMS.exe+AB1B45 - 0F59 C3               - mulps xmm0,xmm3
+    NMS.exe+AB1B48 - 44 0F59 C6            - mulps xmm8,xmm6
+    NMS.exe+AB1B4C - 41 0FC6 EB AA         - shufps xmm5,xmm11,-56 { 170 }
+    NMS.exe+AB1B51 - 0F59 FE               - mulps xmm7,xmm6
+    NMS.exe+AB1B54 - 44 0F58 C1            - addps xmm8,xmm1
+    NMS.exe+AB1B58 - 0F59 EE               - mulps xmm5,xmm6
+    NMS.exe+AB1B5B - 41 0F28 C9            - movaps xmm1,xmm9
+    NMS.exe+AB1B5F - 41 0FC6 C9 55         - shufps xmm1,xmm9,55 { 85 }
+    NMS.exe+AB1B64 - 0F59 CC               - mulps xmm1,xmm4
+    NMS.exe+AB1B67 - 0F58 C8               - addps xmm1,xmm0
+    NMS.exe+AB1B6A - 41 0F28 C3            - movaps xmm0,xmm11
+    NMS.exe+AB1B6E - 41 0FC6 C3 00         - shufps xmm0,xmm11,00 { 0 }
+    NMS.exe+AB1B73 - 0F59 C3               - mulps xmm0,xmm3
+    NMS.exe+AB1B76 - 0F58 F9               - addps xmm7,xmm1
+    NMS.exe+AB1B79 - 41 0F28 CB            - movaps xmm1,xmm11
+    NMS.exe+AB1B7D - 41 0FC6 CB 55         - shufps xmm1,xmm11,55 { 85 }
+    NMS.exe+AB1B82 - 0F59 CC               - mulps xmm1,xmm4
+    NMS.exe+AB1B85 - 0F28 D7               - movaps xmm2,xmm7
+    NMS.exe+AB1B88 - 0FC6 D7 55            - shufps xmm2,xmm7,55 { 85 }
+    NMS.exe+AB1B8C - 0F58 C8               - addps xmm1,xmm0
+    NMS.exe+AB1B8F - 41 0F59 D1            - mulps xmm2,xmm9
+    NMS.exe+AB1B93 - 41 0F28 C4            - movaps xmm0,xmm12
+    NMS.exe+AB1B97 - 41 0FC6 C4 00         - shufps xmm0,xmm12,00 { 0 }
+    NMS.exe+AB1B9C - 0F59 C3               - mulps xmm0,xmm3
+    NMS.exe+AB1B9F - 41 0F28 D8            - movaps xmm3,xmm8
+    NMS.exe+AB1BA3 - 0F58 E9               - addps xmm5,xmm1
+    NMS.exe+AB1BA6 - 41 0FC6 D8 55         - shufps xmm3,xmm8,55 { 85 }
+    NMS.exe+AB1BAB - 41 0F28 CC            - movaps xmm1,xmm12
+    NMS.exe+AB1BAF - 41 0F59 D9            - mulps xmm3,xmm9
+    NMS.exe+AB1BB3 - 41 0FC6 CC 55         - shufps xmm1,xmm12,55 { 85 }
+    NMS.exe+AB1BB8 - 0F59 CC               - mulps xmm1,xmm4
+    NMS.exe+AB1BBB - 45 0FC6 E4 AA         - shufps xmm12,xmm12,-56 { 170 }
+    NMS.exe+AB1BC0 - 44 0F59 E6            - mulps xmm12,xmm6
+    NMS.exe+AB1BC4 - 0F58 C8               - addps xmm1,xmm0
+    NMS.exe+AB1BC7 - 41 0F28 C0            - movaps xmm0,xmm8
+    NMS.exe+AB1BCB - 41 0FC6 C0 00         - shufps xmm0,xmm8,00 { 0 }
+    NMS.exe+AB1BD0 - 41 0F59 C2            - mulps xmm0,xmm10
+    NMS.exe+AB1BD4 - 44 0F58 E1            - addps xmm12,xmm1
+    NMS.exe+AB1BD8 - 0F28 CD               - movaps xmm1,xmm5
+    NMS.exe+AB1BDB - 0FC6 CD 55            - shufps xmm1,xmm5,55 { 85 }
+    NMS.exe+AB1BDF - 0F58 D8               - addps xmm3,xmm0
+    NMS.exe+AB1BE2 - 41 0F59 C9            - mulps xmm1,xmm9
+    NMS.exe+AB1BE6 - 0F28 C7               - movaps xmm0,xmm7
+    NMS.exe+AB1BE9 - 44 0F58 25 9F746406   - addps xmm12,[NMS.exe+70F9090] { (0.00) }
+    NMS.exe+AB1BF1 - 0FC6 C7 00            - shufps xmm0,xmm7,00 { 0 }
+    NMS.exe+AB1BF5 - 41 0F59 C2            - mulps xmm0,xmm10
+    NMS.exe+AB1BF9 - 0F58 D0               - addps xmm2,xmm0
+    NMS.exe+AB1BFC - 0F28 C5               - movaps xmm0,xmm5
+    NMS.exe+AB1BFF - 0FC6 C5 00            - shufps xmm0,xmm5,00 { 0 }
+    NMS.exe+AB1C03 - 41 0F59 C2            - mulps xmm0,xmm10
+    NMS.exe+AB1C07 - 0F58 C8               - addps xmm1,xmm0
+    NMS.exe+AB1C0A - 0FC6 ED AA            - shufps xmm5,xmm5,-56 { 170 }
+    NMS.exe+AB1C0E - 41 0F28 C4            - movaps xmm0,xmm12
+    NMS.exe+AB1C12 - 45 0FC6 C0 AA         - shufps xmm8,xmm8,-56 { 170 }
+    NMS.exe+AB1C17 - 41 0FC6 C4 00         - shufps xmm0,xmm12,00 { 0 }
+    NMS.exe+AB1C1C - 8B C1                 - mov eax,ecx
+    NMS.exe+AB1C1E - 41 0F59 C2            - mulps xmm0,xmm10
+    NMS.exe+AB1C22 - 25 FFFF0700           - and eax,0007FFFF { (0) }
+    NMS.exe+AB1C27 - 0FC6 FF AA            - shufps xmm7,xmm7,-56 { 170 }
+    NMS.exe+AB1C2B - 41 0F59 EB            - mulps xmm5,xmm11
+    NMS.exe+AB1C2F - 45 0F59 C3            - mulps xmm8,xmm11
+    NMS.exe+AB1C33 - 41 0F59 FB            - mulps xmm7,xmm11
+    NMS.exe+AB1C37 - 0F58 E9               - addps xmm5,xmm1
+    NMS.exe+AB1C3A - 41 0F28 CC            - movaps xmm1,xmm12
+    NMS.exe+AB1C3E - 41 0FC6 CC 55         - shufps xmm1,xmm12,55 { 85 }
+    NMS.exe+AB1C43 - 44 0F58 C3            - addps xmm8,xmm3
+    NMS.exe+AB1C47 - 41 0F59 C9            - mulps xmm1,xmm9
+    NMS.exe+AB1C4B - 45 0FC6 E4 AA         - shufps xmm12,xmm12,-56 { 170 }
+    NMS.exe+AB1C50 - 0F58 FA               - addps xmm7,xmm2
+    NMS.exe+AB1C53 - 45 0F59 E3            - mulps xmm12,xmm11
+    // Start of matrix creation
+    NMS.exe+AB1C57 - 44 0F29 44 24 20      - movaps [rsp+20],xmm8
+    NMS.exe+AB1C5D - 0F58 C8               - addps xmm1,xmm0
+    NMS.exe+AB1C60 - 0F29 6C 24 40         - movaps [rsp+40],xmm5
+    NMS.exe+AB1C65 - 41 0F28 C5            - movaps xmm0,xmm13
+    NMS.exe+AB1C69 - 0FC6 C0 00            - shufps xmm0,xmm0,00 { 0 }
+    NMS.exe+AB1C6D - 0F59 05 CC706406      - mulps xmm0,[NMS.exe+70F8D40] { (0.00) }
+    NMS.exe+AB1C74 - 0F29 7C 24 30         - movaps [rsp+30],xmm7
+    NMS.exe+AB1C79 - 41 0F58 CC            - addps xmm1,xmm12
+    NMS.exe+AB1C7D - 0F58 C8               - addps xmm1,xmm0
+    NMS.exe+AB1C80 - 0F29 4C 24 50         - movaps [rsp+50],xmm1
+    NMS.exe+AB1C85 - F7 C1 0000F8FF        - test ecx,FFF80000
+    NMS.exe+AB1C8B - 76 15                 - jna NMS.exe+AB1CA2
+    NMS.exe+AB1C8D - 3D FFFF0700           - cmp eax,0007FFFF { (0) }
+    NMS.exe+AB1C92 - 74 0E                 - je NMS.exe+AB1CA2
+    NMS.exe+AB1C94 - 85 C0                 - test eax,eax
+    NMS.exe+AB1C96 - 74 0A                 - je NMS.exe+AB1CA2
+    NMS.exe+AB1C98 - 48 8D 54 24 20        - lea rdx,[rsp+20]
+    NMS.exe+AB1C9D - E8 5E68D800           - call NMS.exe+1838500
 
-HMD pitch (z axis):
-    NMS.exe+6DFECD8
+    NMS.exe+AB1CA2 - 44 0F28 6C 24 60      - movaps xmm13,[rsp+60]
+    NMS.exe+AB1CA8 - 4C 8D 9C 24 E8000000  - lea r11,[rsp+000000E8]
+    NMS.exe+AB1CB0 - 41 0F28 73 E8         - movaps xmm6,[r11-18]
+    NMS.exe+AB1CB5 - 41 0F28 7B D8         - movaps xmm7,[r11-28]
+    NMS.exe+AB1CBA - 45 0F28 43 C8         - movaps xmm8,[r11-38]
+    NMS.exe+AB1CBF - 45 0F28 4B B8         - movaps xmm9,[r11-48]
+    NMS.exe+AB1CC4 - 45 0F28 53 A8         - movaps xmm10,[r11-58]
+    NMS.exe+AB1CC9 - 45 0F28 5B 98         - movaps xmm11,[r11-68]
+    NMS.exe+AB1CCE - 45 0F28 63 88         - movaps xmm12,[r11-78]
+    NMS.exe+AB1CD3 - 49 8B E3              - mov rsp,r11
+    NMS.exe+AB1CD6 - C3                    - ret
+    NMS.exe+AB1CD7 - CC                    - int 3
+    NMS.exe+AB1CD8 - CC                    - int 3
+    NMS.exe+AB1CD9 - CC                    - int 3
+    NMS.exe+AB1CDA - CC                    - int 3
+    NMS.exe+AB1CDB - CC                    - int 3
+    NMS.exe+AB1CDC - CC                    - int 3
+    NMS.exe+AB1CDD - CC                    - int 3
+    NMS.exe+AB1CDE - CC                    - int 3
+    NMS.exe+AB1CDF - CC                    - int 3
+    NMS.exe+AB1CE0 - 40 53                 - push rbx
+    NMS.exe+AB1CE2 - 48 83 EC 20           - sub rsp,20 { 32 }
+    NMS.exe+AB1CE6 - 44 8B 41 14           - mov r8d,[rcx+14]
+    NMS.exe+AB1CEA - 48 8B DA              - mov rbx,rdx
+    NMS.exe+AB1CED - 8B 51 10              - mov edx,[rcx+10]
+    NMS.exe+AB1CF0 - 41 F7 C0 0000F8FF     - test r8d,FFF80000
+    NMS.exe+AB1CF7 - 76 50                 - jna NMS.exe+AB1D49
+    NMS.exe+AB1CF9 - 41 8B C0              - mov eax,r8d
+    NMS.exe+AB1CFC - 25 FFFF0700           - and eax,0007FFFF { (0) }
+    NMS.exe+AB1D01 - 3D FFFF0700           - cmp eax,0007FFFF { (0) }
+    NMS.exe+AB1D06 - 74 41                 - je NMS.exe+AB1D49
+    NMS.exe+AB1D08 - 48 8B 05 B18D3C06     - mov rax,[NMS.exe+6E7AAC0] { (146E7C520) }
+    NMS.exe+AB1D0F - 48 85 C0              - test rax,rax
+    NMS.exe+AB1D12 - 75 18                 - jne NMS.exe+AB1D2C
+    NMS.exe+AB1D14 - 0F10 05 F582F503      - movups xmm0,[NMS.exe+4A0A010] { (14795246166656155648.00) }
+    NMS.exe+AB1D1B - 66 48 0F7E C1         - movq rcx,xmm0
+    NMS.exe+AB1D20 - 66 0F73 D8  08        - psrldq xmm0,08 { 8 }
+    NMS.exe+AB1D25 - 66 48 0F7E C0         - movq rax,xmm0
+    NMS.exe+AB1D2A - EB 08                 - jmp NMS.exe+AB1D34
+    NMS.exe+AB1D2C - 48 8B 48 08           - mov rcx,[rax+08]
+    NMS.exe+AB1D30 - 48 8B 40 10           - mov rax,[rax+10]
+    NMS.exe+AB1D34 - 48 3B 05 F5CFF503     - cmp rax,[NMS.exe+4A0ED30] { (0) }
+    NMS.exe+AB1D3B - 75 09                 - jne NMS.exe+AB1D46
+    NMS.exe+AB1D3D - 48 3B 0D E4CFF503     - cmp rcx,[NMS.exe+4A0ED28] { ("APPVIEW") }
+    NMS.exe+AB1D44 - 74 03                 - je NMS.exe+AB1D49
+    NMS.exe+AB1D46 - 41 8B D0              - mov edx,r8d
+
+HUD transform manipulation code (P2):
+    NMS.exe+1838500 - 44 8B C9              - mov r9d,ecx
+    NMS.exe+1838503 - 4C 8B D2              - mov r10,rdx
+    NMS.exe+1838506 - 41 C1 E9 13           - shr r9d,13 { 19 }
+    NMS.exe+183850A - 45 85 C9              - test r9d,r9d
+    NMS.exe+183850D - 74 5A                 - je NMS.exe+1838569
+    NMS.exe+183850F - 44 8B C1              - mov r8d,ecx
+    NMS.exe+1838512 - 41 81 E0 FFFF0700     - and r8d,0007FFFF { (0) }
+    NMS.exe+1838519 - 41 81 F8 FFFF0700     - cmp r8d,0007FFFF { (0) }
+    NMS.exe+1838520 - 74 47                 - je NMS.exe+1838569
+    NMS.exe+1838522 - 48 8B 15 6F4B5D05     - mov rdx,[NMS.exe+6E0D098] { (02F80000) }
+    NMS.exe+1838529 - 81 E1 FFFF0700        - and ecx,0007FFFF { (0) }
+    NMS.exe+183852F - 48 8B 82 E8000000     - mov rax,[rdx+000000E8]
+    NMS.exe+1838536 - 48 63 0C 88           - movsxd  rcx,dword ptr [rax+rcx*4]
+    NMS.exe+183853A - 48 8B 82 90000000     - mov rax,[rdx+00000090]
+    NMS.exe+1838541 - 48 8B 0C C8           - mov rcx,[rax+rcx*8]
+    NMS.exe+1838545 - 48 85 C9              - test rcx,rcx
+    NMS.exe+1838548 - 74 1F                 - je NMS.exe+1838569
+    NMS.exe+183854A - 8B 51 08              - mov edx,[rcx+08]
+    NMS.exe+183854D - 8B C2                 - mov eax,edx
+    NMS.exe+183854F - 25 FFFF0700           - and eax,0007FFFF { (0) }
+    NMS.exe+1838554 - 41 3B C0              - cmp eax,r8d
+    NMS.exe+1838557 - 75 10                 - jne NMS.exe+1838569
+    NMS.exe+1838559 - C1 EA 13              - shr edx,13 { 19 }
+    NMS.exe+183855C - 41 3B D1              - cmp edx,r9d
+    NMS.exe+183855F - 75 08                 - jne NMS.exe+1838569
+    NMS.exe+1838561 - 49 8B D2              - mov rdx,r10
+    NMS.exe+1838564 - E9 678D0900           - jmp NMS.exe+18D12D0
+    NMS.exe+1838569 - C3                    - ret 
+    NMS.exe+183856A - CC                    - int 3 
+    NMS.exe+183856B - CC                    - int 3 
+    NMS.exe+183856C - CC                    - int 3 
+    NMS.exe+183856D - CC                    - int 3 
+    NMS.exe+183856E - CC                    - int 3 
+    NMS.exe+183856F - CC                    - int 3 
+    NMS.exe+1838570 - 44 8B C1              - mov r8d,ecx
+    NMS.exe+1838573 - 41 C1 E8 13           - shr r8d,13 { 19 }
+    NMS.exe+1838577 - 45 85 C0              - test r8d,r8d
+    NMS.exe+183857A - 74 57                 - je NMS.exe+18385D3
+    NMS.exe+183857C - 44 8B C9              - mov r9d,ecx
+    NMS.exe+183857F - 41 81 E1 FFFF0700     - and r9d,0007FFFF { (0) }
+    NMS.exe+1838586 - 41 81 F9 FFFF0700     - cmp r9d,0007FFFF { (0) }
+    NMS.exe+183858D - 74 44                 - je NMS.exe+18385D3
+    NMS.exe+183858F - 48 8B 15 024B5D05     - mov rdx,[NMS.exe+6E0D098] { (02F80000) }
+    NMS.exe+1838596 - 81 E1 FFFF0700        - and ecx,0007FFFF { (0) }
+    NMS.exe+183859C - 48 8B 82 E8000000     - mov rax,[rdx+000000E8]
+    NMS.exe+18385A3 - 48 63 0C 88           - movsxd  rcx,dword ptr [rax+rcx*4]
+    NMS.exe+18385A7 - 48 8B 82 90000000     - mov rax,[rdx+00000090]
+    NMS.exe+18385AE - 48 8B 04 C8           - mov rax,[rax+rcx*8]
+    NMS.exe+18385B2 - 48 85 C0              - test rax,rax
+    NMS.exe+18385B5 - 74 1C                 - je NMS.exe+18385D3
+    NMS.exe+18385B7 - 8B 50 08              - mov edx,[rax+08]
+    NMS.exe+18385BA - 8B CA                 - mov ecx,edx
+    NMS.exe+18385BC - 81 E1 FFFF0700        - and ecx,0007FFFF { (0) }
+    NMS.exe+18385C2 - 41 3B C9              - cmp ecx,r9d
+    NMS.exe+18385C5 - 75 0C                 - jne NMS.exe+18385D3
+    NMS.exe+18385C7 - C1 EA 13              - shr edx,13 { 19 }
+    NMS.exe+18385CA - 41 3B D0              - cmp edx,r8d
+    NMS.exe+18385CD - 75 04                 - jne NMS.exe+18385D3
+    NMS.exe+18385CF - 8B 40 18              - mov eax,[rax+18]
+    NMS.exe+18385D2 - C3                    - ret 
+    NMS.exe+18385D3 - 33 C0                 - xor eax,eax
+    NMS.exe+18385D5 - C3                    - ret 
+    NMS.exe+18385D6 - CC                    - int 3 
+    NMS.exe+18385D7 - CC                    - int 3 
+    NMS.exe+18385D8 - CC                    - int 3 
+    NMS.exe+18385D9 - CC                    - int 3 
+    NMS.exe+18385DA - CC                    - int 3 
+    NMS.exe+18385DB - CC                    - int 3 
+    NMS.exe+18385DC - CC                    - int 3 
+    NMS.exe+18385DD - CC                    - int 3 
+    NMS.exe+18385DE - CC                    - int 3 
+    NMS.exe+18385DF - CC                    - int 3 
+    NMS.exe+18385E0 - 40 57                 - push rdi
+    NMS.exe+18385E2 - 48 83 EC 20           - sub rsp,20 { 32 }
+    NMS.exe+18385E6 - 44 8B C9              - mov r9d,ecx
+    NMS.exe+18385E9 - 8B FA                 - mov edi,edx
+    NMS.exe+18385EB - 41 C1 E9 13           - shr r9d,13 { 19 }
+    NMS.exe+18385EF - 45 85 C9              - test r9d,r9d
+    NMS.exe+18385F2 - 74 75                 - je NMS.exe+1838669
+    NMS.exe+18385F4 - 44 8B C1              - mov r8d,ecx
+    NMS.exe+18385F7 - 41 81 E0 FFFF0700     - and r8d,0007FFFF { (0) }
+    NMS.exe+18385FE - 41 81 F8 FFFF0700     - cmp r8d,0007FFFF { (0) }
+    NMS.exe+1838605 - 74 62                 - je NMS.exe+1838669
+    NMS.exe+1838607 - 4C 8B 15 8A4A5D05     - mov r10,[NMS.exe+6E0D098] { (02F80000) }
+    NMS.exe+183860E - 81 E1 FFFF0700        - and ecx,0007FFFF { (0) }
+    NMS.exe+1838614 - 48 89 5C 24 30        - mov [rsp+30],rbx
+    NMS.exe+1838619 - 49 8B 82 E8000000     - mov rax,[r10+000000E8]
+    NMS.exe+1838620 - 48 63 0C 88           - movsxd  rcx,dword ptr [rax+rcx*4]
+    NMS.exe+1838624 - 49 8B 82 90000000     - mov rax,[r10+00000090]
+    NMS.exe+183862B - 48 8B 1C C8           - mov rbx,[rax+rcx*8]
+    NMS.exe+183862F - 48 85 DB              - test rbx,rbx
+    NMS.exe+1838632 - 74 30                 - je NMS.exe+1838664
+    NMS.exe+1838634 - 8B 53 08              - mov edx,[rbx+08]
+    NMS.exe+1838637 - 8B C2                 - mov eax,edx
+    NMS.exe+1838639 - 25 FFFF0700           - and eax,0007FFFF { (0) }
+    NMS.exe+183863E - 41 3B C0              - cmp eax,r8d
+    NMS.exe+1838641 - 75 21                 - jne NMS.exe+1838664
+    NMS.exe+1838643 - 8B C2                 - mov eax,edx
+    NMS.exe+1838645 - C1 E8 13              - shr eax,13 { 19 }
+    NMS.exe+1838648 - 41 3B C1              - cmp eax,r9d
+    NMS.exe+183864B - 75 17                 - jne NMS.exe+1838664
+    NMS.exe+183864D - 44 8B 43 18           - mov r8d,[rbx+18]
+    NMS.exe+1838651 - 41 3B F8              - cmp edi,r8d
+    NMS.exe+1838654 - 74 0E                 - je NMS.exe+1838664
