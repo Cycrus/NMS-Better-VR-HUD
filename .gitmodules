@@ -1,0 +1,15 @@
+[submodule "third_party/minhook"]
+	path = third_party/minhook
+	url = https://github.com/TsudaKageyu/minhook.git
+[submodule "CameraTransformLogger/minhook"]
+	path = CameraTransformLogger/minhook
+	url = https://github.com/TsudaKageyu/minhook.git
+[submodule "HudContinuousTransform/minhook"]
+	path = HudContinuousTransform/minhook
+	url = https://github.com/TsudaKageyu/minhook.git
+[submodule "HudProber/minhook"]
+	path = HudProber/minhook
+	url = https://github.com/TsudaKageyu/minhook.git
+[submodule "HudTransformTest/minhook"]
+	path = HudTransformTest/minhook
+	url = https://github.com/TsudaKageyu/minhook.git
