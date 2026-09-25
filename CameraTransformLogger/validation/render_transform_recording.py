@@ -53,8 +53,34 @@ def normalize(vector: np.ndarray) -> np.ndarray:
 
 
 def axis_line(origin: np.ndarray, vector: np.ndarray, scale: float) -> tuple[list[float], list[float], list[float]]:
-    end = origin + normalize(vector) * scale
+    end = axis_endpoint(origin, vector, scale)
     return [origin[0], end[0]], [origin[1], end[1]], [origin[2], end[2]]
+
+
+def axis_endpoint(origin: np.ndarray, vector: np.ndarray, scale: float) -> np.ndarray:
+    return origin + normalize(vector) * scale
+
+
+def arrowhead_lines(origin: np.ndarray, vector: np.ndarray, scale: float) -> tuple[list[float | None], list[float | None], list[float | None]]:
+    direction = normalize(vector)
+    if np.linalg.norm(direction) <= 1e-8:
+        return [], [], []
+
+    reference = np.array([0.0, 1.0, 0.0])
+    if abs(float(np.dot(direction, reference))) > 0.9:
+        reference = np.array([1.0, 0.0, 0.0])
+
+    side = normalize(np.cross(direction, reference)) * scale * 18.0
+    end = axis_endpoint(origin, vector, scale)
+    back = end - direction * scale * 25.0
+    wing_a = back + side
+    wing_b = back - side
+
+    return (
+        [end[0], wing_a[0], None, end[0], wing_b[0]],
+        [end[1], wing_a[1], None, end[1], wing_b[1]],
+        [end[2], wing_a[2], None, end[2], wing_b[2]],
+    )
 
 
 def path_trace(group: pd.DataFrame, label: str) -> go.Scatter3d:
@@ -93,6 +119,19 @@ def axis_trace(origin: np.ndarray, vector: np.ndarray, scale: float, name: str, 
     )
 
 
+def axis_arrowhead_trace(origin: np.ndarray, vector: np.ndarray, scale: float, name: str, color: str) -> go.Scatter3d:
+    x, y, z = arrowhead_lines(origin, vector, scale)
+    return go.Scatter3d(
+        x=x,
+        y=y,
+        z=z,
+        mode="lines",
+        line={"color": color, "width": 6},
+        name=name,
+        showlegend=False,
+    )
+
+
 def frame_axis_trace(origin: np.ndarray, vector: np.ndarray, scale: float, color: str) -> go.Scatter3d:
     x, y, z = axis_line(origin, vector, scale)
     return go.Scatter3d(
@@ -101,6 +140,18 @@ def frame_axis_trace(origin: np.ndarray, vector: np.ndarray, scale: float, color
         z=z,
         mode="lines",
         line={"color": color, "width": 8},
+        showlegend=False,
+    )
+
+
+def frame_axis_arrowhead_trace(origin: np.ndarray, vector: np.ndarray, scale: float, color: str) -> go.Scatter3d:
+    x, y, z = arrowhead_lines(origin, vector, scale)
+    return go.Scatter3d(
+        x=x,
+        y=y,
+        z=z,
+        mode="lines",
+        line={"color": color, "width": 6},
         showlegend=False,
     )
 
@@ -141,8 +192,11 @@ def render_recording(
             [
                 marker_trace(origin, label),
                 axis_trace(origin, right, axis_scale, f"{label} right", "red"),
+                axis_arrowhead_trace(origin, right, axis_scale, f"{label} right direction", "red"),
                 axis_trace(origin, up, axis_scale, f"{label} up", "green"),
+                axis_arrowhead_trace(origin, up, axis_scale, f"{label} up direction", "green"),
                 axis_trace(origin, forward, axis_scale, f"{label} forward", "blue"),
+                axis_arrowhead_trace(origin, forward, axis_scale, f"{label} forward direction", "blue"),
             ]
         )
 
@@ -165,8 +219,11 @@ def render_recording(
                         showlegend=False,
                     ),
                     frame_axis_trace(origin, right, axis_scale, "red"),
+                    frame_axis_arrowhead_trace(origin, right, axis_scale, "red"),
                     frame_axis_trace(origin, up, axis_scale, "green"),
+                    frame_axis_arrowhead_trace(origin, up, axis_scale, "green"),
                     frame_axis_trace(origin, forward, axis_scale, "blue"),
+                    frame_axis_arrowhead_trace(origin, forward, axis_scale, "blue"),
                 ]
             )
 
