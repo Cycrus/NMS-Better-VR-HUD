@@ -11,7 +11,38 @@ HMD access region:
     NMS.exe+2C35943
 HMD HUD hook address:
     NMS.exe+2C356C0
-    
+
+Camera Live FOV:
+    NMS.exe+6E7CC78
+
+Potential Camera transform addresses:
+    NMS.exe+6E7CA40
+    NMS.exe+6E7CA58
+    NMS.exe+6E7CA90
+    NMS.exe+6E7CAA4
+
+HMD quaternion origin (w):
+    NMS.exe+6DFECC8
+
+Camera transform matrix origin:
+    NMS.exe+6E7CA40
+
+    x1   : NMS.exe+6E7CA30
+    x2   : NMS.exe+6E7CA34
+    x3   : NMS.exe+6E7CA38
+    0    : NMS.exe+6E7CA3C
+    y1   : NMS.exe+6E7CA40
+    y2   : NMS.exe+6E7CA44
+    y3   : NMS.exe+6E7CA48
+    0    : NMS.exe+6E7CA4C
+    z1   : NMS.exe+6E7CA50
+    z2   : NMS.exe+6E7CA54
+    z3   : NMS.exe+6E7CA58
+    0    : NMS.exe+6E7CA5C
+    xpos : NMS.exe+6E7CA60
+    ypos : NMS.exe+6E7CA64
+    zpos : NMS.exe+6E7CA68
+
 HUD transformation code (P1):
     NMS.exe+AB1A20 - 48 8B C4              - mov rax,rsp
     NMS.exe+AB1A23 - 48 81 EC E8000000     - sub rsp,000000E8 { 232 }

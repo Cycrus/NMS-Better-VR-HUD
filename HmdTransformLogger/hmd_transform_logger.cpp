@@ -9,9 +9,10 @@ static HANDLE g_stopEvent = nullptr;
 static HANDLE g_loggerThread = nullptr;
 static ULONGLONG g_startTick = 0;
 
-static constexpr uintptr_t HMD_ROLL_OFFSET = 0x6DFECD0;
-static constexpr uintptr_t HMD_PITCH_OFFSET = 0x6DFECD8;
-static constexpr uintptr_t HMD_YAW_OFFSET = 0x6DFECE0;
+static constexpr uintptr_t HMD_W_OFFSET = 0x6DFECC8;
+static constexpr uintptr_t HMD_X_OFFSET = 0x6DFECD0;
+static constexpr uintptr_t HMD_Y_OFFSET = 0x6DFECD8;
+static constexpr uintptr_t HMD_Z_OFFSET = 0x6DFECE0;
 
 static bool IsReadableAddress(const void* address)
 {
@@ -58,7 +59,7 @@ static void AppendCsvLine(const char* line)
     LARGE_INTEGER size = {};
     if (GetFileSizeEx(file, &size) && size.QuadPart == 0)
     {
-        const char header[] = "elapsed_ms,yaw,roll,pitch\r\n";
+        const char header[] = "elapsed_ms,w,x,y,z\r\n";
         DWORD written = 0;
         WriteFile(file, header, sizeof(header) - 1, &written, nullptr);
     }
@@ -75,13 +76,15 @@ static DWORD WINAPI LoggerThread(LPVOID)
     while ( WaitForSingleObject(g_stopEvent, 100) == WAIT_TIMEOUT)
     {
         uintptr_t base = reinterpret_cast<uintptr_t>(nms);
-        float yaw = 0.0f;
-        float roll = 0.0f;
-        float pitch = 0.0f;
+        float w = 0.0f;
+        float x = 0.0f;
+        float y = 0.0f;
+        float z = 0.0f;
 
-        if (!ReadFloat(base + HMD_YAW_OFFSET, &yaw) ||
-            !ReadFloat(base + HMD_ROLL_OFFSET, &roll) ||
-            !ReadFloat(base + HMD_PITCH_OFFSET, &pitch))
+        if (!ReadFloat(base + HMD_W_OFFSET, &w) ||
+            !ReadFloat(base + HMD_X_OFFSET, &x) ||
+            !ReadFloat(base + HMD_Y_OFFSET, &y) ||
+            !ReadFloat(base + HMD_Z_OFFSET, &z))
         {
             continue;
         }
@@ -90,11 +93,12 @@ static DWORD WINAPI LoggerThread(LPVOID)
         std::snprintf(
             line,
             sizeof(line),
-            "%llu,%.9g,%.9g,%.9g\r\n",
+            "%llu,%.9g,%.9g,%.9g,%.9g\r\n",
             GetTickCount64() - g_startTick,
-            yaw,
-            roll,
-            pitch
+            w,
+            x,
+            y,
+            z
         );
 
         AppendCsvLine(line);
