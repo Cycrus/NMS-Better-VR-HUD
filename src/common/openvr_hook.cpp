@@ -98,7 +98,7 @@ namespace bvh::openvr
                 return;
 
             void** vtable = *reinterpret_cast<void***>(compositor);
-            Logf("INFO,0,0,0,IVRCompositor=%p vtable=%p\n", compositor, static_cast<void*>(vtable));
+            Logf("IVRCompositor=%p vtable=%p\n", compositor, static_cast<void*>(vtable));
 
             bool ok = hooks::Create(
                 vtable[kWaitGetPosesSlot],
@@ -128,14 +128,14 @@ namespace bvh::openvr
         HMODULE openvr = GetModuleHandleW(L"openvr_api.dll");
         if (!openvr)
         {
-            Logf("INFO,0,0,0,openvr_api.dll not loaded\n");
+            Logf("openvr_api.dll not loaded\n");
             return false;
         }
 
         void* target = reinterpret_cast<void*>(GetProcAddress(openvr, "VR_GetGenericInterface"));
         if (!target)
         {
-            Logf("INFO,0,0,0,VR_GetGenericInterface export not found\n");
+            Logf("VR_GetGenericInterface export not found\n");
             return false;
         }
 

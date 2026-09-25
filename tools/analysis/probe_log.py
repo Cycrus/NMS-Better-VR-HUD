@@ -57,6 +57,9 @@ def load(path):
             if tag == "INFO":
                 info.append(",".join(parts[4:]))
                 continue
+            if tag not in COLUMNS and tag not in ("VU0", "VU1"):
+                info.append(line.rstrip("\n"))   # plain-text messages from the shared code
+                continue
             rows[tag].append(parts[1:])
 
     out = {"INFO": info}

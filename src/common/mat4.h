@@ -97,6 +97,42 @@ namespace bvh::mat4
         return std::sqrt(dx * dx + dy * dy + dz * dz);
     }
 
+    // Frame with the orientation of 'orientation' (row lengths normalised away) at the position of 'position'.
+    inline bool OrientationAt(const float* orientation, const float* position, float* out)
+    {
+        float r[16];
+        for (int row = 0; row < 3; ++row)
+        {
+            const float* axis = orientation + row * 4;
+            float length = std::sqrt(axis[0] * axis[0] + axis[1] * axis[1] + axis[2] * axis[2]);
+            if (!(length > 1e-6f))
+                return false;
+            r[row * 4 + 0] = axis[0] / length;
+            r[row * 4 + 1] = axis[1] / length;
+            r[row * 4 + 2] = axis[2] / length;
+            r[row * 4 + 3] = 0.0f;
+        }
+        r[12] = position[12];
+        r[13] = position[13];
+        r[14] = position[14];
+        r[15] = 1.0f;
+        std::memcpy(out, r, sizeof(r));
+        return true;
+    }
+
+    // True when rows 0-2 have roughly unit length (a valid camera/rotation, not a zeroed matrix).
+    inline bool HasUnitAxes(const float* m, float tolerance)
+    {
+        for (int row = 0; row < 3; ++row)
+        {
+            const float* axis = m + row * 4;
+            float length = std::sqrt(axis[0] * axis[0] + axis[1] * axis[1] + axis[2] * axis[2]);
+            if (std::fabs(length - 1.0f) > tolerance)
+                return false;
+        }
+        return true;
+    }
+
     // True when the 3x3 part is the identity (within tolerance).
     inline bool IsPureTranslation(const float* m, float tolerance)
     {

@@ -57,9 +57,8 @@ namespace bvh::nms
         constexpr const char* kCameraCaptureSig = "41 0F 10 87 B0 05 00 00 48 81 C1 90 C6 71 00 0F 29 05";
         constexpr RipOperand kCameraCopyStore = { 0x0F, "0F 29 05", 3, 7 };
 
-        // No code reference found yet; only valid for the build above.
-        constexpr uintptr_t kCameraMatrixRva = 0x6E7CA30;
-        constexpr uint32_t kCameraMatrixBuild = 0x6AB0FFC9;
+        // Camera world matrix inside the view object (matched the Cheat Engine address 0x6E7CA30 on every frame).
+        constexpr size_t kViewCameraMatrix = 0x510;
 
         // SceneManager layout (from the node setter at ApplyMatrix's jump target and its callees).
         constexpr size_t kLocalMatrices = 0x48;   // float[16] per slot, current frame
@@ -85,7 +84,7 @@ namespace bvh::nms
             if (!BytesMatch(instruction, operand.opcode))
             {
                 if (verbose)
-                    Logf("INFO,0,0,0,operand %s: unexpected bytes at %p\n", name, reinterpret_cast<void*>(instruction));
+                    Logf("operand %s: unexpected bytes at %p\n", name, reinterpret_cast<void*>(instruction));
                 return false;
             }
             out = ResolveRipTarget(instruction, operand.dispOffset, operand.length);
@@ -97,7 +96,7 @@ namespace bvh::nms
             int count = 0;
             uintptr_t address = FindPattern(signature, &count);
             if (!address && verbose)
-                Logf("INFO,0,0,0,signature %s: %d matches (need exactly 1)\n", name, count);
+                Logf("signature %s: %d matches (need exactly 1)\n", name, count);
             return address;
         }
 
@@ -114,27 +113,25 @@ namespace bvh::nms
         }
     }
 
-    bool Resolve(Addresses& out, bool verbose)
+    bool ResolveCore(Addresses& out, bool verbose)
     {
-        Addresses a;
+        Addresses a = out;
         a.base = MainModuleBase();
         a.timestamp = MainModuleTimestamp();
 
         a.applyMatrix = Find(kApplyMatrixSig, "ApplyMatrix", verbose);
         a.hudBuilder = Find(kHudBuilderSig, "HudBuilder", verbose);
-        a.vrUpdate = Find(kVrUpdateSig, "VrUpdate", verbose);
         uintptr_t callSite = Find(kHudCallSiteSig, "HudCallSite", verbose);
-        uintptr_t capture = Find(kCameraCaptureSig, "CameraCapture", verbose);
         uintptr_t mainHudCall = Find(kMainHudCallSig, "MainHudCall", verbose);
 
-        if (!a.applyMatrix || !a.hudBuilder || !a.vrUpdate || !callSite || !capture || !mainHudCall)
+        if (!a.applyMatrix || !a.hudBuilder || !callSite || !mainHudCall)
             return false;
 
         uintptr_t mainHudWrapper = ResolveRipTarget(mainHudCall + kMainHudCall, 1, 5);
         if (!TailJumpsTo(mainHudWrapper, a.hudBuilder))
         {
             if (verbose)
-                Logf("INFO,0,0,0,main HUD wrapper does not jump to the HUD builder\n");
+                Logf("main HUD wrapper does not jump to the HUD builder\n");
             return false;
         }
         a.mainHudCallerReturn = mainHudCall + kMainHudCallReturn;
@@ -142,17 +139,38 @@ namespace bvh::nms
         if (ResolveRipTarget(callSite + kHudCallSiteCall, 1, 5) != a.applyMatrix)
         {
             if (verbose)
-                Logf("INFO,0,0,0,HUD call site does not call ApplyMatrix\n");
+                Logf("HUD call site does not call ApplyMatrix\n");
             return false;
         }
         a.hudCallReturn = callSite + kHudCallSiteReturn;
 
         if (!BytesMatch(a.applyMatrix + kApplyMatrixSceneLoad, "48 8B 15"))
+        {
+            if (verbose)
+                Logf("ApplyMatrix: scene manager load not found\n");
             return false;
+        }
         a.sceneManagerGlobal = ResolveRipTarget(a.applyMatrix + kApplyMatrixSceneLoad, 3, 7);
 
-        if (!ResolveRip(a.hudBuilder, kViewObjectLoad, a.viewObjectGlobal, "ViewObject", verbose) ||
-            !ResolveRip(a.hudBuilder, kHudVecAMul, a.hudVecA, "HudVecA", verbose) ||
+        if (!ResolveRip(a.hudBuilder, kViewObjectLoad, a.viewObjectGlobal, "ViewObject", verbose))
+            return false;
+
+        out = a;
+        return true;
+    }
+
+    bool ResolveDiagnostics(Addresses& out, bool verbose)
+    {
+        if (!out.hudBuilder)
+            return false;
+
+        Addresses a = out;
+        a.vrUpdate = Find(kVrUpdateSig, "VrUpdate", verbose);
+        uintptr_t capture = Find(kCameraCaptureSig, "CameraCapture", verbose);
+        if (!a.vrUpdate || !capture)
+            return false;
+
+        if (!ResolveRip(a.hudBuilder, kHudVecAMul, a.hudVecA, "HudVecA", verbose) ||
             !ResolveRip(a.hudBuilder, kHudVecBMul, a.hudVecB, "HudVecB", verbose) ||
             !ResolveRip(a.hudBuilder, kHudVecCAdd, a.hudVecC, "HudVecC", verbose) ||
             !ResolveRip(capture, kCameraCopyStore, a.cameraCopy, "CameraCopy", verbose))
@@ -160,13 +178,14 @@ namespace bvh::nms
             return false;
         }
 
-        if (a.timestamp == kCameraMatrixBuild)
-            a.cameraMatrix = a.base + kCameraMatrixRva;
-        else if (verbose)
-            Logf("INFO,0,0,0,unknown build 0x%08X: camera matrix address unknown\n", a.timestamp);
-
         out = a;
         return true;
+    }
+
+    const float* CameraMatrix(const Addresses& addresses)
+    {
+        auto view = *reinterpret_cast<const uint8_t* const*>(addresses.viewObjectGlobal);
+        return view ? reinterpret_cast<const float*>(view + kViewCameraMatrix) : nullptr;
     }
 
     bool IsLiveHandle(uint32_t handle)

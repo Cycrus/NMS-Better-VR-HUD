@@ -1,7 +1,9 @@
 # Builds the ASI plugins with mingw-w64.
-# Note: FrameProbe 1 logs (AM rows without caller/status columns) need an older tools/analysis/probe_log.py.
 #   Windows: mingw32-make           (WinLibs / MSYS2 toolchain on PATH)
 #   Linux:   make                   (x86_64-w64-mingw32 cross compiler)
+#
+#   build/BetterVrHud.asi  the mod
+#   build/FrameProbe.asi   diagnostic logger (install one or the other, not both)
 
 ifeq ($(OS),Windows_NT)
   CC := gcc
@@ -29,12 +31,15 @@ COMMON_SRC := $(wildcard src/common/*.cpp)
 
 MINHOOK_OBJ := $(patsubst %.c,$(BUILD)/obj/%.o,$(MINHOOK_SRC))
 COMMON_OBJ := $(patsubst %.cpp,$(BUILD)/obj/%.o,$(COMMON_SRC))
+MOD_OBJ := $(BUILD)/obj/src/mod/better_vr_hud.o
 PROBE_OBJ := $(BUILD)/obj/tools/FrameProbe/frame_probe.o
-
 TEST_OBJ := $(BUILD)/obj/tools/tests/resolve_test.o
 
 .PHONY: all tests clean
-all: $(BUILD)/FrameProbe.asi
+all: $(BUILD)/BetterVrHud.asi $(BUILD)/FrameProbe.asi
+
+$(BUILD)/BetterVrHud.asi: $(MOD_OBJ) $(COMMON_OBJ) $(MINHOOK_OBJ)
+	$(CXX) $(LDFLAGS) -o $@ $^ $(LDLIBS)
 
 # Run: build\mat4_test.exe and build\resolve_test.exe "<path to NMS.exe>"
 tests: $(BUILD)/resolve_test.exe $(BUILD)/mat4_test.exe

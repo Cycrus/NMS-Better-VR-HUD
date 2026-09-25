@@ -8,7 +8,7 @@
 // plus event ordering (thread id, microsecond timestamps, scene frame counter).
 //
 // Keys (polled every frame, work without window focus):
-//   F8  cycle mode: off -> lock main HUD -> lock all HUD nodes -> off  (beeps mode+1 times)
+//   F8  toggle mode: off <-> lock main HUD  (beeps mode+1 times)
 //   F9  write a MARK row (one low beep)
 
 #define WIN32_LEAN_AND_MEAN
@@ -29,10 +29,11 @@ using namespace bvh;
 
 namespace
 {
-    constexpr const char* kProbeVersion = "FrameProbe 2";
+    constexpr const char* kProbeVersion = "FrameProbe 3";
 
-    enum Mode : LONG { ModeOff, ModeLockMain, ModeLockAll, ModeCount };
-    const char* const kModeNames[ModeCount] = { "off", "lock_main", "lock_all" };
+    // Locking every HUD-builder node also pulls the game menu panel into your face, so only the main HUD.
+    enum Mode : LONG { ModeOff, ModeLockMain, ModeCount };
+    const char* const kModeNames[ModeCount] = { "off", "lock_main" };
 
     constexpr int kMaxTracked = 8;
     constexpr int64_t kTrackedTimeoutUs = 2000000;
@@ -147,7 +148,7 @@ namespace
 
     const float* Camera()
     {
-        return g_addr.cameraMatrix ? reinterpret_cast<const float*>(g_addr.cameraMatrix) : nullptr;
+        return g_addr.viewObjectGlobal ? nms::CameraMatrix(g_addr) : nullptr;
     }
 
     DWORD WINAPI BeepThread(LPVOID parameter)
@@ -329,7 +330,7 @@ namespace
         LeaveCriticalSection(&g_stateLock);
 
         LONG mode = g_mode;
-        bool wantLock = mode == ModeLockAll || (mode == ModeLockMain && isMain);
+        bool wantLock = mode == ModeLockMain && isMain;
 
         float replacement[16];
         LockStatus status = LockStatus::Ok;
@@ -449,10 +450,9 @@ namespace
         Logf("# rva applyMatrix=0x%llx hudCallReturn=0x%llx hudBuilder=0x%llx mainHudCaller=0x%llx vrUpdate=0x%llx\n",
             a.applyMatrix - a.base, a.hudCallReturn - a.base, a.hudBuilder - a.base,
             a.mainHudCallerReturn - a.base, a.vrUpdate - a.base);
-        Logf("# rva sceneManager=0x%llx viewObject=0x%llx hudVec=0x%llx,0x%llx,0x%llx cameraCopy=0x%llx camera=0x%llx\n",
+        Logf("# rva sceneManager=0x%llx viewObject=0x%llx hudVec=0x%llx,0x%llx,0x%llx cameraCopy=0x%llx\n",
             a.sceneManagerGlobal - a.base, a.viewObjectGlobal - a.base,
-            a.hudVecA - a.base, a.hudVecB - a.base, a.hudVecC - a.base,
-            a.cameraCopy - a.base, a.cameraMatrix ? a.cameraMatrix - a.base : 0);
+            a.hudVecA - a.base, a.hudVecB - a.base, a.hudVecC - a.base, a.cameraCopy - a.base);
         Logf("# every row: tag,t_us,thread,scene_frame,...\n");
         Logf("# SNAP  mode,handle,slot,anchor,anchor_slot,type,local[16],world[16],anchor_world[16],camera[16],"
              "pose_seq,pose_age_us,pose_valid,pose[12],anchor_local[16],origin[3]\n");
@@ -465,7 +465,7 @@ namespace
         Logf("# NODE  hud,handle,node,hex[256]\n");
         Logf("# MODE  mode,name | MARK n | TRACK handle,index | INFO text\n");
         Logf("# lock status: 0 ok, 1 no_camera, 2 no_scene, 3 bad_node, 4 bad_anchor, 5 anchor_not_on_origin, "
-             "6 anchor_far_from_camera, 7 singular, 8 result_out_of_range\n");
+             "6 anchor_far_from_camera, 7 singular, 8 result_out_of_range, 9 hud_too_far\n");
     }
 
     DWORD WINAPI InitThread(LPVOID)
@@ -475,7 +475,8 @@ namespace
 
         for (int attempt = 0; attempt < kAttempts && !resolved; ++attempt)
         {
-            resolved = nms::Resolve(g_addr, attempt == kAttempts - 1);
+            bool verbose = attempt == kAttempts - 1;
+            resolved = nms::ResolveCore(g_addr, verbose) && nms::ResolveDiagnostics(g_addr, verbose);
             if (!resolved)
                 Sleep(500);
         }

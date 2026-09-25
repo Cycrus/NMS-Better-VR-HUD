@@ -32,7 +32,6 @@ namespace
         { "hudVecB", &bvh::nms::Addresses::hudVecB, 0x70F94D0 },
         { "hudVecC", &bvh::nms::Addresses::hudVecC, 0x70F9090 },
         { "cameraCopy", &bvh::nms::Addresses::cameraCopy, 0x6EB4B00 },
-        { "cameraMatrix", &bvh::nms::Addresses::cameraMatrix, 0x6E7CA30 },
     };
 }
 
@@ -53,7 +52,7 @@ int wmain(int argc, wchar_t** argv)
     bvh::LogOpen(nullptr, L"resolve_test", L"log", false);
 
     bvh::nms::Addresses addresses;
-    if (!bvh::nms::Resolve(addresses, true))
+    if (!bvh::nms::ResolveCore(addresses, true) || !bvh::nms::ResolveDiagnostics(addresses, true))
     {
         bvh::LogFlush();
         std::printf("resolve failed (see resolve_test.log)\n");

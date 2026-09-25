@@ -8,7 +8,7 @@ namespace bvh::nms
 {
     // Sets a scene node's local matrix (row-major float[16]) by handle.
     using ApplyMatrixFn = void (*)(uint32_t handle, const float* matrix);
-    // Builds a node's local matrix from three scalars and applies it. One of its call sites places the HUD.
+    // Builds a node's local matrix from (distance, 0, scale) and applies it. One of its call sites places the HUD.
     using HudBuilderFn = void (*)(void* object, float a, float b, float c);
     // Per-frame VR event pump (polls IVRSystem events), runs on the game thread.
     using VrUpdateFn = void (*)(void* self);
@@ -18,23 +18,29 @@ namespace bvh::nms
         uintptr_t base = 0;
         uint32_t timestamp = 0;
 
+        // Core: needed to head-lock the HUD.
         uintptr_t applyMatrix = 0;
-        uintptr_t hudCallReturn = 0;     // return address of the HUD builder's ApplyMatrix call
+        uintptr_t hudCallReturn = 0;       // return address of the HUD builder's ApplyMatrix call
         uintptr_t hudBuilder = 0;
         uintptr_t mainHudCallerReturn = 0; // HUD builder's caller for the main HUD panel (via a tail-jumping wrapper)
-        uintptr_t vrUpdate = 0;
+        uintptr_t sceneManagerGlobal = 0;  // SceneManager*
+        uintptr_t viewObjectGlobal = 0;    // active view object*; its camera matrix is at +0x510
 
-        uintptr_t sceneManagerGlobal = 0; // SceneManager*
-        uintptr_t viewObjectGlobal = 0;   // active view object*, compared against "APPVIEW" by the HUD builder
-        uintptr_t hudVecA = 0;            // float4 globals the HUD builder mixes into the translation
+        // Diagnostics: only FrameProbe uses these.
+        uintptr_t vrUpdate = 0;
+        uintptr_t hudVecA = 0;             // float4 globals the HUD builder mixes into the translation
         uintptr_t hudVecB = 0;
         uintptr_t hudVecC = 0;
-        uintptr_t cameraCopy = 0;         // 80 bytes copied every frame at the camera capture point
-        uintptr_t cameraMatrix = 0;       // float[16]: camera world matrix (found with Cheat Engine, no code xref yet)
+        uintptr_t cameraCopy = 0;          // 80 bytes copied every frame at the camera capture point
     };
 
-    // Resolves all addresses. Returns false (and logs why, if verbose) when any signature fails.
-    bool Resolve(Addresses& out, bool verbose);
+    // Resolve the core addresses / the diagnostics addresses. Return false (and log why, if verbose)
+    // when any signature fails; 'out' is only written on success.
+    bool ResolveCore(Addresses& out, bool verbose);
+    bool ResolveDiagnostics(Addresses& out, bool verbose);
+
+    // Camera world matrix of the active view (float[16], origin-relative), or null before one exists.
+    const float* CameraMatrix(const Addresses& addresses);
 
     bool IsLiveHandle(uint32_t handle);
 

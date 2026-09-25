@@ -6,10 +6,13 @@ namespace bvh
 {
     namespace
     {
-        // The anchor sits at the head; anything further away means it is in a different space.
+        // The anchor sits at or just in front of the head; anything further means another space.
         constexpr float kMaxAnchorDistance = 50.0f;
-        constexpr float kMaxLocalTranslation = 50.0f;
+        // The HUD sits 0.75 m (cockpit) to 2.5 m (on foot) from the eyes at default settings.
+        constexpr float kMaxHudDistance = 10.0f;
+        constexpr float kMaxLocalTranslation = 100.0f;
         constexpr float kIdentityTolerance = 1e-3f;
+        constexpr float kCameraAxisTolerance = 0.05f;
     }
 
     const char* LockStatusName(LockStatus status)
@@ -25,15 +28,16 @@ namespace bvh
             case LockStatus::AnchorFarFromCamera: return "anchor_far_from_camera";
             case LockStatus::Singular: return "singular";
             case LockStatus::ResultOutOfRange: return "result_out_of_range";
+            case LockStatus::HudTooFar: return "hud_too_far";
         }
         return "unknown";
     }
 
     LockStatus ComputeHeadLockedLocal(const nms::Addresses& addresses, uint32_t handle, const float* offset, float* out)
     {
-        if (!addresses.cameraMatrix)
+        const float* camera = nms::CameraMatrix(addresses);
+        if (!camera || !mat4::HasUnitAxes(camera, kCameraAxisTolerance))
             return LockStatus::NoCamera;
-        const float* camera = reinterpret_cast<const float*>(addresses.cameraMatrix);
 
         nms::Scene scene(addresses.sceneManagerGlobal);
         if (!scene.Refresh())
@@ -55,12 +59,25 @@ namespace bvh
         if (mat4::TranslationDistance(anchor, camera) > kMaxAnchorDistance)
             return LockStatus::AnchorFarFromCamera;
 
+        float neutralHead[16];
+        float inverseNeutral[16];
         float inverseAnchor[16];
-        if (!mat4::InverseAffine(anchor, inverseAnchor))
+        if (!mat4::OrientationAt(anchor, camera, neutralHead) ||
+            !mat4::InverseAffine(neutralHead, inverseNeutral) ||
+            !mat4::InverseAffine(anchor, inverseAnchor))
+        {
             return LockStatus::Singular;
+        }
+
+        float hud[16];
+        float hudInHead[16];
+        mat4::MultiplyAffine(offset, anchor, hud);
+        mat4::MultiplyAffine(hud, inverseNeutral, hudInHead);
+        if (mat4::TranslationLength(hudInHead) > kMaxHudDistance)
+            return LockStatus::HudTooFar;
 
         float desired[16];
-        mat4::MultiplyAffine(offset, camera, desired);
+        mat4::MultiplyAffine(hudInHead, camera, desired);
         mat4::MultiplyAffine(desired, inverseAnchor, out);
 
         out[3] = offset[3];

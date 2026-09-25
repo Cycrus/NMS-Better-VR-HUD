@@ -83,6 +83,38 @@ int main()
     Expect(Near(rebuilt, desired, 1e-3f), "local * anchor == offset * camera");
     Expect(std::fabs(TranslationLength(local) - 2.5f * 1.0f) < 0.2f, "locked HUD stays ~2.5 m from the anchor");
 
+    // Cockpit case: anchor scaled 0.25 and 0.7 m in front of the eyes. Looking straight ahead (camera
+    // orientation == anchor orientation), the locked HUD must land exactly where the game put it.
+    {
+        float cockpitCamera[16];
+        float cockpitAnchor[16];
+        float cockpitOffset[16];
+        MakeTransform(0.4f, 0.0f, 1.0f, 0.0f, 1.0f, 10.0f, 1.6f, -3.0f, cockpitCamera);
+        MakeTransform(0.4f, 0.0f, 1.0f, 0.0f, 0.25f, 0.0f, 0.0f, 0.0f, cockpitAnchor);
+        // anchor 0.7 m ahead of the eyes along the camera's -Z axis
+        cockpitAnchor[12] = cockpitCamera[12] - 0.7f * cockpitCamera[8];
+        cockpitAnchor[13] = cockpitCamera[13] - 0.7f * cockpitCamera[9];
+        cockpitAnchor[14] = cockpitCamera[14] - 0.7f * cockpitCamera[10];
+        MakeTransform(0.0f, 0, 1, 0, 1.4f, 0.0f, 0.0f, -0.3f, cockpitOffset);
+
+        float neutral[16];
+        float inverseNeutral[16];
+        float inverseAnchor[16];
+        Expect(OrientationAt(cockpitAnchor, cockpitCamera, neutral), "neutral frame");
+        Expect(InverseAffine(neutral, inverseNeutral) && InverseAffine(cockpitAnchor, inverseAnchor), "invertible");
+
+        float hud[16];
+        float hudInHead[16];
+        float hudDesired[16];
+        float hudLocal[16];
+        MultiplyAffine(cockpitOffset, cockpitAnchor, hud);
+        MultiplyAffine(hud, inverseNeutral, hudInHead);
+        MultiplyAffine(hudInHead, cockpitCamera, hudDesired);
+        MultiplyAffine(hudDesired, inverseAnchor, hudLocal);
+        Expect(Near(hudLocal, cockpitOffset, 1e-3f), "straight ahead: locked layout == game layout");
+        Expect(std::fabs(TranslationLength(hudInHead) - 0.775f) < 1e-3f, "cockpit HUD stays 0.775 m from the eyes");
+    }
+
     float scaled[16];
     MakeTransform(0.3f, 1, 0, 0, 2.0f, 1, 2, 3, scaled);
     Expect(!IsPureTranslation(scaled, 1e-3f), "rotated matrix is not a pure translation");

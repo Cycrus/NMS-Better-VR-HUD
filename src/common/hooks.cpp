@@ -11,7 +11,7 @@ namespace bvh::hooks
         MH_STATUS status = MH_Initialize();
         if (status != MH_OK && status != MH_ERROR_ALREADY_INITIALIZED)
         {
-            Logf("INFO,0,0,0,MH_Initialize failed: %s\n", MH_StatusToString(status));
+            Logf("MH_Initialize failed: %s\n", MH_StatusToString(status));
             return false;
         }
         return true;
@@ -23,7 +23,7 @@ namespace bvh::hooks
         if (status == MH_OK)
             status = MH_EnableHook(target);
 
-        Logf("INFO,0,0,0,hook %s at %p: %s\n", name, target, MH_StatusToString(status));
+        Logf("hook %s at %p: %s\n", name, target, MH_StatusToString(status));
         return status == MH_OK;
     }
 }
