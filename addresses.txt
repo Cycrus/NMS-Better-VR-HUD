@@ -39,3 +39,4 @@ Camera transform matrix origin:
     xpos : NMS.exe+6E7CA60
     ypos : NMS.exe+6E7CA64
     zpos : NMS.exe+6E7CA68
+    wpos : NMS.exe+6E7CA6C

@@ -1,3 +1,6 @@
+/* Rotates the hud continuously around the y axis.
+ */
+
 #define WIN32_LEAN_AND_MEAN
 #include <windows.h>
 
@@ -28,28 +31,6 @@ static VrUpdateFn g_originalVrUpdate = nullptr;
 static ULONGLONG g_startTick = 0;
 static volatile LONG g_tickApplyCount = 0;
 
-static void LogLine(const char* line)
-{
-    char path[MAX_PATH] = "/home/cyril/Downloads/hud_continuous_rotation.log\0";
-
-    HANDLE file = CreateFileA(
-        path,
-        FILE_APPEND_DATA,
-        FILE_SHARE_READ,
-        nullptr,
-        OPEN_ALWAYS,
-        FILE_ATTRIBUTE_NORMAL,
-        nullptr
-    );
-
-    if (file == INVALID_HANDLE_VALUE)
-        return;
-
-    DWORD written = 0;
-    WriteFile(file, line, static_cast<DWORD>(std::strlen(line)), &written, nullptr);
-    CloseHandle(file);
-}
-
 static void LogFormat(const char* format, ...)
 {
     char line[512];
@@ -58,8 +39,6 @@ static void LogFormat(const char* format, ...)
     va_start(args, format);
     std::vsnprintf(line, sizeof(line), format, args);
     va_end(args);
-
-    LogLine(line);
 }
 
 static float CurrentRotationRadians()
@@ -171,15 +150,10 @@ BOOL WINAPI DllMain(HINSTANCE module, DWORD reason, LPVOID)
         g_module = module;
         g_startTick = GetTickCount64();
         DisableThreadLibraryCalls(module);
-        LogLine("HudContinuousRotation attached.\r\n");
 
         HANDLE thread = CreateThread(nullptr, 0, InstallHooksThread, nullptr, 0, nullptr);
         if (thread)
             CloseHandle(thread);
-    }
-    else if (reason == DLL_PROCESS_DETACH)
-    {
-        LogLine("HudContinuousRotation detached.\r\n");
     }
 
     return TRUE;

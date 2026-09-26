@@ -1,3 +1,7 @@
+/* A helper plugin to test the different object transform handles and log them.
+ * Used to identify the HUD handle.
+ */
+
 #define WIN32_LEAN_AND_MEAN
 #include <windows.h>
 
@@ -20,7 +24,7 @@ static volatile LONG g_hudHitCount = 0;
 
 static void LogLine(const char* line)
 {
-    char path[MAX_PATH] = "/home/cyril/Downloads/hud_prober.log\0";
+    char path[MAX_PATH] = "~/Downloads/hud_prober.log\0";
 
     HANDLE file = CreateFileA(
         path,

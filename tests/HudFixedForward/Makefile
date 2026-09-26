@@ -1,7 +1,7 @@
 CC := x86_64-w64-mingw32-gcc
 CXX := x86_64-w64-mingw32-g++
 
-MINHOOK := minhook
+MINHOOK := ../HudContinuousTransform/minhook
 MINHOOK_INCLUDE := $(MINHOOK)/include
 MINHOOK_SRC := $(MINHOOK)/src
 
@@ -14,12 +14,12 @@ MINHOOK_OBJECTS := \
 	trampoline.o \
 	hde64.o
 
-default: HudTransformTest.asi
+default: HudFixedForward.asi
 
-HudTransformTest.asi: hud_transform_test.o $(MINHOOK_OBJECTS)
+HudFixedForward.asi: hud_fixed_forward.o $(MINHOOK_OBJECTS)
 	$(CXX) -shared -O2 -o $@ $^
 
-hud_transform_test.o: hud_transform_test.cpp
+hud_fixed_forward.o: hud_fixed_forward.cpp
 	$(CXX) $(CXXFLAGS) -c -o $@ $<
 
 buffer.o: $(MINHOOK_SRC)/buffer.c
@@ -35,4 +35,4 @@ hde64.o: $(MINHOOK_SRC)/hde/hde64.c
 	$(CC) $(CFLAGS) -c -o $@ $<
 
 clean:
-	rm -f HudTransformTest.asi hud_transform_test.o $(MINHOOK_OBJECTS)
+	rm -f HudFixedForward.asi hud_fixed_forward.o $(MINHOOK_OBJECTS)

@@ -1,4 +1,6 @@
-// mod.cpp
+/* A small plugin to test DLL side loading using Ultimate ASI loader.
+ * When a file called MyNmsMod-loaded.txt appears in the NMS.exe directory after the game starts, the sideloading works.
+ */
 
 #define WIN32_LEAN_AND_MEAN
 #include <windows.h>

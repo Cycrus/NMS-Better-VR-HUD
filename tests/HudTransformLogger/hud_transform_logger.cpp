@@ -1,3 +1,7 @@
+/* Logs the HUD transform matrix while playing into a csv file.
+ * The output file is ~/Downloads/hud_transform_readings.csv.
+ */
+
 #define WIN32_LEAN_AND_MEAN
 #include <windows.h>
 
@@ -21,7 +25,7 @@ static volatile LONG g_hudHitCount = 0;
 
 static void AppendFileLine(const char* line)
 {
-    char path[MAX_PATH] = "/home/cyril/Downloads/hud_transform_readings.csv\0";
+    char path[MAX_PATH] = "~/Downloads/hud_transform_readings.csv\0";
 
     HANDLE file = CreateFileA(
         path,
@@ -43,7 +47,7 @@ static void AppendFileLine(const char* line)
 
 static void EnsureCsvHeader()
 {
-    char path[MAX_PATH] = "/home/cyril/Downloads/hud_transform_readings.csv\0";
+    char path[MAX_PATH] = "~/Downloads/hud_transform_readings.csv\0";
 
     HANDLE file = CreateFileA(
         path,
@@ -72,7 +76,7 @@ static void EnsureCsvHeader()
 
 static void AppendStatusLine(const char* line)
 {
-    char path[MAX_PATH] = "/home/cyril/Downloads/hud_transform_logger.log\0";
+    char path[MAX_PATH] = "~/Downloads/hud_transform_logger.log\0";
 
     HANDLE file = CreateFileA(
         path,

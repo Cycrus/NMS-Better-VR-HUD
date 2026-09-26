@@ -1,3 +1,7 @@
+/* Logs the VR HMD rotation as quaternions while playing into a csv file.
+ * The output file is ~/Downloads/hmd_readings.csv.
+ */
+
 #define WIN32_LEAN_AND_MEAN
 #include <windows.h>
 
@@ -44,7 +48,7 @@ static bool ReadFloat(uintptr_t address, float* value)
 static void AppendCsvLine(const char* line)
 {
     HANDLE file = CreateFileA(
-        "/home/cyril/Downloads/hmd_readings.csv",
+        "~/Downloads/hmd_readings.csv",
         FILE_APPEND_DATA,
         FILE_SHARE_READ,
         nullptr,
