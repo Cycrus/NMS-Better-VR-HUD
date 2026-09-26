@@ -2,8 +2,8 @@ CC := x86_64-w64-mingw32-gcc
 CXX := x86_64-w64-mingw32-g++
 
 MINHOOK := ../HudTransformTest/minhook
-MINHOOK_INCLUDE := $(MINHOOK)/include
-MINHOOK_SRC := $(MINHOOK)/src
+MINHOOK_INCLUDE := ../../third-party/$(MINHOOK)/include
+MINHOOK_SRC := ../../third-party/$(MINHOOK)/src
 
 CFLAGS := -O2 -Wall -Wextra -I$(MINHOOK_INCLUDE) -I$(MINHOOK_SRC) -I$(MINHOOK_SRC)/hde
 CXXFLAGS := $(CFLAGS)
