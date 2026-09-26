@@ -4,3 +4,6 @@ default:
 		-O2 \
 		-o HmdTransformLogger.asi \
 		hmd_transform_logger.cpp
+
+clean:
+	rm -f HmdTransformLogger.asi

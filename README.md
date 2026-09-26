@@ -1,10 +1,34 @@
+<div align="center">
+  <img src="docs/minimile_logo.png" alt="SlimStep VR Logo" width="250">
+  <h1>SlimStep VR</h1>
+  <h2>A Minimal, low-cost DIY VR treadmill system</h2>
+</div>
+
+<div align="center">
+  <img alt="License" src=https://img.shields.io/badge/License-MIT-green?style=flat-square>
+  <img alt="OS" src=https://img.shields.io/badge/OS-Windows-yellow?style=flat-square>
+  <img alt="Platforms" src=https://img.shields.io/badge/Platforms-x86__64-blue?style=flat-square>
+  <img alt="Languages" src=https://img.shields.io/badge/Languages-C++-red?style=flat-square>
+</div>
+
 # No Man's Sky Better VR HUD
 
 A mod to optimize the HUD in VR mode in the game No Man's Sky. It attempts to fix the position of the HUD by attaching it to the head rotation instead of the body rotation. This way the hud is always in the view of the player without them needing to return to an artificial "forward position".
 
 The mod utilizes a DLL side loading technique using `Ultimate ASI Loader`.
 
-NMS.exe is reverse engineered using radare2 and cheatengine.
+For this mod NMS.exe is partially reverse engineered and analyzed using radare2 and cheatengine.
+
+This repo uses submodules. Please clone it with:
+```bash
+git clone --recurse-submodules git@github.com:Cycrus/NMS-Better-VR-HUD.git
+```
+
+## Installation
+1. Download the file `winmm.dll` from the [Ultimate ASI Loader page](https://github.com/ThirteenAG/Ultimate-ASI-Loader/releases) and place it into the same directory as NMS.exe.
+2. Create a directory called `plugins` in the same directory as NMS.exe.
+3. Copy the file BetterVrHud.asi into the plugins directory.
+4. Start the game and enjoy.
 
 ## TODO
 - [x] Make DLL sideloading work with Ultimate ASI Loader

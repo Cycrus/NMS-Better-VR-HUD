@@ -1,5 +1,5 @@
 .matplotlib
 venv
 .venv
-.o
-.asi
+*.o
+*.asi

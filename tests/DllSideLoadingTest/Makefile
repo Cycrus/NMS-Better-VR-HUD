@@ -4,3 +4,6 @@ default:
 		-O2 \
 		-o DllSideLoadingTest.asi \
 		dll_side_loading_test.cpp
+
+clean:
+	rm -f DllSideLoadingTest.asi
