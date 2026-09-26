@@ -61,25 +61,18 @@ def axis_endpoint(origin: np.ndarray, vector: np.ndarray, scale: float) -> np.nd
     return origin + normalize(vector) * scale
 
 
-def arrowhead_lines(origin: np.ndarray, vector: np.ndarray, scale: float) -> tuple[list[float | None], list[float | None], list[float | None]]:
+def direction_extension_line(origin: np.ndarray, vector: np.ndarray, scale: float) -> tuple[list[float], list[float], list[float]]:
     direction = normalize(vector)
     if np.linalg.norm(direction) <= 1e-8:
         return [], [], []
 
-    reference = np.array([0.0, 1.0, 0.0])
-    if abs(float(np.dot(direction, reference))) > 0.9:
-        reference = np.array([1.0, 0.0, 0.0])
-
-    side = normalize(np.cross(direction, reference)) * scale * 18.0
     end = axis_endpoint(origin, vector, scale)
-    back = end - direction * scale * 25.0
-    wing_a = back + side
-    wing_b = back - side
+    tip = end + direction * scale * 50.0
 
     return (
-        [end[0], wing_a[0], None, end[0], wing_b[0]],
-        [end[1], wing_a[1], None, end[1], wing_b[1]],
-        [end[2], wing_a[2], None, end[2], wing_b[2]],
+        [end[0], tip[0]],
+        [end[1], tip[1]],
+        [end[2], tip[2]],
     )
 
 
@@ -120,13 +113,14 @@ def axis_trace(origin: np.ndarray, vector: np.ndarray, scale: float, name: str, 
 
 
 def axis_arrowhead_trace(origin: np.ndarray, vector: np.ndarray, scale: float, name: str, color: str) -> go.Scatter3d:
-    x, y, z = arrowhead_lines(origin, vector, scale)
+    x, y, z = direction_extension_line(origin, vector, scale)
     return go.Scatter3d(
         x=x,
         y=y,
         z=z,
-        mode="lines",
-        line={"color": color, "width": 6},
+        mode="lines+markers",
+        line={"color": color, "width": 10},
+        marker={"color": color, "size": 6, "symbol": "diamond"},
         name=name,
         showlegend=False,
     )
@@ -145,13 +139,14 @@ def frame_axis_trace(origin: np.ndarray, vector: np.ndarray, scale: float, color
 
 
 def frame_axis_arrowhead_trace(origin: np.ndarray, vector: np.ndarray, scale: float, color: str) -> go.Scatter3d:
-    x, y, z = arrowhead_lines(origin, vector, scale)
+    x, y, z = direction_extension_line(origin, vector, scale)
     return go.Scatter3d(
         x=x,
         y=y,
         z=z,
-        mode="lines",
-        line={"color": color, "width": 6},
+        mode="lines+markers",
+        line={"color": color, "width": 10},
+        marker={"color": color, "size": 6, "symbol": "diamond"},
         showlegend=False,
     )
 
