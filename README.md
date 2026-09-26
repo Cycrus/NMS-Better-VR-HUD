@@ -1,7 +1,7 @@
 <div align="center">
-  <img src="docs/minimile_logo.png" alt="SlimStep VR Logo" width="250">
-  <h1>SlimStep VR</h1>
-  <h2>A Minimal, low-cost DIY VR treadmill system</h2>
+  <img src="resources/logo.png" alt="NMS Better VR HUD logo" width="250">
+  <h1>No Man's Sky Better VR HUD</h1>
+  <h2>An optimized VR HUD system mod for No Man's Sky</h2>
 </div>
 
 <div align="center">
