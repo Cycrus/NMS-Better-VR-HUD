@@ -1,0 +1,5 @@
+.matplotlib
+venv
+.venv
+.o
+.asi
