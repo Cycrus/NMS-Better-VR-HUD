@@ -16,6 +16,11 @@ MATRIX_COLUMNS = [
     "m30", "m31", "m32", "m33",
 ]
 
+DEFAULT_LABELS: list[str] | None = None
+DEFAULT_MAX_ROWS: int | None = None
+DEFAULT_FRAME_STRIDE = 3
+DEFAULT_AXIS_SCALE = 0.12
+
 
 def default_csv_path(script_dir: Path) -> Path:
     return script_dir / "data" / "camera_transform_readings.csv"
@@ -288,17 +293,13 @@ def render_recording(
 
 def main() -> int:
     script_dir = Path(__file__).resolve().parent
-    parser = argparse.ArgumentParser(description="Render an animated 3D transform recording from player camera matrix CSV data.")
+    parser = argparse.ArgumentParser(description="Render an animated 3D transform matrix recording CSV data.")
     parser.add_argument("--csv", type=Path, default=default_csv_path(script_dir))
-    parser.add_argument("--labels", nargs="+", default=None)
-    parser.add_argument("--max-rows", type=int, default=None)
-    parser.add_argument("--frame-stride", type=int, default=3)
-    parser.add_argument("--axis-scale", type=float, default=0.12)
-    parser.add_argument("--out", type=Path, default=script_dir / "camera_transform_recording_render.html")
+    parser.add_argument("--out", type=Path, default=script_dir / "transform_rendering.html")
     args = parser.parse_args()
 
-    frame = load_capture(args.csv, args.max_rows)
-    render_recording(frame, args.labels, args.out, args.frame_stride, args.axis_scale)
+    frame = load_capture(args.csv, DEFAULT_MAX_ROWS)
+    render_recording(frame, DEFAULT_LABELS, args.out, DEFAULT_FRAME_STRIDE, DEFAULT_AXIS_SCALE)
     print(f"Wrote animated 3D render to {args.out}")
     return 0
 

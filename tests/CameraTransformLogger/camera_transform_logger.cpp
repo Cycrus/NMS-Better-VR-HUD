@@ -1,5 +1,5 @@
 /* Logs the player camera transform matrix while playing into a csv file.
- * The output file is ~/Downloads/camera_transform_readings.csv.
+ * The output file is /home/cyril/Downloads/camera_transform_readings.csv.
  */
 
 #define WIN32_LEAN_AND_MEAN
@@ -12,7 +12,7 @@
 #include "MinHook.h"
 
 static constexpr uintptr_t CAPTURE_POINT_OFFSET = 0x337927;
-static constexpr uintptr_t PLAYER_CAMERA_MATRIX_OFFSET = 0x6E7CA30;
+static constexpr uintptr_t CAMERA_MATRIX_R15_OFFSET = 0x510;
 static constexpr ULONGLONG SAMPLE_INTERVAL_MS = 100;
 
 using CapturePointFn = void (*)();
@@ -28,7 +28,7 @@ static volatile LONG g_sampleCount = 0;
 
 static void AppendFileLine(const char* line)
 {
-    char path[MAX_PATH] = "~/Downloads/camera_transform_readings.csv\0";
+    char path[MAX_PATH] = "/home/cyril/Downloads/camera_transform_readings.csv\0";
 
     HANDLE file = CreateFileA(
         path,
@@ -50,7 +50,7 @@ static void AppendFileLine(const char* line)
 
 static void EnsureCsvHeader()
 {
-    char path[MAX_PATH] = "~/Downloads/camera_transform_readings.csv\0";
+    char path[MAX_PATH] = "/home/cyril/Downloads/camera_transform_readings.csv\0";
 
     HANDLE file = CreateFileA(
         path,
@@ -118,7 +118,7 @@ static void AppendMatrixCsv(
     AppendFileLine(line);
 }
 
-extern "C" void CapturePlayerCameraMatrix()
+extern "C" void CapturePlayerCameraMatrix(uintptr_t liveBase)
 {
     ULONGLONG now = GetTickCount64();
     if (now - g_lastSampleTick < SAMPLE_INTERVAL_MS)
@@ -126,14 +126,14 @@ extern "C" void CapturePlayerCameraMatrix()
 
     g_lastSampleTick = now;
 
-    const float* matrix = reinterpret_cast<const float*>(g_moduleBase + PLAYER_CAMERA_MATRIX_OFFSET);
+    const float* matrix = reinterpret_cast<const float*>(liveBase + CAMERA_MATRIX_R15_OFFSET);
     ULONGLONG elapsed = now - g_startTick;
     LONG sample = InterlockedIncrement(&g_sampleCount);
 
     AppendMatrixCsv(
         elapsed,
         sample,
-        "player_camera_matrix_6e7ca30",
+        "player_camera_matrix_r15_510",
         matrix,
         matrix
     );
@@ -177,6 +177,7 @@ extern "C" __attribute__((naked)) void HookCapturePoint()
         "movdqu [rsp + 0xe0], xmm14\n"
         "movdqu [rsp + 0xf0], xmm15\n"
         "sub rsp, 0x20\n"
+        "mov rcx, r15\n"
         "call CapturePlayerCameraMatrix\n"
         "add rsp, 0x20\n"
         "movdqu xmm0, [rsp + 0x00]\n"
