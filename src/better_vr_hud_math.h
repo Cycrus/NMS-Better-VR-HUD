@@ -3,8 +3,6 @@
 #include <cmath>
 #include <cstring>
 
-static constexpr float HUD_DISTANCE = 2.5f;
-
 struct Vec3
 {
     float x;
@@ -166,41 +164,38 @@ static inline void MultiplyRowMajor4x4(const float* a, const float* b, float* ou
     std::memcpy(out, result, sizeof(result));
 }
 
-static inline bool BuildCameraRelativeHudMatrix(
-    const float* camera,
-    const float* body,
-    float* hud
-)
+static inline bool BuildRelativeTransform(const float* camera, const float* body, float* relative)
 {
-    if (!camera || !body || !hud)
+    if (!camera || !body || !relative)
         return false;
 
     if (!ValidateTransform(camera) || !ValidateTransform(body))
         return false;
 
     float bodyInverse[16] = {};
-    float relative[16] = {};
     InvertOrthonormalAffineRowMajor(body, bodyInverse);
     MultiplyRowMajor4x4(camera, bodyInverse, relative);
 
-    if (!ValidateTransform(relative))
+    return ValidateTransform(relative);
+}
+
+static inline bool BuildHudMatrixFromBasis(
+    Vec3 right,
+    Vec3 up,
+    Vec3 forward,
+    float* hud,
+    float offsetX,
+    float offsetY,
+    float offsetZ
+)
+{
+    if (!hud)
         return false;
 
-    Vec3 zAxis = Row3(relative, 2);
-    Vec3 hudPos = Scale(zAxis, -HUD_DISTANCE);
-
-    Vec3 forward = {};
-    if (!Normalize(Scale(hudPos, -1.0f), &forward))
-        return false;
-
-    Vec3 upRef = Row3(relative, 1);
-    Vec3 right = {};
-    if (!Normalize(Cross(upRef, forward), &right))
-        return false;
-
-    Vec3 up = Cross(forward, right);
-    if (!IsFinite(up.x) || !IsFinite(up.y) || !IsFinite(up.z))
-        return false;
+    Vec3 hudPos = Add(
+        Add(Scale(right, offsetX), Scale(up, offsetY)),
+        Scale(forward, offsetZ)
+    );
 
     hud[0] = right.x;
     hud[1] = right.y;
@@ -225,17 +220,81 @@ static inline bool BuildCameraRelativeHudMatrix(
     return ValidateTransform(hud);
 }
 
+static inline bool BuildCameraRelativeHudMatrix(
+    const float* camera,
+    const float* body,
+    float* hud,
+    float offsetX,
+    float offsetY,
+    float offsetZ
+)
+{
+    float relative[16] = {};
+    if (!BuildRelativeTransform(camera, body, relative))
+        return false;
+
+    Vec3 forward = {};
+    if (!Normalize(Row3(relative, 2), &forward))
+        return false;
+
+    Vec3 upRef = Row3(relative, 1);
+    Vec3 right = {};
+    if (!Normalize(Cross(upRef, forward), &right))
+        return false;
+
+    Vec3 up = Cross(forward, right);
+    if (!IsFinite(up.x) || !IsFinite(up.y) || !IsFinite(up.z))
+        return false;
+
+    return BuildHudMatrixFromBasis(right, up, forward, hud, offsetX, offsetY, offsetZ);
+}
+
+static inline bool BuildLevelCameraRelativeHudMatrix(
+    const float* camera,
+    const float* body,
+    float* hud,
+    float offsetX,
+    float offsetY,
+    float offsetZ
+)
+{
+    float relative[16] = {};
+    if (!BuildRelativeTransform(camera, body, relative))
+        return false;
+
+    Vec3 levelForward = Row3(relative, 2);
+    levelForward.y = 0.0f;
+
+    Vec3 forward = {};
+    if (!Normalize(levelForward, &forward))
+        return false;
+
+    Vec3 upRef = MakeVec3(0.0f, 1.0f, 0.0f);
+    Vec3 right = {};
+    if (!Normalize(Cross(upRef, forward), &right))
+        return false;
+
+    Vec3 up = Cross(forward, right);
+    if (!IsFinite(up.x) || !IsFinite(up.y) || !IsFinite(up.z))
+        return false;
+
+    return BuildHudMatrixFromBasis(right, up, forward, hud, offsetX, offsetY, offsetZ);
+}
+
 static inline bool BuildCameraRelativeHudMatrixWithFallback(
     const float* camera,
     const float* body,
     HudMatrixState* state,
-    float* hud
+    float* hud,
+    float offsetX,
+    float offsetY,
+    float offsetZ
 )
 {
     if (!state || !hud)
         return false;
 
-    if (BuildCameraRelativeHudMatrix(camera, body, hud))
+    if (BuildLevelCameraRelativeHudMatrix(camera, body, hud, offsetX, offsetY, offsetZ))
     {
         std::memcpy(state->latest, hud, sizeof(state->latest));
         state->hasLatest = true;

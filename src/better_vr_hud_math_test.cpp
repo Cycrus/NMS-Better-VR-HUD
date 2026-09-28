@@ -37,7 +37,7 @@ static bool NeutralCameraBodyProducesDefaultHud()
     };
 
     float hud[16] = {};
-    if (!BuildCameraRelativeHudMatrix(identity, identity, hud))
+    if (!BuildCameraRelativeHudMatrix(identity, identity, hud, 0.0f, 0.0f, -2.5f))
         return false;
 
     const float expected[16] = {
@@ -67,7 +67,7 @@ static bool CameraYawRelativeToBodyMovesHudAlongCameraNegativeZ()
     };
 
     float hud[16] = {};
-    if (!BuildCameraRelativeHudMatrix(camera, body, hud))
+    if (!BuildCameraRelativeHudMatrix(camera, body, hud, 0.0f, 0.0f, -2.5f))
         return false;
 
     const float expected[16] = {
@@ -75,6 +75,59 @@ static bool CameraYawRelativeToBodyMovesHudAlongCameraNegativeZ()
         0.0f, 1.0f, 0.0f, 0.0f,
         1.0f, 0.0f, 0.0f, 0.0f,
         -2.5f, -0.0f, -0.0f, 1.0f
+    };
+
+    return MatrixNear(hud, expected);
+}
+
+static bool LocalHudOffsetMovesAlongHudAxes()
+{
+    const float identity[16] = {
+        1.0f, 0.0f, 0.0f, 0.0f,
+        0.0f, 1.0f, 0.0f, 0.0f,
+        0.0f, 0.0f, 1.0f, 0.0f,
+        0.0f, 0.0f, 0.0f, 1.0f
+    };
+
+    float hud[16] = {};
+    if (!BuildCameraRelativeHudMatrix(identity, identity, hud, 1.0f, 0.5f, -2.5f))
+        return false;
+
+    const float expected[16] = {
+        1.0f, 0.0f, 0.0f, 0.0f,
+        0.0f, 1.0f, 0.0f, 0.0f,
+        0.0f, 0.0f, 1.0f, 0.0f,
+        1.0f, 0.5f, -2.5f, 1.0f
+    };
+
+    return MatrixNear(hud, expected);
+}
+
+static bool LevelHudIgnoresCameraPitchForVerticalPlacement()
+{
+    const float body[16] = {
+        1.0f, 0.0f, 0.0f, 0.0f,
+        0.0f, 1.0f, 0.0f, 0.0f,
+        0.0f, 0.0f, 1.0f, 0.0f,
+        0.0f, 0.0f, 0.0f, 1.0f
+    };
+
+    const float pitchedCamera[16] = {
+        1.0f, 0.0f, 0.0f, 0.0f,
+        0.0f, 0.70710678f, -0.70710678f, 0.0f,
+        0.0f, 0.70710678f, 0.70710678f, 0.0f,
+        0.0f, 0.0f, 0.0f, 1.0f
+    };
+
+    float hud[16] = {};
+    if (!BuildLevelCameraRelativeHudMatrix(pitchedCamera, body, hud, 0.0f, 0.0f, -2.5f))
+        return false;
+
+    const float expected[16] = {
+        1.0f, 0.0f, 0.0f, 0.0f,
+        0.0f, 1.0f, 0.0f, 0.0f,
+        0.0f, 0.0f, 1.0f, 0.0f,
+        0.0f, 0.0f, -2.5f, 1.0f
     };
 
     return MatrixNear(hud, expected);
@@ -92,12 +145,12 @@ static bool HudMatrixFallbackUsesLastValidMatrix()
     };
 
     float first[16] = {};
-    if (!BuildCameraRelativeHudMatrixWithFallback(identity, identity, &state, first))
+    if (!BuildCameraRelativeHudMatrixWithFallback(identity, identity, &state, first, 0.0f, 0.0f, -2.5f))
         return false;
 
     const float invalid[16] = {};
     float fallback[16] = {};
-    if (!BuildCameraRelativeHudMatrixWithFallback(invalid, invalid, &state, fallback))
+    if (!BuildCameraRelativeHudMatrixWithFallback(invalid, invalid, &state, fallback, 0.0f, 0.0f, -2.5f))
         return false;
 
     return MatrixNear(fallback, first);
@@ -109,6 +162,12 @@ int main()
         return 1;
 
     if (!CameraYawRelativeToBodyMovesHudAlongCameraNegativeZ())
+        return 1;
+
+    if (!LocalHudOffsetMovesAlongHudAxes())
+        return 1;
+
+    if (!LevelHudIgnoresCameraPitchForVerticalPlacement())
         return 1;
 
     if (!HudMatrixFallbackUsesLastValidMatrix())

@@ -15,6 +15,9 @@ static constexpr uintptr_t VR_UPDATE_OFFSET = 0x2C356C0;
 static constexpr uintptr_t BODY_MATRIX_R15_OFFSET = 0x5B0;
 static constexpr uintptr_t CAMERA_MATRIX_R15_OFFSET = 0x510;
 static constexpr uint32_t TARGET_HUD_HANDLE = 0x00080133;
+static constexpr float HUD_OFFSET_X = 0.0f;
+static constexpr float HUD_OFFSET_Y = 0.0f;
+static constexpr float HUD_OFFSET_Z = -2.5f;
 
 using ApplyMatrixFn = void (WINAPI*)(uint32_t handle, float* matrix);
 using VrUpdateFn = void (WINAPI*)(void* self);
@@ -214,17 +217,45 @@ extern "C" __attribute__((naked)) void HookCameraCapturePoint()
 static bool TryGetCameraRelativeHudMatrix(float* hud)
 {
     if (!InterlockedCompareExchange(&g_hasBodyMatrix, 1, 1))
-        return BuildCameraRelativeHudMatrixWithFallback(nullptr, nullptr, &g_hudMatrixState, hud);
+    {
+        return BuildCameraRelativeHudMatrixWithFallback(
+            nullptr,
+            nullptr,
+            &g_hudMatrixState,
+            hud,
+            HUD_OFFSET_X,
+            HUD_OFFSET_Y,
+            HUD_OFFSET_Z
+        );
+    }
 
     if (!InterlockedCompareExchange(&g_hasCameraMatrix, 1, 1))
-        return BuildCameraRelativeHudMatrixWithFallback(nullptr, nullptr, &g_hudMatrixState, hud);
+    {
+        return BuildCameraRelativeHudMatrixWithFallback(
+            nullptr,
+            nullptr,
+            &g_hudMatrixState,
+            hud,
+            HUD_OFFSET_X,
+            HUD_OFFSET_Y,
+            HUD_OFFSET_Z
+        );
+    }
 
     float body[16] = {};
     float camera[16] = {};
     CopyMatrix(body, g_latestBodyMatrix);
     CopyMatrix(camera, g_latestCameraMatrix);
 
-    return BuildCameraRelativeHudMatrixWithFallback(camera, body, &g_hudMatrixState, hud);
+    return BuildCameraRelativeHudMatrixWithFallback(
+        camera,
+        body,
+        &g_hudMatrixState,
+        hud,
+        HUD_OFFSET_X,
+        HUD_OFFSET_Y,
+        HUD_OFFSET_Z
+    );
 }
 
 static void WINAPI HookApplyMatrix(uint32_t handle, float* matrix)
