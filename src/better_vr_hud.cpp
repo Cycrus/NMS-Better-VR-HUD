@@ -25,7 +25,7 @@ extern "C" void* g_originalCameraCapturePoint;
 void* g_originalBodyCapturePoint = nullptr;
 void* g_originalCameraCapturePoint = nullptr;
 
-static ApplyMatrixFn g_applyMatrix = nullptr;
+static ApplyMatrixFn g_originalApplyMatrix = nullptr;
 static VrUpdateFn g_originalVrUpdate = nullptr;
 
 static float g_latestBodyMatrix[16] = {};
@@ -210,27 +210,47 @@ extern "C" __attribute__((naked)) void HookCameraCapturePoint()
     );
 }
 
-static void ApplyCameraRelativeHudMatrix()
+static bool TryBuildCameraRelativeHudMatrix(float* hud)
 {
-    if (!g_applyMatrix)
-        return;
-
     if (!InterlockedCompareExchange(&g_hasBodyMatrix, 1, 1))
-        return;
+        return false;
 
     if (!InterlockedCompareExchange(&g_hasCameraMatrix, 1, 1))
-        return;
+        return false;
 
     float body[16] = {};
     float camera[16] = {};
     CopyMatrix(body, g_latestBodyMatrix);
     CopyMatrix(camera, g_latestCameraMatrix);
 
-    float hud[16] = {};
-    if (!BuildCameraRelativeHudMatrix(camera, body, hud))
+    return BuildCameraRelativeHudMatrix(camera, body, hud);
+}
+
+static void WINAPI HookApplyMatrix(uint32_t handle, float* matrix)
+{
+    if (handle == TARGET_HUD_HANDLE)
+    {
+        float hud[16] = {};
+        if (TryBuildCameraRelativeHudMatrix(hud))
+        {
+            g_originalApplyMatrix(handle, hud);
+            return;
+        }
+    }
+
+    g_originalApplyMatrix(handle, matrix);
+}
+
+static void ApplyCameraRelativeHudMatrix()
+{
+    if (!g_originalApplyMatrix)
         return;
 
-    g_applyMatrix(TARGET_HUD_HANDLE, hud);
+    float hud[16] = {};
+    if (!TryBuildCameraRelativeHudMatrix(hud))
+        return;
+
+    g_originalApplyMatrix(TARGET_HUD_HANDLE, hud);
 }
 
 static void WINAPI HookVrUpdate(void* self)
@@ -254,11 +274,16 @@ static DWORD WINAPI InstallHooksThread(LPVOID)
     Sleep(2000);
 
     uintptr_t base = reinterpret_cast<uintptr_t>(GetModuleHandleA(nullptr));
-    g_applyMatrix = reinterpret_cast<ApplyMatrixFn>(base + APPLY_MATRIX_OFFSET);
 
     MH_STATUS status = MH_Initialize();
     if (status != MH_OK && status != MH_ERROR_ALREADY_INITIALIZED)
         return 0;
+
+    CreateHook(
+        reinterpret_cast<void*>(base + APPLY_MATRIX_OFFSET),
+        reinterpret_cast<void*>(&HookApplyMatrix),
+        reinterpret_cast<void**>(&g_originalApplyMatrix)
+    );
 
     CreateHook(
         reinterpret_cast<void*>(base + BODY_CAPTURE_POINT_OFFSET),
