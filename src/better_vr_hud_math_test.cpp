@@ -80,12 +80,38 @@ static bool CameraYawRelativeToBodyMovesHudAlongCameraNegativeZ()
     return MatrixNear(hud, expected);
 }
 
+static bool HudMatrixFallbackUsesLastValidMatrix()
+{
+    HudMatrixState state = {};
+
+    const float identity[16] = {
+        1.0f, 0.0f, 0.0f, 0.0f,
+        0.0f, 1.0f, 0.0f, 0.0f,
+        0.0f, 0.0f, 1.0f, 0.0f,
+        0.0f, 0.0f, 0.0f, 1.0f
+    };
+
+    float first[16] = {};
+    if (!BuildCameraRelativeHudMatrixWithFallback(identity, identity, &state, first))
+        return false;
+
+    const float invalid[16] = {};
+    float fallback[16] = {};
+    if (!BuildCameraRelativeHudMatrixWithFallback(invalid, invalid, &state, fallback))
+        return false;
+
+    return MatrixNear(fallback, first);
+}
+
 int main()
 {
     if (!NeutralCameraBodyProducesDefaultHud())
         return 1;
 
     if (!CameraYawRelativeToBodyMovesHudAlongCameraNegativeZ())
+        return 1;
+
+    if (!HudMatrixFallbackUsesLastValidMatrix())
         return 1;
 
     return 0;

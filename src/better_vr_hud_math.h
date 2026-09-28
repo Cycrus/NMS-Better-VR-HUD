@@ -12,6 +12,12 @@ struct Vec3
     float z;
 };
 
+struct HudMatrixState
+{
+    float latest[16] = {};
+    bool hasLatest = false;
+};
+
 static inline bool IsFinite(float value)
 {
     return std::isfinite(value);
@@ -217,4 +223,28 @@ static inline bool BuildCameraRelativeHudMatrix(
     hud[15] = 1.0f;
 
     return ValidateTransform(hud);
+}
+
+static inline bool BuildCameraRelativeHudMatrixWithFallback(
+    const float* camera,
+    const float* body,
+    HudMatrixState* state,
+    float* hud
+)
+{
+    if (!state || !hud)
+        return false;
+
+    if (BuildCameraRelativeHudMatrix(camera, body, hud))
+    {
+        std::memcpy(state->latest, hud, sizeof(state->latest));
+        state->hasLatest = true;
+        return true;
+    }
+
+    if (!state->hasLatest)
+        return false;
+
+    std::memcpy(hud, state->latest, sizeof(state->latest));
+    return true;
 }

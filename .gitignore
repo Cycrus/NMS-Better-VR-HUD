@@ -3,3 +3,4 @@ venv
 .venv
 *.o
 *.asi
+src/better_vr_hud_math_test

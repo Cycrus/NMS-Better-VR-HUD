@@ -30,6 +30,7 @@ static VrUpdateFn g_originalVrUpdate = nullptr;
 
 static float g_latestBodyMatrix[16] = {};
 static float g_latestCameraMatrix[16] = {};
+static HudMatrixState g_hudMatrixState = {};
 static volatile LONG g_hasBodyMatrix = 0;
 static volatile LONG g_hasCameraMatrix = 0;
 
@@ -210,20 +211,20 @@ extern "C" __attribute__((naked)) void HookCameraCapturePoint()
     );
 }
 
-static bool TryBuildCameraRelativeHudMatrix(float* hud)
+static bool TryGetCameraRelativeHudMatrix(float* hud)
 {
     if (!InterlockedCompareExchange(&g_hasBodyMatrix, 1, 1))
-        return false;
+        return BuildCameraRelativeHudMatrixWithFallback(nullptr, nullptr, &g_hudMatrixState, hud);
 
     if (!InterlockedCompareExchange(&g_hasCameraMatrix, 1, 1))
-        return false;
+        return BuildCameraRelativeHudMatrixWithFallback(nullptr, nullptr, &g_hudMatrixState, hud);
 
     float body[16] = {};
     float camera[16] = {};
     CopyMatrix(body, g_latestBodyMatrix);
     CopyMatrix(camera, g_latestCameraMatrix);
 
-    return BuildCameraRelativeHudMatrix(camera, body, hud);
+    return BuildCameraRelativeHudMatrixWithFallback(camera, body, &g_hudMatrixState, hud);
 }
 
 static void WINAPI HookApplyMatrix(uint32_t handle, float* matrix)
@@ -231,7 +232,7 @@ static void WINAPI HookApplyMatrix(uint32_t handle, float* matrix)
     if (handle == TARGET_HUD_HANDLE)
     {
         float hud[16] = {};
-        if (TryBuildCameraRelativeHudMatrix(hud))
+        if (TryGetCameraRelativeHudMatrix(hud))
         {
             g_originalApplyMatrix(handle, hud);
             return;
@@ -247,7 +248,7 @@ static void ApplyCameraRelativeHudMatrix()
         return;
 
     float hud[16] = {};
-    if (!TryBuildCameraRelativeHudMatrix(hud))
+    if (!TryGetCameraRelativeHudMatrix(hud))
         return;
 
     g_originalApplyMatrix(TARGET_HUD_HANDLE, hud);
