@@ -149,6 +149,42 @@ static bool ExtractLocalZOffsetUsesMatrixForwardAxis()
     return Near(offsetZ, -2.5f);
 }
 
+static bool ExtractLocalZOffsetAcceptsNonUnitHudForwardAxis()
+{
+    const float matrix[16] = {
+        1.0f, 0.0f, 0.0f, 0.0f,
+        0.0f, 0.9f, 0.1f, 0.0f,
+        0.0f, 0.0f, 2.0f, 0.0f,
+        0.0f, 0.0f, -5.0f, 1.0f
+    };
+
+    float offsetZ = 0.0f;
+    if (!ExtractLocalHudOffsetZ(matrix, &offsetZ))
+        return false;
+
+    return Near(offsetZ, -2.5f);
+}
+
+static bool NonOrthonormalCameraBodyRejectsHudMatrixBuild()
+{
+    const float body[16] = {
+        1.0f, 0.0f, 0.0f, 0.0f,
+        0.0f, 0.9f, 0.1f, 0.0f,
+        0.0f, 0.0f, 1.1f, 0.0f,
+        0.0f, 0.0f, 0.0f, 1.0f
+    };
+
+    const float camera[16] = {
+        0.0f, 0.0f, -2.0f, 0.0f,
+        0.0f, 0.8f, 0.2f, 0.0f,
+        2.0f, 0.0f, 0.0f, 0.0f,
+        0.0f, 0.0f, 0.0f, 1.0f
+    };
+
+    float hud[16] = {};
+    return !BuildLevelCameraRelativeHudMatrix(camera, body, hud, 0.0f, 0.0f, -2.5f);
+}
+
 static bool HudMatrixFallbackUsesLastValidMatrix()
 {
     HudMatrixState state = {};
@@ -161,12 +197,12 @@ static bool HudMatrixFallbackUsesLastValidMatrix()
     };
 
     float first[16] = {};
-    if (!BuildCameraRelativeHudMatrixWithFallback(identity, identity, &state, first, 0.0f, 0.0f, -2.5f))
+    if (!BuildCameraRelativeHudMatrixWithFallback(identity, identity, &state, first, 0.0f, 0.0f, -2.5f, HudType::LEVEL))
         return false;
 
     const float invalid[16] = {};
     float fallback[16] = {};
-    if (!BuildCameraRelativeHudMatrixWithFallback(invalid, invalid, &state, fallback, 0.0f, 0.0f, -2.5f))
+    if (!BuildCameraRelativeHudMatrixWithFallback(invalid, invalid, &state, fallback, 0.0f, 0.0f, -2.5f, HudType::LEVEL))
         return false;
 
     return MatrixNear(fallback, first);
@@ -187,6 +223,12 @@ int main()
         return 1;
 
     if (!ExtractLocalZOffsetUsesMatrixForwardAxis())
+        return 1;
+
+    if (!ExtractLocalZOffsetAcceptsNonUnitHudForwardAxis())
+        return 1;
+
+    if (!NonOrthonormalCameraBodyRejectsHudMatrixBuild())
         return 1;
 
     if (!HudMatrixFallbackUsesLastValidMatrix())

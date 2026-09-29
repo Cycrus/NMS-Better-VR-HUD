@@ -273,12 +273,16 @@ bool ExtractLocalHudOffsetZ(const float* matrix, float* offsetZ)
     if (!matrix || !offsetZ)
         return false;
 
-    if (!ValidateTransform(matrix))
+    if (!IsFiniteMatrix(matrix))
         return false;
 
     Vec3 pos = MakeVec3(matrix[12], matrix[13], matrix[14]);
     Vec3 forward = Row3(matrix, 2);
-    *offsetZ = Dot(pos, forward);
+    float forwardLengthSquared = Dot(forward, forward);
+    if (!IsFinite(forwardLengthSquared) || forwardLengthSquared < 0.0001f)
+        return false;
+
+    *offsetZ = Dot(pos, forward) / forwardLengthSquared;
     return IsFinite(*offsetZ);
 }
 
@@ -289,13 +293,20 @@ bool BuildCameraRelativeHudMatrixWithFallback(
     float* hud,
     float offsetX,
     float offsetY,
-    float offsetZ
+    float offsetZ,
+    HudType hud_type
 )
 {
     if (!state || !hud)
         return false;
 
-    if (BuildLevelCameraRelativeHudMatrix(camera, body, hud, offsetX, offsetY, offsetZ))
+    bool success = false;
+    if (hud_type == HudType::LEVEL)
+        success = BuildLevelCameraRelativeHudMatrix(camera, body, hud, offsetX, offsetY, offsetZ);
+    else
+        success = BuildCameraRelativeHudMatrix(camera, body, hud, offsetX, offsetY, offsetZ);
+    
+    if (success)
     {
         std::memcpy(state->latest, hud, sizeof(state->latest));
         state->hasLatest = true;

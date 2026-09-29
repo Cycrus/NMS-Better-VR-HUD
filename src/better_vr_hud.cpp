@@ -10,11 +10,19 @@
 #include "math.h"
 #include "nms_signatures.h"
 
+#ifdef LEVEL_HUD
+static HudType hud_type = HudType::LEVEL;
+static constexpr float HUD_OFFSET_Y = 0.0f;
+#else
+static HudType hud_type = HudType::FULL;
+static constexpr float HUD_OFFSET_Y = -0.5f;
+#endif
+
 static constexpr uintptr_t BODY_MATRIX_R15_OFFSET = 0x5B0;
 static constexpr uintptr_t CAMERA_MATRIX_R15_OFFSET = 0x510;
 static constexpr uint32_t TARGET_HUD_HANDLE = 0x00080133;
 static constexpr float HUD_OFFSET_X = 0.0f;
-static constexpr float HUD_OFFSET_Y = 0.0f;
+
 static constexpr float DEFAULT_HUD_OFFSET_Z = -2.5f;
 
 using ApplyMatrixFn = void (WINAPI*)(uint32_t handle, float* matrix);
@@ -247,7 +255,8 @@ static bool TryGetCameraRelativeHudMatrix(float* hud)
             hud,
             HUD_OFFSET_X,
             HUD_OFFSET_Y,
-            offsetZ
+            offsetZ,
+            hud_type
         );
     }
 
@@ -260,7 +269,8 @@ static bool TryGetCameraRelativeHudMatrix(float* hud)
             hud,
             HUD_OFFSET_X,
             HUD_OFFSET_Y,
-            offsetZ
+            offsetZ,
+            hud_type
         );
     }
 
@@ -276,7 +286,8 @@ static bool TryGetCameraRelativeHudMatrix(float* hud)
         hud,
         HUD_OFFSET_X,
         HUD_OFFSET_Y,
-        offsetZ
+        offsetZ,
+        hud_type
     );
 }
 

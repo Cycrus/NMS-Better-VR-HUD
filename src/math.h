@@ -1,5 +1,11 @@
 #pragma once
 
+enum HudType {
+    NONE,
+    LEVEL,
+    FULL
+};
+
 struct Vec3
 {
     float x;
@@ -61,5 +67,6 @@ bool BuildCameraRelativeHudMatrixWithFallback(
     float* hud,
     float offsetX,
     float offsetY,
-    float offsetZ
+    float offsetZ,
+    HudType hud_type
 );

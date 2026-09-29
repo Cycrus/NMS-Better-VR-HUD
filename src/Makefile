@@ -17,17 +17,22 @@ MINHOOK_OBJECTS := \
 	hde64.o
 
 APP_OBJECTS := \
-	better_vr_hud.o \
 	math.o \
 	nms_signatures.o \
 	signature_scanner.o
 
-default: BetterVrHud.asi
+default: BetterVrHudLevel.asi BetterVrHudFull.asi
 
-BetterVrHud.asi: $(APP_OBJECTS) $(MINHOOK_OBJECTS)
+BetterVrHudLevel.asi: better_vr_hud_level.o $(APP_OBJECTS) $(MINHOOK_OBJECTS)
 	$(CXX) -shared -O2 -o $@ $^
 
-better_vr_hud.o: better_vr_hud.cpp math.h nms_signatures.h signature_scanner.h
+BetterVrHudFull.asi: better_vr_hud_full.o $(APP_OBJECTS) $(MINHOOK_OBJECTS)
+	$(CXX) -shared -O2 -o $@ $^
+
+better_vr_hud_level.o: better_vr_hud.cpp math.h nms_signatures.h signature_scanner.h
+	$(CXX) $(CXXFLAGS) -DLEVEL_HUD -c -o $@ $<
+
+better_vr_hud_full.o: better_vr_hud.cpp math.h nms_signatures.h signature_scanner.h
 	$(CXX) $(CXXFLAGS) -c -o $@ $<
 
 math.o: math.cpp math.h
@@ -62,4 +67,4 @@ signature_scanner_test: signature_scanner_test.cpp signature_scanner.cpp signatu
 	$(HOST_CXX) $(HOST_CXXFLAGS) -o $@ signature_scanner_test.cpp signature_scanner.cpp
 
 clean:
-	rm -f BetterVrHud.asi $(APP_OBJECTS) math_test signature_scanner_test $(MINHOOK_OBJECTS)
+	rm -f BetterVrHud.asi BetterVrHudLevel.asi BetterVrHudFull.asi better_vr_hud.o better_vr_hud_level.o better_vr_hud_full.o $(APP_OBJECTS) math_test signature_scanner_test $(MINHOOK_OBJECTS)
