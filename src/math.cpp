@@ -1,47 +1,34 @@
-#pragma once
+#include "math.h"
 
 #include <cmath>
 #include <cstring>
 
-struct Vec3
-{
-    float x;
-    float y;
-    float z;
-};
-
-struct HudMatrixState
-{
-    float latest[16] = {};
-    bool hasLatest = false;
-};
-
-static inline bool IsFinite(float value)
+bool IsFinite(float value)
 {
     return std::isfinite(value);
 }
 
-static inline Vec3 MakeVec3(float x, float y, float z)
+Vec3 MakeVec3(float x, float y, float z)
 {
     return {x, y, z};
 }
 
-static inline Vec3 Add(Vec3 a, Vec3 b)
+Vec3 Add(Vec3 a, Vec3 b)
 {
     return {a.x + b.x, a.y + b.y, a.z + b.z};
 }
 
-static inline Vec3 Scale(Vec3 v, float scale)
+Vec3 Scale(Vec3 v, float scale)
 {
     return {v.x * scale, v.y * scale, v.z * scale};
 }
 
-static inline float Dot(Vec3 a, Vec3 b)
+float Dot(Vec3 a, Vec3 b)
 {
     return (a.x * b.x) + (a.y * b.y) + (a.z * b.z);
 }
 
-static inline Vec3 Cross(Vec3 a, Vec3 b)
+Vec3 Cross(Vec3 a, Vec3 b)
 {
     return {
         (a.y * b.z) - (a.z * b.y),
@@ -50,12 +37,12 @@ static inline Vec3 Cross(Vec3 a, Vec3 b)
     };
 }
 
-static inline float Length(Vec3 v)
+float Length(Vec3 v)
 {
     return std::sqrt(Dot(v, v));
 }
 
-static inline bool Normalize(Vec3 v, Vec3* out)
+bool Normalize(Vec3 v, Vec3* out)
 {
     float length = Length(v);
     if (!IsFinite(length) || length < 0.0001f)
@@ -65,13 +52,13 @@ static inline bool Normalize(Vec3 v, Vec3* out)
     return true;
 }
 
-static inline Vec3 Row3(const float* matrix, int row)
+Vec3 Row3(const float* matrix, int row)
 {
     int base = row * 4;
     return {matrix[base], matrix[base + 1], matrix[base + 2]};
 }
 
-static inline bool IsFiniteMatrix(const float* matrix)
+bool IsFiniteMatrix(const float* matrix)
 {
     for (int i = 0; i < 16; ++i)
     {
@@ -82,7 +69,7 @@ static inline bool IsFiniteMatrix(const float* matrix)
     return true;
 }
 
-static inline bool IsOrthonormalRotation(const float* matrix)
+bool IsOrthonormalRotation(const float* matrix)
 {
     Vec3 right = Row3(matrix, 0);
     Vec3 up = Row3(matrix, 1);
@@ -116,12 +103,12 @@ static inline bool IsOrthonormalRotation(const float* matrix)
     return true;
 }
 
-static inline bool ValidateTransform(const float* matrix)
+bool ValidateTransform(const float* matrix)
 {
     return IsFiniteMatrix(matrix) && IsOrthonormalRotation(matrix);
 }
 
-static inline void InvertOrthonormalAffineRowMajor(const float* matrix, float* inverse)
+void InvertOrthonormalAffineRowMajor(const float* matrix, float* inverse)
 {
     inverse[0] = matrix[0];
     inverse[1] = matrix[4];
@@ -145,7 +132,7 @@ static inline void InvertOrthonormalAffineRowMajor(const float* matrix, float* i
     inverse[15] = 1.0f;
 }
 
-static inline void MultiplyRowMajor4x4(const float* a, const float* b, float* out)
+void MultiplyRowMajor4x4(const float* a, const float* b, float* out)
 {
     float result[16] = {};
 
@@ -164,7 +151,7 @@ static inline void MultiplyRowMajor4x4(const float* a, const float* b, float* ou
     std::memcpy(out, result, sizeof(result));
 }
 
-static inline bool BuildRelativeTransform(const float* camera, const float* body, float* relative)
+bool BuildRelativeTransform(const float* camera, const float* body, float* relative)
 {
     if (!camera || !body || !relative)
         return false;
@@ -179,7 +166,7 @@ static inline bool BuildRelativeTransform(const float* camera, const float* body
     return ValidateTransform(relative);
 }
 
-static inline bool BuildHudMatrixFromBasis(
+bool BuildHudMatrixFromBasis(
     Vec3 right,
     Vec3 up,
     Vec3 forward,
@@ -220,7 +207,7 @@ static inline bool BuildHudMatrixFromBasis(
     return ValidateTransform(hud);
 }
 
-static inline bool BuildCameraRelativeHudMatrix(
+bool BuildCameraRelativeHudMatrix(
     const float* camera,
     const float* body,
     float* hud,
@@ -249,7 +236,7 @@ static inline bool BuildCameraRelativeHudMatrix(
     return BuildHudMatrixFromBasis(right, up, forward, hud, offsetX, offsetY, offsetZ);
 }
 
-static inline bool BuildLevelCameraRelativeHudMatrix(
+bool BuildLevelCameraRelativeHudMatrix(
     const float* camera,
     const float* body,
     float* hud,
@@ -281,7 +268,7 @@ static inline bool BuildLevelCameraRelativeHudMatrix(
     return BuildHudMatrixFromBasis(right, up, forward, hud, offsetX, offsetY, offsetZ);
 }
 
-static inline bool ExtractLocalHudOffsetZ(const float* matrix, float* offsetZ)
+bool ExtractLocalHudOffsetZ(const float* matrix, float* offsetZ)
 {
     if (!matrix || !offsetZ)
         return false;
@@ -295,7 +282,7 @@ static inline bool ExtractLocalHudOffsetZ(const float* matrix, float* offsetZ)
     return IsFinite(*offsetZ);
 }
 
-static inline bool BuildCameraRelativeHudMatrixWithFallback(
+bool BuildCameraRelativeHudMatrixWithFallback(
     const float* camera,
     const float* body,
     HudMatrixState* state,

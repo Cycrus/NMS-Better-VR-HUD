@@ -4,3 +4,5 @@ venv
 *.o
 *.asi
 src/better_vr_hud_math_test
+src/math_test
+src/signature_scanner_test

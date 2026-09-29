@@ -1,4 +1,4 @@
-#include "better_vr_hud_math.h"
+#include "math.h"
 
 #include <cmath>
 #include <cstdio>

@@ -1,7 +1,7 @@
 # Runtime Signatures
 
 This document records the signatures used to replace static NMS.exe code
-offsets in `src/better_vr_hud.cpp`.
+offsets in `src/nms_signatures.cpp`.
 
 The signatures were derived from:
 

@@ -16,12 +16,27 @@ MINHOOK_OBJECTS := \
 	trampoline.o \
 	hde64.o
 
+APP_OBJECTS := \
+	better_vr_hud.o \
+	math.o \
+	nms_signatures.o \
+	signature_scanner.o
+
 default: BetterVrHud.asi
 
-BetterVrHud.asi: better_vr_hud.o $(MINHOOK_OBJECTS)
+BetterVrHud.asi: $(APP_OBJECTS) $(MINHOOK_OBJECTS)
 	$(CXX) -shared -O2 -o $@ $^
 
-better_vr_hud.o: better_vr_hud.cpp better_vr_hud_math.h
+better_vr_hud.o: better_vr_hud.cpp math.h nms_signatures.h signature_scanner.h
+	$(CXX) $(CXXFLAGS) -c -o $@ $<
+
+math.o: math.cpp math.h
+	$(CXX) $(CXXFLAGS) -c -o $@ $<
+
+nms_signatures.o: nms_signatures.cpp nms_signatures.h signature_scanner.h
+	$(CXX) $(CXXFLAGS) -c -o $@ $<
+
+signature_scanner.o: signature_scanner.cpp signature_scanner.h
 	$(CXX) $(CXXFLAGS) -c -o $@ $<
 
 buffer.o: $(MINHOOK_SRC)/buffer.c
@@ -36,11 +51,15 @@ trampoline.o: $(MINHOOK_SRC)/trampoline.c
 hde64.o: $(MINHOOK_SRC)/hde/hde64.c
 	$(CC) $(CFLAGS) -c -o $@ $<
 
-test: better_vr_hud_math_test
-	./better_vr_hud_math_test
+test: math_test signature_scanner_test
+	./math_test
+	./signature_scanner_test
 
-better_vr_hud_math_test: better_vr_hud_math_test.cpp better_vr_hud_math.h
-	$(HOST_CXX) $(HOST_CXXFLAGS) -o $@ $<
+math_test: math_test.cpp math.cpp math.h
+	$(HOST_CXX) $(HOST_CXXFLAGS) -o $@ math_test.cpp math.cpp
+
+signature_scanner_test: signature_scanner_test.cpp signature_scanner.cpp signature_scanner.h
+	$(HOST_CXX) $(HOST_CXXFLAGS) -o $@ signature_scanner_test.cpp signature_scanner.cpp
 
 clean:
-	rm -f BetterVrHud.asi better_vr_hud.o better_vr_hud_math_test $(MINHOOK_OBJECTS)
+	rm -f BetterVrHud.asi $(APP_OBJECTS) math_test signature_scanner_test $(MINHOOK_OBJECTS)
