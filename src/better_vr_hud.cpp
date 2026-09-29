@@ -17,7 +17,7 @@ static constexpr uintptr_t CAMERA_MATRIX_R15_OFFSET = 0x510;
 static constexpr uint32_t TARGET_HUD_HANDLE = 0x00080133;
 static constexpr float HUD_OFFSET_X = 0.0f;
 static constexpr float HUD_OFFSET_Y = 0.0f;
-static constexpr float HUD_OFFSET_Z = -2.5f;
+static constexpr float DEFAULT_HUD_OFFSET_Z = -2.5f;
 
 using ApplyMatrixFn = void (WINAPI*)(uint32_t handle, float* matrix);
 using VrUpdateFn = void (WINAPI*)(void* self);
@@ -34,8 +34,10 @@ static VrUpdateFn g_originalVrUpdate = nullptr;
 static float g_latestBodyMatrix[16] = {};
 static float g_latestCameraMatrix[16] = {};
 static HudMatrixState g_hudMatrixState = {};
+static float g_latestHudOffsetZ = DEFAULT_HUD_OFFSET_Z;
 static volatile LONG g_hasBodyMatrix = 0;
 static volatile LONG g_hasCameraMatrix = 0;
+static volatile LONG g_hasHudOffsetZ = 0;
 
 static void CopyMatrix(float* target, const float* source)
 {
@@ -216,6 +218,10 @@ extern "C" __attribute__((naked)) void HookCameraCapturePoint()
 
 static bool TryGetCameraRelativeHudMatrix(float* hud)
 {
+    float offsetZ = InterlockedCompareExchange(&g_hasHudOffsetZ, 1, 1)
+        ? g_latestHudOffsetZ
+        : DEFAULT_HUD_OFFSET_Z;
+
     if (!InterlockedCompareExchange(&g_hasBodyMatrix, 1, 1))
     {
         return BuildCameraRelativeHudMatrixWithFallback(
@@ -225,7 +231,7 @@ static bool TryGetCameraRelativeHudMatrix(float* hud)
             hud,
             HUD_OFFSET_X,
             HUD_OFFSET_Y,
-            HUD_OFFSET_Z
+            offsetZ
         );
     }
 
@@ -238,7 +244,7 @@ static bool TryGetCameraRelativeHudMatrix(float* hud)
             hud,
             HUD_OFFSET_X,
             HUD_OFFSET_Y,
-            HUD_OFFSET_Z
+            offsetZ
         );
     }
 
@@ -254,7 +260,7 @@ static bool TryGetCameraRelativeHudMatrix(float* hud)
         hud,
         HUD_OFFSET_X,
         HUD_OFFSET_Y,
-        HUD_OFFSET_Z
+        offsetZ
     );
 }
 
@@ -262,6 +268,13 @@ static void WINAPI HookApplyMatrix(uint32_t handle, float* matrix)
 {
     if (handle == TARGET_HUD_HANDLE)
     {
+        float offsetZ = 0.0f;
+        if (ExtractLocalHudOffsetZ(matrix, &offsetZ))
+        {
+            g_latestHudOffsetZ = offsetZ;
+            InterlockedExchange(&g_hasHudOffsetZ, 1);
+        }
+
         float hud[16] = {};
         if (TryGetCameraRelativeHudMatrix(hud))
         {

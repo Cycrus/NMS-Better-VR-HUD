@@ -281,6 +281,20 @@ static inline bool BuildLevelCameraRelativeHudMatrix(
     return BuildHudMatrixFromBasis(right, up, forward, hud, offsetX, offsetY, offsetZ);
 }
 
+static inline bool ExtractLocalHudOffsetZ(const float* matrix, float* offsetZ)
+{
+    if (!matrix || !offsetZ)
+        return false;
+
+    if (!ValidateTransform(matrix))
+        return false;
+
+    Vec3 pos = MakeVec3(matrix[12], matrix[13], matrix[14]);
+    Vec3 forward = Row3(matrix, 2);
+    *offsetZ = Dot(pos, forward);
+    return IsFinite(*offsetZ);
+}
+
 static inline bool BuildCameraRelativeHudMatrixWithFallback(
     const float* camera,
     const float* body,

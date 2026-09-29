@@ -133,6 +133,22 @@ static bool LevelHudIgnoresCameraPitchForVerticalPlacement()
     return MatrixNear(hud, expected);
 }
 
+static bool ExtractLocalZOffsetUsesMatrixForwardAxis()
+{
+    const float matrix[16] = {
+        0.0f, -0.0f, -1.0f, 0.0f,
+        0.0f, 1.0f, 0.0f, 0.0f,
+        1.0f, 0.0f, 0.0f, 0.0f,
+        -2.5f, 0.0f, 0.0f, 1.0f
+    };
+
+    float offsetZ = 0.0f;
+    if (!ExtractLocalHudOffsetZ(matrix, &offsetZ))
+        return false;
+
+    return Near(offsetZ, -2.5f);
+}
+
 static bool HudMatrixFallbackUsesLastValidMatrix()
 {
     HudMatrixState state = {};
@@ -168,6 +184,9 @@ int main()
         return 1;
 
     if (!LevelHudIgnoresCameraPitchForVerticalPlacement())
+        return 1;
+
+    if (!ExtractLocalZOffsetUsesMatrixForwardAxis())
         return 1;
 
     if (!HudMatrixFallbackUsesLastValidMatrix())
