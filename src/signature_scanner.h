@@ -1,3 +1,8 @@
+/* A custom minimalistic signature scanner, allowing to scan the hooked game for 
+ * certain opcode patterns. This approach is more robust to game updates than
+ * simply selecting static code addresses to hook into.
+ */
+
 #pragma once
 
 #include <cstddef>

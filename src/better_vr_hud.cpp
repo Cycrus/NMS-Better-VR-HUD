@@ -1,3 +1,6 @@
+/* The main module for the better VR HUD mod.
+ */
+
 #define WIN32_LEAN_AND_MEAN
 #include <windows.h>
 
@@ -45,6 +48,7 @@ static volatile LONG g_hasBodyMatrix = 0;
 static volatile LONG g_hasCameraMatrix = 0;
 static volatile LONG g_hasHudOffsetZ = 0;
 
+
 static void DebugLog(const char* message)
 {
     OutputDebugStringA("BetterVrHud: ");
@@ -82,6 +86,10 @@ extern "C" void CapturePlayerCameraMatrix(uintptr_t liveBase)
     InterlockedExchange(&g_hasCameraMatrix, 1);
 }
 
+/**
+ * Captures the body transform matrix my manually pushing the matrix
+ * registers into the CapturePlayerBodyMatrix arguments.
+ */
 extern "C" __attribute__((naked)) void HookBodyCapturePoint()
 {
     __asm__ __volatile__(
@@ -161,6 +169,10 @@ extern "C" __attribute__((naked)) void HookBodyCapturePoint()
     );
 }
 
+/**
+ * Captures the camera transform matrix my manually pushing the matrix
+ * registers into the CapturePlayerCameraMatrix arguments.
+ */
 extern "C" __attribute__((naked)) void HookCameraCapturePoint()
 {
     __asm__ __volatile__(

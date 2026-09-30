@@ -1,3 +1,7 @@
+/* All methods required for the mathematics to manipulate the HUD
+ * transform matrix.
+ */
+
 #pragma once
 
 enum HudType {
