@@ -53,4 +53,4 @@ WINEDLLOVERRIDES="winmm=n,b" %command%
     - Mod calls code address NMS.exe+0x1838500 (applyObjectTransform)
     - applyObjectTransform is called from NMS.exe+0x2C356C0 (updateVROffset), which is called once every frame when the VR HMD transform is updated
     - It uses the object handle 0x00080133 to reference the HUD.
-- Addresses are not hooked statically, but are 
+- Addresses are not hooked statically, but are searched for by unique opcode signatures.
