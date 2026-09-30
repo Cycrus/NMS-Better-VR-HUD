@@ -30,6 +30,22 @@ This repo uses submodules. Please clone it with:
 git clone --recurse-submodules git@github.com:Cycrus/NMS-Better-VR-HUD.git
 ```
 
+## Showcase
+### Default VR HUD
+No mod installed.
+
+https://github.com/user-attachments/assets/8de84137-206e-45a7-b363-7ad6d3a4327c
+
+### Better VR HUD Full
+Full camera view tracking hud.
+
+https://github.com/user-attachments/assets/03ab7285-8073-408a-ba28-064619f5c3b7
+
+### Better VR HUD Level
+Only rotates on z axis around player.
+
+https://github.com/user-attachments/assets/8a45316e-917d-485e-92ab-0fa2fd015f0a
+
 ## Installation
 The [Latest main build](https://github.com/Cycrus/NMS-Better-VR-HUD/releases/tag/continuous) is automatically updated after every successful build on `main`. Both `.asi` variants are also available as artifacts from the corresponding GitHub Actions run.
 
