@@ -21,6 +21,10 @@ The mod utilizes a DLL side loading technique using `Ultimate ASI Loader`.
 
 For this mod NMS.exe is partially reverse engineered and analyzed using radare2 and cheatengine.
 
+There are two versions of the mod. Pick one to your liking:
+- BetterVrHudFull.asi - The HUD moves on every axis with the head and "sticks" to it even when you look up or down.
+- BetterVrHudLevel.asi - The HUD rotates only on the z axis around the player.
+
 This repo uses submodules. Please clone it with:
 ```bash
 git clone --recurse-submodules git@github.com:Cycrus/NMS-Better-VR-HUD.git
