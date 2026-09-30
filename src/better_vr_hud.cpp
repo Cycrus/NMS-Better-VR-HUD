@@ -67,11 +67,19 @@ static void DebugLogFormat(const char* format, ...)
     DebugLog(buffer);
 }
 
+/**
+ * Simply copies a transform matrix from one location to another.
+ */
 static void CopyMatrix(float* target, const float* source)
 {
     std::memcpy(target, source, sizeof(float) * 16);
 }
 
+/**
+ * Copies a transform matrix stored at the address of liveBase into the global g_latestBodyMatrix.
+ * Main path to update the body transform matrix used as a static anchor for the coordinate system
+ * projection between head rotation and hud matrix.
+ */
 extern "C" void CapturePlayerBodyMatrix(uintptr_t liveBase)
 {
     const float* matrix = reinterpret_cast<const float*>(liveBase + BODY_MATRIX_R15_OFFSET);
@@ -79,6 +87,10 @@ extern "C" void CapturePlayerBodyMatrix(uintptr_t liveBase)
     InterlockedExchange(&g_hasBodyMatrix, 1);
 }
 
+/**
+ * Copies a transform matrix stored at the address of liveBase into the global g_latestCameraMatrix.
+ * Main path to update the camera transform matrix used to orient the HUD rotation and position against.
+ */
 extern "C" void CapturePlayerCameraMatrix(uintptr_t liveBase)
 {
     const float* matrix = reinterpret_cast<const float*>(liveBase + CAMERA_MATRIX_R15_OFFSET);
@@ -252,6 +264,13 @@ extern "C" __attribute__((naked)) void HookCameraCapturePoint()
     );
 }
 
+/**
+ * Attempts to fetch the distance (z offset) of the HUD transform of the current frame.
+ * Afterwards builds the new HUD transform with the updated orientation.
+ * If no valid z body or camera matrix was found, the previous HUD transform is used.
+ * TODO: This currently leads to occasional stuttering. This is likely caused by a data
+ *       race between camera/body updates in the plugin and in the game.
+ */
 static bool TryGetCameraRelativeHudMatrix(float* hud)
 {
     float offsetZ = InterlockedCompareExchange(&g_hasHudOffsetZ, 1, 1)
@@ -303,6 +322,15 @@ static bool TryGetCameraRelativeHudMatrix(float* hud)
     );
 }
 
+/**
+ * applyMatrix is called whenever something changes its transform in the game.
+ * The target HUD handle is empirically detected and identifies the VR HUD.
+ * We use this to inject our own computed HUD transform matrix whenever the game
+ * wants to update the HUD transform. This only happens very occasionally and
+ * is mainly done to avoid the HUD jumping back into its original transform
+ * from time to time. The main HUD update path happens in HookVrUpdate and
+ * ApplyCameraRelativeHudMatrix.
+ */
 static void WINAPI HookApplyMatrix(uint32_t handle, float* matrix)
 {
     if (handle == TARGET_HUD_HANDLE)
@@ -325,6 +353,10 @@ static void WINAPI HookApplyMatrix(uint32_t handle, float* matrix)
     g_originalApplyMatrix(handle, matrix);
 }
 
+/**
+ * Updates the HUD transform matrix by manually calling applyMatrix method of the game
+ * with the empirically found target HUD handle.
+ */
 static void ApplyCameraRelativeHudMatrix()
 {
     if (!g_originalApplyMatrix)
@@ -337,12 +369,19 @@ static void ApplyCameraRelativeHudMatrix()
     g_originalApplyMatrix(TARGET_HUD_HANDLE, hud);
 }
 
+/**
+ * Hooks the VrUpdate method of the game to update the HUD whenever a VR update happens.
+ * This should happen every frame to achieve as fluid HUD movement as possible.
+ */
 static void WINAPI HookVrUpdate(void* self)
 {
     g_originalVrUpdate(self);
     ApplyCameraRelativeHudMatrix();
 }
 
+/**
+ * A helper function to inject a hook into a native game method.
+ */
 static bool CreateHook(const char* name, void* target, void* hook, void** original)
 {
     MH_STATUS status = MH_CreateHook(target, hook, original);
@@ -363,6 +402,9 @@ static bool CreateHook(const char* name, void* target, void* hook, void** origin
     return true;
 }
 
+/**
+ * A helper function to remove an injected hook from a native game method.
+ */
 static void RemoveInstalledHooks(void** targets, size_t count)
 {
     for (size_t i = 0; i < count; ++i)
@@ -372,6 +414,10 @@ static void RemoveInstalledHooks(void** targets, size_t count)
     }
 }
 
+/**
+ * A thread worker concurrently installing the hooks after the game had some time to load.
+ * This happens concurrently to avoid blocking any game processing.
+ */
 static DWORD WINAPI InstallHooksThread(LPVOID)
 {
     Sleep(2000);
@@ -440,6 +486,9 @@ static DWORD WINAPI InstallHooksThread(LPVOID)
     return 0;
 }
 
+/**
+ * The main entry point of the mod.
+ */
 BOOL WINAPI DllMain(HINSTANCE module, DWORD reason, LPVOID)
 {
     if (reason == DLL_PROCESS_ATTACH)

@@ -2,10 +2,18 @@
 
 #include <cstdint>
 
+/**
+ * A unique opcode signature close to the applyMatrix address
+  * we want to hook in.
+ */
 static constexpr const char* APPLY_MATRIX_SIGNATURE =
     "48 8D 54 24 20 E8 ?? ?? ?? ?? 44 0F 28 6C 24 60 "
     "4C 8D 9C 24 E8 00 00 00";
 
+/**
+ * A unique opcode signature close to the body transform matrix
+  * generation address we want to hook in.
+ */
 static constexpr const char* BODY_CAPTURE_POINT_SIGNATURE =
     "41 0F 11 87 B0 05 00 00 "
     "0F 10 48 10 "
@@ -21,6 +29,10 @@ static constexpr const char* BODY_CAPTURE_POINT_SIGNATURE =
     "48 8B 01 "
     "FF 50 70";
 
+/**
+ * A unique opcode signature close to the camera transform matrix
+ * generation address we want to hook in.
+ */
 static constexpr const char* CAMERA_CAPTURE_POINT_SIGNATURE =
     "41 0F 10 87 60 05 00 00 "
     "41 0F 10 8F 70 05 00 00 "
@@ -43,6 +55,10 @@ static constexpr const char* CAMERA_CAPTURE_POINT_SIGNATURE =
     "41 0F 10 87 D0 05 00 00 "
     "0F 29 05 ?? ?? ?? ??";
 
+/**
+ * A unique opcode signature close to the vr update address we want
+ * to hook in.
+ */
 static constexpr const char* VR_UPDATE_SIGNATURE =
     "80 3D ?? ?? ?? ?? 00 "
     "0F 85 ?? ?? ?? ?? "
@@ -56,10 +72,30 @@ static constexpr const char* VR_UPDATE_SIGNATURE =
     "FF 10 "
     "84 C0";
 
+/**
+ * The constant offset from the unique signature to reach the applyMatrix
+ * hooking point.
+ */
 static constexpr size_t APPLY_MATRIX_CALL_OFFSET = 0x05;
+
+/**
+ * The constant offset from the unique signature to reach the body generation
+ * transform hooking point.
+ */
 static constexpr size_t BODY_CAPTURE_POINT_HOOK_OFFSET = 0x38;
+
+/**
+ * The constant offset from the unique signature to reach the camera generation
+ * transform hooking point.
+ */
 static constexpr size_t CAMERA_CAPTURE_POINT_HOOK_OFFSET = 0x65;
+
+/**
+ * The constant offset from the unique signature to reach the vr update hooking
+ * point.
+ */
 static constexpr size_t VR_UPDATE_CALL_OFFSET = 0x23;
+
 
 bool ResolveHookTargets(HookTargets* targets, SignatureScannerLogFn log)
 {
