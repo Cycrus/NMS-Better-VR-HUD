@@ -27,9 +27,11 @@ git clone --recurse-submodules git@github.com:Cycrus/NMS-Better-VR-HUD.git
 ```
 
 ## Installation
+The [Latest main build](https://github.com/Cycrus/NMS-Better-VR-HUD/releases/tag/continuous) is automatically updated after every successful build on `main`. Both `.asi` variants are also available as artifacts from the corresponding GitHub Actions run.
+
 1. Download the file `winmm.dll` from the [Ultimate ASI Loader page](https://github.com/ThirteenAG/Ultimate-ASI-Loader/releases) and place it into the same directory as NMS.exe.
 2. Create a directory called `plugins` in the same directory as NMS.exe.
-3. Copy the file BetterVrHud.asi or BetterVRHudLevel.asi into the plugins directory (DO NOT COPY BOTH!).
+3. Copy either `BetterVrHudFull.asi` or `BetterVrHudLevel.asi` into the plugins directory (DO NOT COPY BOTH!).
 4. Start the game and enjoy.
 
 ### Linux Note
