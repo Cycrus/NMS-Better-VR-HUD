@@ -29,16 +29,15 @@ git clone --recurse-submodules git@github.com:Cycrus/NMS-Better-VR-HUD.git
 ## Installation
 1. Download the file `winmm.dll` from the [Ultimate ASI Loader page](https://github.com/ThirteenAG/Ultimate-ASI-Loader/releases) and place it into the same directory as NMS.exe.
 2. Create a directory called `plugins` in the same directory as NMS.exe.
-3. Copy the file BetterVrHud.asi into the plugins directory.
+3. Copy the file BetterVrHud.asi or BetterVRHudLevel.asi into the plugins directory (DO NOT COPY BOTH!).
 4. Start the game and enjoy.
 
-## TODO
-- [x] Make DLL sideloading work with Ultimate ASI Loader
-- [x] Hook into anything from No Man's Sky using MinHook
-- [x] Figure out how to extract player camera transform
-- [x] Figure out how to manipulate HUD transform
-- [x] Figure out how to extract player body transform
-- [ ] Connect camera transform to HUD transform for "sticky" HUD view
+### Linux Note
+On Linux when you use Proton, you need to set those launch options for the game:
+
+```
+WINEDLLOVERRIDES="winmm=n,b" %command%
+```
 
 ## Mod Concept
 - Mod .asi plugin is side-loaded using `Ultimate ASI Loader`.
@@ -52,89 +51,4 @@ git clone --recurse-submodules git@github.com:Cycrus/NMS-Better-VR-HUD.git
     - Mod calls code address NMS.exe+0x1838500 (applyObjectTransform)
     - applyObjectTransform is called from NMS.exe+0x2C356C0 (updateVROffset), which is called once every frame when the VR HMD transform is updated
     - It uses the object handle 0x00080133 to reference the HUD.
-
-## Mathematical Concept
-
-U ..... HUD transform matrix target (relative to P)
-
-H ..... Camera transform matrix (in world space)
-
-P ..... Body transform matrix. Indicates forward direction (in world space)
-
-
-### HUD Transform
-
-Transform \(H\) relative to \(P\):
-
-$$
-H' = HP^{-1}
-$$
-
-Calculate the HUD position from the negative Z direction of the camera:
-
-$$
-\mathrm{hudPos} = -2.5 \cdot H'.\mathrm{zAxis}
-$$
-
-Calculate the forward direction from the HUD position back toward the camera:
-
-$$
-\mathrm{forward}
-=
-\operatorname{normalize}(-\mathrm{hudPos})
-$$
-
-Use the Y-axis of \(H'\) as the up reference:
-
-$$
-\mathrm{upRef} = H'.\mathrm{yAxis}
-$$
-
-Calculate the right vector:
-
-$$
-\mathrm{right}
-=
-\operatorname{normalize}
-\left(
-\operatorname{cross}(\mathrm{upRef},\mathrm{forward})
-\right)
-$$
-
-Calculate the corrected up vector:
-
-$$
-\mathrm{up}
-=
-\operatorname{cross}(\mathrm{forward},\mathrm{right})
-$$
-
-Finally, construct the HUD transform matrix:
-
-$$
-U =
-\begin{bmatrix}
-\mathrm{right}.x & \mathrm{right}.y & \mathrm{right}.z & 0 \\
-\mathrm{up}.x & \mathrm{up}.y & \mathrm{up}.z & 0 \\
-\mathrm{forward}.x & \mathrm{forward}.y & \mathrm{forward}.z & 0 \\
-\mathrm{hudPos}.x & \mathrm{hudPos}.y & \mathrm{hudPos}.z & 1
-\end{bmatrix}
-$$
-
-## Findings
-### Approximate default HUD transform matrix
-$$
-\begin{bmatrix}
-1 & 0 & 0 & 0 \\
-0 & 1 & 0 & 0 \\
-0 & 0 & 1 & 0 \\
-0 & 0 & -2.5 & 1
-\end{bmatrix}
-$$
-
-### Important values
-- generateVRTransforms method address: NMS.exe+0x337927
-- Camera transform matrix: NMS.exe+0x6E7CA40 (16 floats)
-- applyObjectTransform method address: NMS.exe+0x1838500
-- updateVROffset method address: NMS.exe+0x2C356C0
-- "static" VR HUD object handle: 0x00080133
+- Addresses are not hooked statically, but are 
