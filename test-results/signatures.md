@@ -3,7 +3,7 @@
 This document records the signatures used to replace static NMS.exe code
 offsets in `src/nms_signatures.cpp`.
 
-The signatures were derived from:
+The original signatures were derived from:
 
 ```text
 diagnostics/game_structure_data/reverse/NMS.exe
@@ -26,15 +26,99 @@ uintptr_t target = reinterpret_cast<uintptr_t>(call + 5 + rel);
 If any signature has zero or multiple matches, fail closed and skip hook
 installation.
 
+## Current static addresses: `NMS_new.exe`
+
+Reverified with radare2 on 2026-10-28 using the current enhanced signatures
+in `src/nms_signatures.cpp`. Each signature matches exactly once when searching
+executable sections (`search.in=bin.sections.x`). All adjusted capture points
+and callsites were checked as instruction boundaries in disassembly.
+
+These addresses apply to the supplied `../NMS_new.exe`, SHA-256:
+
+```text
+d1c7155764271eff0733c37d1849e685a11da3d54a41d685d7898fc0aad83a87
+```
+
+Static VAs use the preferred image base `0x140000000`. An RVA is relative to
+that base, not a file offset. Under ASLR, the actual runtime address is the
+loaded `NMS.exe` module base plus the RVA. These addresses are documentation;
+the mod continues to resolve them through signatures at runtime.
+
+### Signature locations
+
+| Signature | Static match VA | Match RVA | Resolver adjustment |
+| --- | --- | --- | --- |
+| `APPLY_MATRIX` | `0x140AD38C8` | `0xAD38C8` | Resolve `call rel32` at match `+0x05` |
+| `BODY_CAPTURE_POINT` | `0x14033E975` | `0x33E975` | Hook at match `+0x38` |
+| `CAMERA_CAPTURE_POINT` | `0x14033EAB2` | `0x33EAB2` | Hook at match `+0x65` |
+| `VR_UPDATE` | `0x142CACA12` | `0x2CACA12` | Resolve `call rel32` at match `+0x23` |
+
+### Callsites used for resolution
+
+These call instructions locate the function targets; they are not the points
+patched by MinHook.
+
+| Signature | Static callsite VA | Callsite RVA | Resolved target VA |
+| --- | --- | --- | --- |
+| `APPLY_MATRIX` | `0x140AD38CD` | `0xAD38CD` | `0x14187C2C0` |
+| `VR_UPDATE` | `0x142CACA35` | `0x2CACA35` | `0x142CB0B20` |
+
+### Actual hooking points
+
+| Hook | Static hook VA | Hook RVA | Instruction at hook |
+| --- | --- | --- | --- |
+| Apply matrix function entry | `0x14187C2C0` | `0x187C2C0` | `mov r9d, ecx` |
+| Body capture | `0x14033E9AD` | `0x33E9AD` | `mov rcx, qword [0x146F60828]` |
+| Camera capture | `0x14033EB17` | `0x33EB17` | `movups xmm0, xmmword [r15 + 0x5B0]` |
+| VR update function entry | `0x142CB0B20` | `0x2CB0B20` | `push rbp` |
+
+Reproduce the disassembly checks from the project root:
+
+```sh
+r2 -q -e scr.color=0 -c 'iI; iS; pd 6 @ 0x140AD38C8; pd 6 @ 0x14187C2C0; pd 18 @ 0x14033E975; pd 4 @ 0x14033E9AD; pd 22 @ 0x14033EAB2; pd 4 @ 0x14033EB17; pd 13 @ 0x142CACA12; pd 8 @ 0x142CB0B20; q' ../NMS_new.exe
+```
+
+## October 2026 update compatibility
+
+The supplied `NMS_new.exe` changes the VR-update caller's state check from
+`cmp byte [rcx + 0x1684], 0` to `cmp byte [rcx + 0x1694], 0`. The original
+`VR_UPDATE` signature therefore has zero matches, causing resolution to stop
+before any hooks are installed. The other three original signatures still
+match uniquely.
+
+The initial fix used `80 B9 ?? 16 00 00 00` for that check. The runtime
+signature now uses `80 B9 ?? ?? ?? ?? 00`, wildcarding the full member
+displacement while retaining the comparison against zero. The apply-matrix
+signature also wildcards the caller's stack displacements. Instruction lengths
+and resolver offsets are unchanged. Both broader patterns match uniquely in
+each supplied executable. The historical signatures below describe the
+original analyzed build, rather than the current runtime patterns.
+
+The exact enhanced patterns and verification evidence are recorded in
+[enhanced_signature_verification.md](enhanced_signature_verification.md).
+
+| Target | Supplied `NMS_old.exe` RVA | Supplied `NMS_new.exe` RVA |
+| --- | --- | --- |
+| Apply matrix function | `0x18452D0` | `0x187C2C0` |
+| Body capture point | `0x3377AD` | `0x33E9AD` |
+| Camera capture point | `0x337917` | `0x33EB17` |
+| VR update function | `0x2C411D0` | `0x2CB0B20` |
+
+The two supplied executables are also distinct from the original build
+documented below. All VAs use image base `0x140000000`.
+
+See [the static analysis report](nms_new_static_analysis.md) for disassembly,
+hook validity checks, and remaining runtime checks.
+
 ## `APPLY_MATRIX_OFFSET`
 
-Current RVA:
+Original-build RVA:
 
 ```text
 0x1838500
 ```
 
-Current VA in the analyzed binary:
+Original-build VA in the analyzed binary:
 
 ```text
 0x141838500
@@ -79,13 +163,13 @@ tied to the HUD transform path.
 
 ## `BODY_CAPTURE_POINT_OFFSET`
 
-Current RVA:
+Original-build RVA:
 
 ```text
 0x3377BD
 ```
 
-Current VA in the analyzed binary:
+Original-build VA in the analyzed binary:
 
 ```text
 0x1403377BD
@@ -135,13 +219,13 @@ RIP-relative displacements and the `add rcx, imm32` immediate.
 
 ## `CAMERA_CAPTURE_POINT_OFFSET`
 
-Current RVA:
+Original-build RVA:
 
 ```text
 0x337927
 ```
 
-Current VA in the analyzed binary:
+Original-build VA in the analyzed binary:
 
 ```text
 0x140337927
@@ -200,13 +284,13 @@ write" rather than as the instruction that reads the camera matrix.
 
 ## `VR_UPDATE_OFFSET`
 
-Current RVA:
+Original-build RVA:
 
 ```text
 0x2C356C0
 ```
 
-Current VA in the analyzed binary:
+Original-build VA in the analyzed binary:
 
 ```text
 0x142C356C0

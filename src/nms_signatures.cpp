@@ -7,8 +7,8 @@
   * we want to hook in.
  */
 static constexpr const char* APPLY_MATRIX_SIGNATURE =
-    "48 8D 54 24 20 E8 ?? ?? ?? ?? 44 0F 28 6C 24 60 "
-    "4C 8D 9C 24 E8 00 00 00";
+    "48 8D 54 24 ?? E8 ?? ?? ?? ?? 44 0F 28 6C 24 ?? "
+    "4C 8D 9C 24 ?? ?? ?? ??";
 
 /**
  * A unique opcode signature close to the body transform matrix
@@ -57,14 +57,15 @@ static constexpr const char* CAMERA_CAPTURE_POINT_SIGNATURE =
 
 /**
  * A unique opcode signature close to the vr update address we want
- * to hook in.
+ * to hook in. The checked member offset changed from 0x1684 to 0x1694
+ * in the October 2026 update; its displacement is not part of the hook ABI.
  */
 static constexpr const char* VR_UPDATE_SIGNATURE =
     "80 3D ?? ?? ?? ?? 00 "
     "0F 85 ?? ?? ?? ?? "
     "80 3D ?? ?? ?? ?? 00 "
     "0F 85 ?? ?? ?? ?? "
-    "80 B9 84 16 00 00 00 "
+    "80 B9 ?? ?? ?? ?? 00 "
     "75 05 "
     "E8 ?? ?? ?? ?? "
     "48 8B 0D ?? ?? ?? ?? "

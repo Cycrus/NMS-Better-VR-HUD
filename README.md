@@ -13,7 +13,7 @@
 
 # No Man's Sky Better VR HUD
 
-Written for No Man's Sky 7.04 (Cosmos Update).
+Originally written for No Man's Sky 7.04 (Cosmos Update), with compatibility updated for the game build analyzed on October 28, 2026.
 
 A mod to optimize the HUD in VR mode in the game No Man's Sky. It attempts to fix the position of the HUD by attaching it to the head rotation instead of the body rotation. This way the hud is always in the view of the player without them needing to return to an artificial "forward position".
 
@@ -23,7 +23,7 @@ For this mod NMS.exe is partially reverse engineered and analyzed using radare2 
 
 There are two versions of the mod. Pick one to your liking:
 - BetterVrHudFull.asi - The HUD moves on every axis with the head and "sticks" to it even when you look up or down.
-- BetterVrHudLevel.asi - The HUD rotates only on the z axis around the player.
+- BetterVrHudLevel.asi - The HUD follows horizontal head rotation while staying upright and level.
 
 This repo uses submodules. Please clone it with:
 ```bash
@@ -42,7 +42,7 @@ Full camera view tracking hud.
 https://github.com/user-attachments/assets/03ab7285-8073-408a-ba28-064619f5c3b7
 
 ### Better VR HUD Level
-Only rotates on z axis around player.
+Follows horizontal head rotation while staying upright and level.
 
 https://github.com/user-attachments/assets/8a45316e-917d-485e-92ab-0fa2fd015f0a
 
@@ -64,13 +64,13 @@ WINEDLLOVERRIDES="winmm=n,b" %command%
 ## Mod Concept
 - Mod .asi plugin is side-loaded using `Ultimate ASI Loader`.
 - Camera transform matrix access
-    - Matrix lives at address NMS.exe+0x6E7CA40
-    - Mod hooks into address NMS.exe+0x337927 (generateVRTransforms), which is called once every frame when the VR transforms are updated
+    - Matrix is captured from r15+0x510 in the VR transform routine.
+    - Mod hooks into NMS.exe+0x33EB17, after the camera matrix update.
 - Body transform matrix access
-    - Matrix lives at address NMS.exe+0x6E7CAD0
-    - Mod hooks into address NMS.exe+0x337785 (generateVRTransforms), which is called once every frame when the VR transforms are updated
+    - Matrix is captured from r15+0x5B0 in the VR transform routine.
+    - Mod hooks into NMS.exe+0x33E9AD, after the body matrix update.
 - HUD transform matrix access
-    - Mod calls code address NMS.exe+0x1838500 (applyObjectTransform)
-    - applyObjectTransform is called from NMS.exe+0x2C356C0 (updateVROffset), which is called once every frame when the VR HMD transform is updated
+    - Mod hooks and calls NMS.exe+0x187C2C0 (applyObjectTransform).
+    - Mod hooks NMS.exe+0x2CB0B20 (VR update) and applies the HUD transform after the original function returns.
     - It uses the object handle 0x00080133 to reference the HUD.
-- Addresses are not hooked statically, but are searched for by unique opcode signatures.
+- These offsets describe the analyzed October 28, 2026 build. Hook addresses are resolved using unique opcode signatures, with wildcards for incidental addresses and layout offsets. See [signatures.md](test-results/signatures.md) for details.
